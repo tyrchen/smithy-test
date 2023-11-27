@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [aarch64]
     container: tchen/smithy-tools:latest
     steps:
       - uses: actions/checkout@v4
