@@ -1,0 +1,40 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: tchen/smithy-tools:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Go to repo and run smithy build
+        run: |
+          cd $GITHUB_WORKSPACE && smithy build
+      - name: Got to repo and copy generated files
+        run: |
+          cd $GITHUB_WORKSPACE
+          cp -r build/smithy/source/openapi $GITHUB_WORKSPACE/openapi
+          cp -r build/smithy/source/python-client-codegen $GITHUB_WORKSPACE/python-client-sdk
+          cp -r build/smithy/source/rust-client-codegen $GITHUB_WORKSPACE/rust-client-sdk
+          cp -r build/smithy/source/typescript-client-codegen $GITHUB_WORKSPACE/typescript-client-sdk
+          cp -r build/smithy/source/swift-codegen $GITHUB_WORKSPACE/swift-client-sdk
+          cp -r build/smithy/source/rust-server-codegen $GITHUB_WORKSPACE/rust-server-sdk
+      - name: Commit generated files
+        run: |
+          cd $GITHUB_WORKSPACE
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add .
+          git commit -m "Update generated files"
+      - name: Push generated files
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
