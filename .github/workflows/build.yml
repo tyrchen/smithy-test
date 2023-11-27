@@ -21,6 +21,7 @@ jobs:
         run: |
           rm -rf $HOME/.m2
           tar -xzf assets.tar.gz -C $HOME --strip-components=2
+          ls -la $HOME/.m2
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
