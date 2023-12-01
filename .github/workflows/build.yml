@@ -24,6 +24,7 @@ jobs:
           rm -rf $HOME/.m2
           tar -xzf assets.tar.gz -C $HOME --strip-components=2
           ls -la $HOME/.m2
+          rm assets.tar.gz
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
@@ -36,16 +37,17 @@ jobs:
           sudo /tmp/smithy/install
       - name: Go to repo and run smithy build
         run: |
-          cd $GITHUB_WORKSPACE && smithy build
+          cd $GITHUB_WORKSPACE/smithy && smithy build
       - name: Got to repo and copy generated files
         run: |
-          cd $GITHUB_WORKSPACE
-          cp -r build/smithy/source/openapi $GITHUB_WORKSPACE/openapi
-          cp -r build/smithy/source/python-client-codegen $GITHUB_WORKSPACE/python-client-sdk
-          cp -r build/smithy/source/rust-client-codegen $GITHUB_WORKSPACE/rust-client-sdk
-          cp -r build/smithy/source/typescript-client-codegen $GITHUB_WORKSPACE/typescript-client-sdk
-          cp -r build/smithy/source/swift-codegen $GITHUB_WORKSPACE/swift-client-sdk
-          cp -r build/smithy/source/rust-server-codegen $GITHUB_WORKSPACE/rust-server-sdk
+          mkdir -p $GITHUB_WORKSPACE/smithy/gen
+          cd $GITHUB_WORKSPACE/smithy/gen
+          cp -r build/smithy/source/openapi openapi
+          cp -r build/smithy/source/python-client-codegen python-client-sdk
+          cp -r build/smithy/source/rust-client-codegen rust-client-sdk
+          cp -r build/smithy/source/typescript-client-codegen typescript-client-sdk
+          cp -r build/smithy/source/swift-codegen swift-client-sdk
+          cp -r build/smithy/source/rust-server-codegen rust-server-sdk
       - name: Commit generated files
         run: |
           cd $GITHUB_WORKSPACE
