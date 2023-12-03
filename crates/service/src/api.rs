@@ -18,6 +18,7 @@ pub async fn signin(
     input: input::SigninInput,
     Extension(state): Extension<Arc<AppState>>,
 ) -> Result<output::SigninOutput, error::SigninError> {
+    info!("input: {:?}", input);
     let signer = &state.signer;
     let username = input.payload.username;
     if input.payload.password.len() < 8 {

@@ -20,4 +20,7 @@ build-smithy:
 	@cargo fmt --all
 
 watch:
-	@watchexec --restart --exts rs -- cargo run
+	@watchexec --restart --exts rs -- cargo run --bin echo-server
+
+client:
+	@cargo run --bin echo-client

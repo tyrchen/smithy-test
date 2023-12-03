@@ -658,6 +658,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "echo-client"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "echo-client-sdk",
+ "tokio",
+]
+
+[[package]]
 name = "echo-client-sdk"
 version = "0.1.0"
 dependencies = [
