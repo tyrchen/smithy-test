@@ -22,7 +22,9 @@ impl EchoMessageOutput {
 
 /// A builder for [`EchoMessageOutput`](crate::operation::echo_message::EchoMessageOutput).
 #[non_exhaustive]
-#[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug)]
+#[derive(
+    ::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug,
+)]
 pub struct EchoMessageOutputBuilder {
     pub(crate) message: ::std::option::Option<::std::string::String>,
 }
@@ -45,7 +47,12 @@ impl EchoMessageOutputBuilder {
     /// Consumes the builder and constructs a [`EchoMessageOutput`](crate::operation::echo_message::EchoMessageOutput).
     /// This method will fail if any of the following fields are not set:
     /// - [`message`](crate::operation::echo_message::builders::EchoMessageOutputBuilder::message)
-    pub fn build(self) -> ::std::result::Result<crate::operation::echo_message::EchoMessageOutput, ::aws_smithy_types::error::operation::BuildError> {
+    pub fn build(
+        self,
+    ) -> ::std::result::Result<
+        crate::operation::echo_message::EchoMessageOutput,
+        ::aws_smithy_types::error::operation::BuildError,
+    > {
         ::std::result::Result::Ok(crate::operation::echo_message::EchoMessageOutput {
             message: self.message.ok_or_else(|| {
                 ::aws_smithy_types::error::operation::BuildError::missing_field(

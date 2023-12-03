@@ -21,7 +21,9 @@ impl EchoMessageInput {
 
 /// A builder for [`EchoMessageInput`](crate::operation::echo_message::EchoMessageInput).
 #[non_exhaustive]
-#[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug)]
+#[derive(
+    ::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug,
+)]
 pub struct EchoMessageInputBuilder {
     pub(crate) message: ::std::option::Option<::std::string::String>,
 }
@@ -42,7 +44,14 @@ impl EchoMessageInputBuilder {
         &self.message
     }
     /// Consumes the builder and constructs a [`EchoMessageInput`](crate::operation::echo_message::EchoMessageInput).
-    pub fn build(self) -> ::std::result::Result<crate::operation::echo_message::EchoMessageInput, ::aws_smithy_types::error::operation::BuildError> {
-        ::std::result::Result::Ok(crate::operation::echo_message::EchoMessageInput { message: self.message })
+    pub fn build(
+        self,
+    ) -> ::std::result::Result<
+        crate::operation::echo_message::EchoMessageInput,
+        ::aws_smithy_types::error::operation::BuildError,
+    > {
+        ::std::result::Result::Ok(crate::operation::echo_message::EchoMessageInput {
+            message: self.message,
+        })
     }
 }

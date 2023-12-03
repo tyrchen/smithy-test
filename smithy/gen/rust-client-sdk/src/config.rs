@@ -28,16 +28,23 @@ impl Config {
         }
     }
     /// Return a reference to the stalled stream protection configuration contained in this config, if any.
-    pub fn stalled_stream_protection(&self) -> ::std::option::Option<&crate::config::StalledStreamProtectionConfig> {
-        self.config.load::<crate::config::StalledStreamProtectionConfig>()
+    pub fn stalled_stream_protection(
+        &self,
+    ) -> ::std::option::Option<&crate::config::StalledStreamProtectionConfig> {
+        self.config
+            .load::<crate::config::StalledStreamProtectionConfig>()
     }
     /// Return the [`SharedHttpClient`](crate::config::SharedHttpClient) to use when making requests, if any.
     pub fn http_client(&self) -> Option<crate::config::SharedHttpClient> {
         self.runtime_components.http_client()
     }
     /// Returns the endpoint resolver.
-    pub fn endpoint_resolver(&self) -> ::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver {
-        self.runtime_components.endpoint_resolver().expect("resolver defaulted if not set")
+    pub fn endpoint_resolver(
+        &self,
+    ) -> ::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver {
+        self.runtime_components
+            .endpoint_resolver()
+            .expect("resolver defaulted if not set")
     }
     /// Return a reference to the retry configuration contained in this config, if any.
     pub fn retry_config(&self) -> ::std::option::Option<&::aws_smithy_types::retry::RetryConfig> {
@@ -50,16 +57,22 @@ impl Config {
     }
 
     /// Return a reference to the timeout configuration contained in this config, if any.
-    pub fn timeout_config(&self) -> ::std::option::Option<&::aws_smithy_types::timeout::TimeoutConfig> {
-        self.config.load::<::aws_smithy_types::timeout::TimeoutConfig>()
+    pub fn timeout_config(
+        &self,
+    ) -> ::std::option::Option<&::aws_smithy_types::timeout::TimeoutConfig> {
+        self.config
+            .load::<::aws_smithy_types::timeout::TimeoutConfig>()
     }
 
     /// Returns a reference to the retry partition contained in this config, if any.
     ///
     /// WARNING: This method is unstable and may be removed at any time. Do not rely on this
     /// method for anything!
-    pub fn retry_partition(&self) -> ::std::option::Option<&::aws_smithy_runtime::client::retries::RetryPartition> {
-        self.config.load::<::aws_smithy_runtime::client::retries::RetryPartition>()
+    pub fn retry_partition(
+        &self,
+    ) -> ::std::option::Option<&::aws_smithy_runtime::client::retries::RetryPartition> {
+        self.config
+            .load::<::aws_smithy_runtime::client::retries::RetryPartition>()
     }
     /// Returns the configured identity cache for auth.
     pub fn identity_cache(&self) -> ::std::option::Option<crate::config::SharedIdentityCache> {
@@ -74,7 +87,11 @@ impl Config {
         self.runtime_components.time_source()
     }
     /// Returns retry classifiers currently registered by the user.
-    pub fn retry_classifiers(&self) -> impl Iterator<Item = ::aws_smithy_runtime_api::client::retries::classifiers::SharedRetryClassifier> + '_ {
+    pub fn retry_classifiers(
+        &self,
+    ) -> impl Iterator<
+        Item = ::aws_smithy_runtime_api::client::retries::classifiers::SharedRetryClassifier,
+    > + '_ {
         self.runtime_components.retry_classifiers()
     }
 }
@@ -103,15 +120,22 @@ impl Builder {
     }
     /// Set the [`StalledStreamProtectionConfig`](crate::config::StalledStreamProtectionConfig)
     /// to configure protection for stalled streams.
-    pub fn stalled_stream_protection(mut self, stalled_stream_protection_config: crate::config::StalledStreamProtectionConfig) -> Self {
-        self.set_stalled_stream_protection(::std::option::Option::Some(stalled_stream_protection_config));
+    pub fn stalled_stream_protection(
+        mut self,
+        stalled_stream_protection_config: crate::config::StalledStreamProtectionConfig,
+    ) -> Self {
+        self.set_stalled_stream_protection(::std::option::Option::Some(
+            stalled_stream_protection_config,
+        ));
         self
     }
     /// Set the [`StalledStreamProtectionConfig`](crate::config::StalledStreamProtectionConfig)
     /// to configure protection for stalled streams.
     pub fn set_stalled_stream_protection(
         &mut self,
-        stalled_stream_protection_config: ::std::option::Option<crate::config::StalledStreamProtectionConfig>,
+        stalled_stream_protection_config: ::std::option::Option<
+            crate::config::StalledStreamProtectionConfig,
+        >,
     ) -> &mut Self {
         self.config.store_or_unset(stalled_stream_protection_config);
         self
@@ -146,7 +170,9 @@ impl Builder {
     /// # }
     /// ```
     pub fn http_client(mut self, http_client: impl crate::config::HttpClient + 'static) -> Self {
-        self.set_http_client(::std::option::Option::Some(crate::config::IntoShared::into_shared(http_client)));
+        self.set_http_client(::std::option::Option::Some(
+            crate::config::IntoShared::into_shared(http_client),
+        ));
         self
     }
 
@@ -179,7 +205,10 @@ impl Builder {
     /// # }
     /// # }
     /// ```
-    pub fn set_http_client(&mut self, http_client: Option<crate::config::SharedHttpClient>) -> &mut Self {
+    pub fn set_http_client(
+        &mut self,
+        http_client: Option<crate::config::SharedHttpClient>,
+    ) -> &mut Self {
         self.runtime_components.set_http_client(http_client);
         self
     }
@@ -189,7 +218,10 @@ impl Builder {
     ///
     /// # Panics
     /// Panics if an invalid URL is given.
-    pub fn endpoint_url(mut self, endpoint_url: impl ::std::convert::Into<::std::string::String>) -> Self {
+    pub fn endpoint_url(
+        mut self,
+        endpoint_url: impl ::std::convert::Into<::std::string::String>,
+    ) -> Self {
         self.set_endpoint_url(::std::option::Option::Some(endpoint_url.into()));
         self
     }
@@ -200,13 +232,16 @@ impl Builder {
     ///
     /// # Panics
     /// Panics if an invalid URL is given.
-    pub fn set_endpoint_url(&mut self, endpoint_url: ::std::option::Option<::std::string::String>) -> &mut Self {
+    pub fn set_endpoint_url(
+        &mut self,
+        endpoint_url: ::std::option::Option<::std::string::String>,
+    ) -> &mut Self {
         #[allow(deprecated)]
-        self.set_endpoint_resolver(endpoint_url.map(|url| {
-            ::aws_smithy_runtime_api::shared::IntoShared::into_shared(
-                ::aws_smithy_runtime::client::orchestrator::endpoints::StaticUriEndpointResolver::uri(url),
-            )
-        }));
+                                    self.set_endpoint_resolver(
+                                        endpoint_url.map(|url| {
+                                            ::aws_smithy_runtime_api::shared::IntoShared::into_shared(::aws_smithy_runtime::client::orchestrator::endpoints::StaticUriEndpointResolver::uri(url))
+                                        })
+                                    );
         self
     }
     /// Sets the endpoint resolver to use when making requests.
@@ -233,8 +268,13 @@ impl Builder {
     /// let config = echo_client_sdk::Config::builder().endpoint_resolver(resolver).build();
     /// let client = echo_client_sdk::Client::from_conf(config);
     /// ```
-    pub fn endpoint_resolver(mut self, endpoint_resolver: impl crate::config::endpoint::ResolveEndpoint + 'static) -> Self {
-        self.set_endpoint_resolver(::std::option::Option::Some(endpoint_resolver.into_shared_resolver()));
+    pub fn endpoint_resolver(
+        mut self,
+        endpoint_resolver: impl crate::config::endpoint::ResolveEndpoint + 'static,
+    ) -> Self {
+        self.set_endpoint_resolver(::std::option::Option::Some(
+            endpoint_resolver.into_shared_resolver(),
+        ));
         self
     }
 
@@ -243,9 +283,12 @@ impl Builder {
     /// This service does not define a default endpoint resolver.
     pub fn set_endpoint_resolver(
         &mut self,
-        endpoint_resolver: ::std::option::Option<::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver>,
+        endpoint_resolver: ::std::option::Option<
+            ::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver,
+        >,
     ) -> &mut Self {
-        self.runtime_components.set_endpoint_resolver(endpoint_resolver);
+        self.runtime_components
+            .set_endpoint_resolver(endpoint_resolver);
         self
     }
     /// Set the retry_config for the builder
@@ -279,7 +322,10 @@ impl Builder {
     /// disable_retries(&mut builder);
     /// let config = builder.build();
     /// ```
-    pub fn set_retry_config(&mut self, retry_config: ::std::option::Option<::aws_smithy_types::retry::RetryConfig>) -> &mut Self {
+    pub fn set_retry_config(
+        &mut self,
+        retry_config: ::std::option::Option<::aws_smithy_types::retry::RetryConfig>,
+    ) -> &mut Self {
         retry_config.map(|r| self.config.store_put(r));
         self
     }
@@ -303,7 +349,9 @@ impl Builder {
     /// let config = Config::builder().sleep_impl(sleep_impl).build();
     /// ```
     pub fn sleep_impl(mut self, sleep_impl: impl crate::config::AsyncSleep + 'static) -> Self {
-        self.set_sleep_impl(Some(::aws_smithy_runtime_api::shared::IntoShared::into_shared(sleep_impl)));
+        self.set_sleep_impl(Some(
+            ::aws_smithy_runtime_api::shared::IntoShared::into_shared(sleep_impl),
+        ));
         self
     }
 
@@ -332,7 +380,10 @@ impl Builder {
     /// set_never_ending_sleep_impl(&mut builder);
     /// let config = builder.build();
     /// ```
-    pub fn set_sleep_impl(&mut self, sleep_impl: ::std::option::Option<crate::config::SharedAsyncSleep>) -> &mut Self {
+    pub fn set_sleep_impl(
+        &mut self,
+        sleep_impl: ::std::option::Option<crate::config::SharedAsyncSleep>,
+    ) -> &mut Self {
         self.runtime_components.set_sleep_impl(sleep_impl);
         self
     }
@@ -350,7 +401,10 @@ impl Builder {
     ///     .build();
     /// let config = Config::builder().timeout_config(timeout_config).build();
     /// ```
-    pub fn timeout_config(mut self, timeout_config: ::aws_smithy_types::timeout::TimeoutConfig) -> Self {
+    pub fn timeout_config(
+        mut self,
+        timeout_config: ::aws_smithy_types::timeout::TimeoutConfig,
+    ) -> Self {
         self.set_timeout_config(Some(timeout_config));
         self
     }
@@ -375,14 +429,20 @@ impl Builder {
     /// set_request_timeout(&mut builder);
     /// let config = builder.build();
     /// ```
-    pub fn set_timeout_config(&mut self, timeout_config: ::std::option::Option<::aws_smithy_types::timeout::TimeoutConfig>) -> &mut Self {
+    pub fn set_timeout_config(
+        &mut self,
+        timeout_config: ::std::option::Option<::aws_smithy_types::timeout::TimeoutConfig>,
+    ) -> &mut Self {
         timeout_config.map(|t| self.config.store_put(t));
         self
     }
     /// Set the partition for retry-related state. When clients share a retry partition, they will
     /// also share things like token buckets and client rate limiters. By default, all clients
     /// for the same service will share a partition.
-    pub fn retry_partition(mut self, retry_partition: ::aws_smithy_runtime::client::retries::RetryPartition) -> Self {
+    pub fn retry_partition(
+        mut self,
+        retry_partition: ::aws_smithy_runtime::client::retries::RetryPartition,
+    ) -> Self {
         self.set_retry_partition(Some(retry_partition));
         self
     }
@@ -391,7 +451,9 @@ impl Builder {
     /// for the same service will share a partition.
     pub fn set_retry_partition(
         &mut self,
-        retry_partition: ::std::option::Option<::aws_smithy_runtime::client::retries::RetryPartition>,
+        retry_partition: ::std::option::Option<
+            ::aws_smithy_runtime::client::retries::RetryPartition,
+        >,
     ) -> &mut Self {
         retry_partition.map(|r| self.config.store_put(r));
         self
@@ -437,7 +499,10 @@ impl Builder {
     /// let client = echo_client_sdk::Client::from_conf(config);
     /// ```
 
-    pub fn identity_cache(mut self, identity_cache: impl crate::config::ResolveCachedIdentity + 'static) -> Self {
+    pub fn identity_cache(
+        mut self,
+        identity_cache: impl crate::config::ResolveCachedIdentity + 'static,
+    ) -> Self {
         self.set_identity_cache(identity_cache);
         self
     }
@@ -483,8 +548,12 @@ impl Builder {
     /// let client = echo_client_sdk::Client::from_conf(config);
     /// ```
 
-    pub fn set_identity_cache(&mut self, identity_cache: impl crate::config::ResolveCachedIdentity + 'static) -> &mut Self {
-        self.runtime_components.set_identity_cache(::std::option::Option::Some(identity_cache));
+    pub fn set_identity_cache(
+        &mut self,
+        identity_cache: impl crate::config::ResolveCachedIdentity + 'static,
+    ) -> &mut Self {
+        self.runtime_components
+            .set_identity_cache(::std::option::Option::Some(identity_cache));
         self
     }
     /// Add an [interceptor](crate::config::Intercept) that runs at specific stages of the request execution pipeline.
@@ -589,19 +658,29 @@ impl Builder {
     }
 
     /// Set [`SharedInterceptor`](crate::config::SharedInterceptor)s for the builder.
-    pub fn set_interceptors(&mut self, interceptors: impl IntoIterator<Item = crate::config::SharedInterceptor>) -> &mut Self {
-        self.runtime_components.set_interceptors(interceptors.into_iter());
+    pub fn set_interceptors(
+        &mut self,
+        interceptors: impl IntoIterator<Item = crate::config::SharedInterceptor>,
+    ) -> &mut Self {
+        self.runtime_components
+            .set_interceptors(interceptors.into_iter());
         self
     }
     /// Sets the time source used for this service
-    pub fn time_source(mut self, time_source: impl ::aws_smithy_async::time::TimeSource + 'static) -> Self {
-        self.set_time_source(::std::option::Option::Some(::aws_smithy_runtime_api::shared::IntoShared::into_shared(
-            time_source,
-        )));
+    pub fn time_source(
+        mut self,
+        time_source: impl ::aws_smithy_async::time::TimeSource + 'static,
+    ) -> Self {
+        self.set_time_source(::std::option::Option::Some(
+            ::aws_smithy_runtime_api::shared::IntoShared::into_shared(time_source),
+        ));
         self
     }
     /// Sets the time source used for this service
-    pub fn set_time_source(&mut self, time_source: ::std::option::Option<::aws_smithy_async::time::SharedTimeSource>) -> &mut Self {
+    pub fn set_time_source(
+        &mut self,
+        time_source: ::std::option::Option<::aws_smithy_async::time::SharedTimeSource>,
+    ) -> &mut Self {
         self.runtime_components.set_time_source(time_source);
         self
     }
@@ -689,11 +768,14 @@ impl Builder {
     /// ```
     pub fn retry_classifier(
         mut self,
-        retry_classifier: impl ::aws_smithy_runtime_api::client::retries::classifiers::ClassifyRetry + 'static,
+        retry_classifier: impl ::aws_smithy_runtime_api::client::retries::classifiers::ClassifyRetry
+            + 'static,
     ) -> Self {
-        self.push_retry_classifier(::aws_smithy_runtime_api::client::retries::classifiers::SharedRetryClassifier::new(
-            retry_classifier,
-        ));
+        self.push_retry_classifier(
+            ::aws_smithy_runtime_api::client::retries::classifiers::SharedRetryClassifier::new(
+                retry_classifier,
+            ),
+        );
         self
     }
 
@@ -786,7 +868,8 @@ impl Builder {
         &mut self,
         retry_classifier: ::aws_smithy_runtime_api::client::retries::classifiers::SharedRetryClassifier,
     ) -> &mut Self {
-        self.runtime_components.push_retry_classifier(retry_classifier);
+        self.runtime_components
+            .push_retry_classifier(retry_classifier);
         self
     }
 
@@ -794,9 +877,12 @@ impl Builder {
     /// were previously set.
     pub fn set_retry_classifiers(
         &mut self,
-        retry_classifiers: impl IntoIterator<Item = ::aws_smithy_runtime_api::client::retries::classifiers::SharedRetryClassifier>,
+        retry_classifiers: impl IntoIterator<
+            Item = ::aws_smithy_runtime_api::client::retries::classifiers::SharedRetryClassifier,
+        >,
     ) -> &mut Self {
-        self.runtime_components.set_retry_classifiers(retry_classifiers.into_iter());
+        self.runtime_components
+            .set_retry_classifiers(retry_classifiers.into_iter());
         self
     }
     /// Sets the [`behavior major version`](crate::config::BehaviorVersion).
@@ -864,7 +950,10 @@ impl Builder {
     /// let client = echo_client_sdk::Client::from_conf(config);
     /// ```
 
-    pub fn set_behavior_version(&mut self, behavior_version: Option<crate::config::BehaviorVersion>) -> &mut Self {
+    pub fn set_behavior_version(
+        &mut self,
+        behavior_version: Option<crate::config::BehaviorVersion>,
+    ) -> &mut Self {
         self.behavior_version = behavior_version;
         self
     }
@@ -890,9 +979,13 @@ impl Builder {
     #[allow(unused_mut)]
     /// Apply test defaults to the builder
     pub fn apply_test_defaults(&mut self) -> &mut Self {
-        self.set_time_source(::std::option::Option::Some(::aws_smithy_async::time::SharedTimeSource::new(
-            ::aws_smithy_async::time::StaticTimeSource::new(::std::time::UNIX_EPOCH + ::std::time::Duration::from_secs(1234567890)),
-        )));
+        self.set_time_source(::std::option::Option::Some(
+            ::aws_smithy_async::time::SharedTimeSource::new(
+                ::aws_smithy_async::time::StaticTimeSource::new(
+                    ::std::time::UNIX_EPOCH + ::std::time::Duration::from_secs(1234567890),
+                ),
+            ),
+        ));
         self
     }
     #[cfg(any(feature = "test-util", test))]
@@ -908,7 +1001,9 @@ impl Builder {
         let mut layer = self.config;
         if self.runtime_components.time_source().is_none() {
             self.runtime_components
-                .set_time_source(::std::option::Option::Some(::std::default::Default::default()));
+                .set_time_source(::std::option::Option::Some(
+                    ::std::default::Default::default(),
+                ));
         }
         Config {
             config: crate::config::Layer::from(layer.clone())
@@ -924,16 +1019,25 @@ impl Builder {
 #[derive(::std::fmt::Debug)]
 pub(crate) struct ServiceRuntimePlugin {
     config: ::std::option::Option<::aws_smithy_types::config_bag::FrozenLayer>,
-    runtime_components: ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
+    runtime_components:
+        ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
 }
 
 impl ServiceRuntimePlugin {
     pub fn new(_service_config: crate::config::Config) -> Self {
         let config = { None };
-        let mut runtime_components = ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder::new("ServiceRuntimePlugin");
+        let mut runtime_components =
+            ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder::new(
+                "ServiceRuntimePlugin",
+            );
         runtime_components.push_interceptor(::aws_smithy_runtime::client::http::connection_poisoning::ConnectionPoisoningInterceptor::new());
-        runtime_components.push_retry_classifier(::aws_smithy_runtime::client::retries::classifiers::HttpStatusCodeClassifier::default());
-        Self { config, runtime_components }
+        runtime_components.push_retry_classifier(
+            ::aws_smithy_runtime::client::retries::classifiers::HttpStatusCodeClassifier::default(),
+        );
+        Self {
+            config,
+            runtime_components,
+        }
     }
 }
 
@@ -949,7 +1053,10 @@ impl ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugin for Service
     fn runtime_components(
         &self,
         _: &::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
-    ) -> ::std::borrow::Cow<'_, ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder> {
+    ) -> ::std::borrow::Cow<
+        '_,
+        ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
+    > {
         ::std::borrow::Cow::Borrowed(&self.runtime_components)
     }
 }
@@ -963,7 +1070,8 @@ impl ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugin for Service
 #[derive(Debug)]
 pub(crate) struct ConfigOverrideRuntimePlugin {
     pub(crate) config: ::aws_smithy_types::config_bag::FrozenLayer,
-    pub(crate) components: ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
+    pub(crate) components:
+        ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
 }
 
 impl ConfigOverrideRuntimePlugin {
@@ -976,8 +1084,12 @@ impl ConfigOverrideRuntimePlugin {
         let mut layer = config_override.config;
         let mut components = config_override.runtime_components;
         #[allow(unused_mut)]
-        let mut resolver =
-            ::aws_smithy_runtime::client::config_override::Resolver::overrid(initial_config, initial_components, &mut layer, &mut components);
+        let mut resolver = ::aws_smithy_runtime::client::config_override::Resolver::overrid(
+            initial_config,
+            initial_components,
+            &mut layer,
+            &mut components,
+        );
 
         let _ = resolver;
         Self {
@@ -989,7 +1101,9 @@ impl ConfigOverrideRuntimePlugin {
     }
 }
 
-impl ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugin for ConfigOverrideRuntimePlugin {
+impl ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugin
+    for ConfigOverrideRuntimePlugin
+{
     fn config(&self) -> ::std::option::Option<::aws_smithy_types::config_bag::FrozenLayer> {
         Some(self.config.clone())
     }
@@ -997,7 +1111,10 @@ impl ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugin for ConfigO
     fn runtime_components(
         &self,
         _: &::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
-    ) -> ::std::borrow::Cow<'_, ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder> {
+    ) -> ::std::borrow::Cow<
+        '_,
+        ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder,
+    > {
         ::std::borrow::Cow::Borrowed(&self.components)
     }
 }
@@ -1008,7 +1125,9 @@ pub use ::aws_smithy_types::config_bag::ConfigBag;
 
 pub use ::aws_smithy_async::rt::sleep::Sleep;
 
-pub(crate) fn base_client_runtime_plugins(mut config: crate::Config) -> ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugins {
+pub(crate) fn base_client_runtime_plugins(
+    mut config: crate::Config,
+) -> ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugins {
     let mut configured_plugins = ::std::vec::Vec::new();
     ::std::mem::swap(&mut config.runtime_plugins, &mut configured_plugins);
     #[allow(unused_mut)]
@@ -1016,7 +1135,8 @@ pub(crate) fn base_client_runtime_plugins(mut config: crate::Config) -> ::aws_sm
     #[cfg(feature = "behavior-version-latest")]
     {
         if behavior_version.is_none() {
-            behavior_version = Some(::aws_smithy_runtime_api::client::behavior_version::BehaviorVersion::latest());
+            behavior_version =
+                Some(::aws_smithy_runtime_api::client::behavior_version::BehaviorVersion::latest());
         }
     }
 

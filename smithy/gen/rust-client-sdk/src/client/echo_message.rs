@@ -7,7 +7,9 @@ impl super::Client {
     /// - On success, responds with [`EchoMessageOutput`](crate::operation::echo_message::EchoMessageOutput) with field(s):
     ///   - [`message(String)`](crate::operation::echo_message::EchoMessageOutput::message): (undocumented)
     /// - On failure, responds with [`SdkError<EchoMessageError>`](crate::operation::echo_message::EchoMessageError)
-    pub fn echo_message(&self) -> crate::operation::echo_message::builders::EchoMessageFluentBuilder {
+    pub fn echo_message(
+        &self,
+    ) -> crate::operation::echo_message::builders::EchoMessageFluentBuilder {
         crate::operation::echo_message::builders::EchoMessageFluentBuilder::new(self.handle.clone())
     }
 }

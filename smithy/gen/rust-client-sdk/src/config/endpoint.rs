@@ -10,16 +10,23 @@ mod test {}
 /// Endpoint resolver trait specific to this service
 pub trait ResolveEndpoint: ::std::marker::Send + ::std::marker::Sync + ::std::fmt::Debug {
     /// Resolve an endpoint with the given parameters
-    fn resolve_endpoint<'a>(&'a self, params: &'a crate::config::endpoint::Params) -> ::aws_smithy_runtime_api::client::endpoint::EndpointFuture<'a>;
+    fn resolve_endpoint<'a>(
+        &'a self,
+        params: &'a crate::config::endpoint::Params,
+    ) -> ::aws_smithy_runtime_api::client::endpoint::EndpointFuture<'a>;
 
     /// Convert this service-specific resolver into a `SharedEndpointResolver`
     ///
     /// The resulting resolver will downcast `EndpointResolverParams` into `crate::config::endpoint::Params`.
-    fn into_shared_resolver(self) -> ::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver
+    fn into_shared_resolver(
+        self,
+    ) -> ::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver
     where
         Self: Sized + 'static,
     {
-        ::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver::new(DowncastParams(self))
+        ::aws_smithy_runtime_api::client::endpoint::SharedEndpointResolver::new(DowncastParams(
+            self,
+        ))
     }
 }
 
@@ -35,7 +42,9 @@ where
     ) -> ::aws_smithy_runtime_api::client::endpoint::EndpointFuture<'a> {
         let ep = match params.get::<crate::config::endpoint::Params>() {
             Some(params) => self.0.resolve_endpoint(params),
-            None => ::aws_smithy_runtime_api::client::endpoint::EndpointFuture::ready(Err("params of expected type was not present".into())),
+            None => ::aws_smithy_runtime_api::client::endpoint::EndpointFuture::ready(Err(
+                "params of expected type was not present".into(),
+            )),
         };
         ep
     }
@@ -53,11 +62,18 @@ impl Params {
 }
 
 /// Builder for [`Params`]
-#[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug)]
+#[derive(
+    ::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug,
+)]
 pub struct ParamsBuilder {}
 impl ParamsBuilder {
     /// Consume this builder, creating [`Params`].
-    pub fn build(self) -> ::std::result::Result<crate::config::endpoint::Params, crate::config::endpoint::InvalidParams> {
+    pub fn build(
+        self,
+    ) -> ::std::result::Result<
+        crate::config::endpoint::Params,
+        crate::config::endpoint::InvalidParams,
+    > {
         Ok(
             #[allow(clippy::unnecessary_lazy_evaluations)]
             crate::config::endpoint::Params {},
@@ -74,7 +90,9 @@ pub struct InvalidParams {
 impl InvalidParams {
     #[allow(dead_code)]
     fn missing(field: &'static str) -> Self {
-        Self { field: field.into() }
+        Self {
+            field: field.into(),
+        }
     }
 }
 

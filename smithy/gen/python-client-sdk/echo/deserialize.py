@@ -62,16 +62,16 @@ async def _deserialize_error_validation_exception(
 
     output: dict[str, Document] = parsed_body if parsed_body is not None else {}
 
-    if (_field_list := output.get("fieldList")) is not None:
-        kwargs["field_list"] = _deserialize_validation_exception_field_list(
-            _field_list, config
-        )
-
     if "message" not in output:
         raise ServiceError(
             'Expected to find "message" in the operation output, but it was not present.'
         )
     kwargs["message"] = expect_type(str, output["message"])
+
+    if (_field_list := output.get("fieldList")) is not None:
+        kwargs["field_list"] = _deserialize_validation_exception_field_list(
+            _field_list, config
+        )
 
     return ValidationException(**kwargs)
 

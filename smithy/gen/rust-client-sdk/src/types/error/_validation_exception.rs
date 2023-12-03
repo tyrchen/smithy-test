@@ -48,10 +48,13 @@ impl ValidationError {
 
 /// A builder for [`ValidationError`](crate::types::error::ValidationError).
 #[non_exhaustive]
-#[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug)]
+#[derive(
+    ::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug,
+)]
 pub struct ValidationErrorBuilder {
     pub(crate) message: ::std::option::Option<::std::string::String>,
-    pub(crate) field_list: ::std::option::Option<::std::vec::Vec<crate::types::ValidationExceptionField>>,
+    pub(crate) field_list:
+        ::std::option::Option<::std::vec::Vec<crate::types::ValidationExceptionField>>,
     meta: std::option::Option<::aws_smithy_types::error::ErrorMetadata>,
 }
 impl ValidationErrorBuilder {
@@ -82,12 +85,17 @@ impl ValidationErrorBuilder {
         self
     }
     /// A list of specific failures encountered while validating the input. A member can appear in this list more than once if it failed to satisfy multiple constraints.
-    pub fn set_field_list(mut self, input: ::std::option::Option<::std::vec::Vec<crate::types::ValidationExceptionField>>) -> Self {
+    pub fn set_field_list(
+        mut self,
+        input: ::std::option::Option<::std::vec::Vec<crate::types::ValidationExceptionField>>,
+    ) -> Self {
         self.field_list = input;
         self
     }
     /// A list of specific failures encountered while validating the input. A member can appear in this list more than once if it failed to satisfy multiple constraints.
-    pub fn get_field_list(&self) -> &::std::option::Option<::std::vec::Vec<crate::types::ValidationExceptionField>> {
+    pub fn get_field_list(
+        &self,
+    ) -> &::std::option::Option<::std::vec::Vec<crate::types::ValidationExceptionField>> {
         &self.field_list
     }
     /// Sets error metadata
@@ -97,14 +105,22 @@ impl ValidationErrorBuilder {
     }
 
     /// Sets error metadata
-    pub fn set_meta(&mut self, meta: std::option::Option<::aws_smithy_types::error::ErrorMetadata>) -> &mut Self {
+    pub fn set_meta(
+        &mut self,
+        meta: std::option::Option<::aws_smithy_types::error::ErrorMetadata>,
+    ) -> &mut Self {
         self.meta = meta;
         self
     }
     /// Consumes the builder and constructs a [`ValidationError`](crate::types::error::ValidationError).
     /// This method will fail if any of the following fields are not set:
     /// - [`message`](crate::types::error::builders::ValidationErrorBuilder::message)
-    pub fn build(self) -> ::std::result::Result<crate::types::error::ValidationError, ::aws_smithy_types::error::operation::BuildError> {
+    pub fn build(
+        self,
+    ) -> ::std::result::Result<
+        crate::types::error::ValidationError,
+        ::aws_smithy_types::error::operation::BuildError,
+    > {
         ::std::result::Result::Ok(crate::types::error::ValidationError {
             message: self.message.ok_or_else(|| {
                 ::aws_smithy_types::error::operation::BuildError::missing_field(
