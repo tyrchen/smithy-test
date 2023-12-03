@@ -17,3 +17,4 @@ build-smithy:
 	cp -r build/smithy/source/typescript-client-codegen gen/typescript-client-sdk; \
 	cp -r build/smithy/source/swift-codegen gen/swift-client-sdk; \
 	cp -r build/smithy/source/rust-server-codegen gen/rust-server-sdk
+	@cargo fmt --all
