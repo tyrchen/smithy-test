@@ -10,28 +10,35 @@ from .models import (
 
 
 class ServiceError(Exception):
-    """Base error for all errors in the service.
-    """
+    """Base error for all errors in the service."""
+
     pass
 
-T = TypeVar('T')
+
+T = TypeVar("T")
+
+
 class ApiError(ServiceError, Generic[T]):
-    """Base error for all api errors in the service.
-    """
+    """Base error for all api errors in the service."""
+
     code: T
+
     def __init__(self, message: str):
         super().__init__(message)
         self.message = message
 
-class UnknownApiError(ApiError[Literal['Unknown']]):
-    """Error representing any unknown api errors
-    """
-    code: Literal['Unknown'] = 'Unknown'
+
+class UnknownApiError(ApiError[Literal["Unknown"]]):
+    """Error representing any unknown api errors"""
+
+    code: Literal["Unknown"] = "Unknown"
+
 
 class ValidationException(ApiError[Literal["ValidationException"]]):
     code: Literal["ValidationException"] = "ValidationException"
     message: str
     field_list: Optional[list[ValidationExceptionField]]
+
     def __init__(
         self,
         *,
@@ -60,12 +67,14 @@ class ValidationException(ApiError[Literal["ValidationException"]]):
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
         if self.field_list is not None:
-            d["fieldList"] = _validation_exception_field_list_as_dict(self.field_list),
+            d["fieldList"] = (
+                _validation_exception_field_list_as_dict(self.field_list),
+            )
 
         return d
 
@@ -77,17 +86,19 @@ class ValidationException(ApiError[Literal["ValidationException"]]):
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         if "fieldList" in d:
-            kwargs["field_list"] = _validation_exception_field_list_from_dict(d["fieldList"]),
+            kwargs["field_list"] = (
+                _validation_exception_field_list_from_dict(d["fieldList"]),
+            )
 
         return ValidationException(**kwargs)
 
     def __repr__(self) -> str:
         result = "ValidationException("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}, "
 
@@ -99,8 +110,9 @@ class ValidationException(ApiError[Literal["ValidationException"]]):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidationException):
             return False
-        attributes: list[str] = ['message','message','field_list',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+            "field_list",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)

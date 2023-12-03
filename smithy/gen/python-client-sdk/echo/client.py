@@ -25,6 +25,7 @@ from .serialize import _serialize_echo_message
 Input = TypeVar("Input")
 Output = TypeVar("Output")
 
+
 class EchoService:
     """Echoes input
 
@@ -34,19 +35,22 @@ class EchoService:
     :param plugins: A list of callables that modify the configuration dynamically. These
     can be used to set defaults, for example.
     """
-    def __init__(self, config: Config | None = None, plugins: list[Plugin] | None = None):
+
+    def __init__(
+        self, config: Config | None = None, plugins: list[Plugin] | None = None
+    ):
         self._config = config or Config()
 
-        client_plugins: list[Plugin] = [
-
-        ]
+        client_plugins: list[Plugin] = []
         if plugins:
             client_plugins.extend(plugins)
 
         for plugin in client_plugins:
             plugin(self._config)
 
-    async def echo_message(self, input: EchoMessageInput, plugins: list[Plugin] | None = None) -> EchoMessageOutput:
+    async def echo_message(
+        self, input: EchoMessageInput, plugins: list[Plugin] | None = None
+    ) -> EchoMessageOutput:
         """Invokes the EchoMessage operation.
 
         :param input: The operation's input.
@@ -55,9 +59,7 @@ class EchoService:
         Changes made by these plugins only apply for the duration of the operation
         execution and will not affect any other operation invocations.
         """
-        operation_plugins = [
-
-        ]
+        operation_plugins = []
         if plugins:
             operation_plugins.extend(plugins)
 
@@ -107,7 +109,8 @@ class EchoService:
         )
         _client_interceptors = config.interceptors
         client_interceptors = cast(
-            list[Interceptor[Input, Output, HTTPRequest, HTTPResponse]], _client_interceptors
+            list[Interceptor[Input, Output, HTTPRequest, HTTPResponse]],
+            _client_interceptors,
         )
         interceptors = client_interceptors
 
@@ -191,7 +194,7 @@ class EchoService:
                             error_info=RetryErrorInfo(
                                 # TODO: Determine the error type.
                                 error_type=RetryErrorType.CLIENT_ERROR,
-                            )
+                            ),
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
@@ -210,7 +213,8 @@ class EchoService:
         # The response will be set either with the modeled output or an exception. The
         # transport_request and transport_response may be set or None.
         execution_context = cast(
-            InterceptorContext[Input, Output, HTTPRequest | None, HTTPResponse | None], context
+            InterceptorContext[Input, Output, HTTPRequest | None, HTTPResponse | None],
+            context,
         )
         return await self._finalize_execution(interceptors, execution_context)
 
@@ -234,9 +238,7 @@ class EchoService:
                     "No endpoint_resolver found on the operation config."
                 )
             if config.endpoint_uri is None:
-                raise ServiceError(
-                    "No endpoint_uri found on the operation config."
-                )
+                raise ServiceError("No endpoint_uri found on the operation config.")
 
             endpoint = await config.endpoint_resolver.resolve_endpoint(
                 StaticEndpointParams(uri=config.endpoint_uri)
@@ -360,7 +362,9 @@ class EchoService:
     async def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, HTTPRequest, HTTPResponse]],
-        context: InterceptorContext[Input, Output, HTTPRequest | None, HTTPResponse | None],
+        context: InterceptorContext[
+            Input, Output, HTTPRequest | None, HTTPResponse | None
+        ],
     ) -> Output:
         try:
             # Step 9: Invoke modify_before_completion

@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional
 
 class EchoMessageInput:
     message: Optional[str]
+
     def __init__(
         self,
         *,
@@ -49,14 +50,15 @@ class EchoMessageInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EchoMessageInput):
             return False
-        attributes: list[str] = ['message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class EchoMessageOutput:
     message: str
+
     def __init__(
         self,
         *,
@@ -97,15 +99,16 @@ class EchoMessageOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EchoMessageOutput):
             return False
-        attributes: list[str] = ['message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ValidationExceptionField:
     path: str
     message: str
+
     def __init__(
         self,
         *,
@@ -159,14 +162,20 @@ class ValidationExceptionField:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidationExceptionField):
             return False
-        attributes: list[str] = ['path','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "path",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-def _validation_exception_field_list_as_dict(given: list[ValidationExceptionField]) -> List[Any]:
+
+def _validation_exception_field_list_as_dict(
+    given: list[ValidationExceptionField],
+) -> List[Any]:
     return [v.as_dict() for v in given]
 
-def _validation_exception_field_list_from_dict(given: List[Any]) -> list[ValidationExceptionField]:
+
+def _validation_exception_field_list_from_dict(
+    given: List[Any],
+) -> list[ValidationExceptionField]:
     return [ValidationExceptionField.from_dict(v) for v in given]

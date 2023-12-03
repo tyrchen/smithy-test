@@ -11,16 +11,14 @@ from .config import Config
 from .models import EchoMessageInput
 
 
-async def _serialize_echo_message(input: EchoMessageInput, config: Config) -> HTTPRequest:
+async def _serialize_echo_message(
+    input: EchoMessageInput, config: Config
+) -> HTTPRequest:
     path = "/echo"
-    query: str = f''
+    query: str = f""
 
-    body: AsyncIterable[bytes] = AsyncBytesReader(b'')
-    headers = Fields(
-        [
-
-        ]
-    )
+    body: AsyncIterable[bytes] = AsyncBytesReader(b"")
+    headers = Fields([])
 
     if input.message:
         headers.extend(Fields([Field(name="x-echo-message", values=[input.message])]))

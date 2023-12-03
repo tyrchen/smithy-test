@@ -19,6 +19,8 @@ from .models import EchoMessageInput, EchoMessageOutput
 
 
 _ServiceInterceptor = Union[Interceptor[EchoMessageInput, EchoMessageOutput, Any, Any]]
+
+
 @dataclass(init=False)
 class Config:
     """Configuration for EchoService."""
@@ -63,6 +65,7 @@ class Config:
         self.http_request_config = http_request_config
         self.endpoint_resolver = endpoint_resolver or StaticEndpointResolver()
         self.endpoint_uri = endpoint_uri
+
 
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]

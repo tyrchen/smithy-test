@@ -21,6 +21,7 @@ class TestHttpServiceError(ServiceError):
     def __init__(self, request: HTTPRequest):
         self.request = request
 
+
 class RequestTestHTTPClient:
     """An asynchronous HTTP client solely for testing purposes."""
 
@@ -29,6 +30,7 @@ class RequestTestHTTPClient:
     ) -> HTTPResponse:
         # Raise the exception with the request object to bypass actual request handling
         raise TestHttpServiceError(request)
+
 
 class ResponseTestHTTPClient:
     """An asynchronous HTTP client solely for testing purposes."""

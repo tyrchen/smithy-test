@@ -7,7 +7,7 @@ description = "Rust client SDK for echo service"
 edition = "2021"
 
 [package.metadata.smithy]
-codegen-version = "null-3d0cb5c3b179d5ed1d14531882657b481c4469f0"
+codegen-version = "null-75b4c351add4e28cf0324615b756e3ace7f37780"
 [dependencies.aws-smithy-async]
 version = "1.0.1"
 [dependencies.aws-smithy-http]
@@ -32,5 +32,3 @@ test-util = ["aws-smithy-runtime/test-util"]
 behavior-version-latest = []
 rustls = ["aws-smithy-runtime/tls-rustls"]
 default = ["rt-tokio", "rustls"]
-
-
