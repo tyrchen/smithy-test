@@ -3,6 +3,30 @@
 #[derive(
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
 )]
+pub struct SigninInput {
+    /// Contains username and password. Currently any username and password is accepted.
+    pub payload: crate::model::SigninForm,
+}
+impl SigninInput {
+    /// Contains username and password. Currently any username and password is accepted.
+    pub fn payload(&self) -> &crate::model::SigninForm {
+        &self.payload
+    }
+}
+impl SigninInput {
+    /// Creates a new builder-style object to manufacture [`SigninInput`](crate::input::SigninInput).
+    pub fn builder() -> crate::input::signin_input::Builder {
+        crate::input::signin_input::Builder::default()
+    }
+}
+impl crate::constrained::Constrained for crate::input::SigninInput {
+    type Unconstrained = crate::input::signin_input::Builder;
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
 pub struct EchoMessageInput {
     #[allow(missing_docs)] // documentation missing in model
     pub message: ::std::string::String,
@@ -22,6 +46,124 @@ impl EchoMessageInput {
 }
 impl crate::constrained::Constrained for crate::input::EchoMessageInput {
     type Unconstrained = crate::input::echo_message_input::Builder;
+}
+/// See [`SigninInput`](crate::input::SigninInput).
+///
+pub mod signin_input {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `payload` was not provided but it is required when building `SigninInput`.
+        MissingPayload,
+        /// Constraint violation occurred building member `payload` when building `SigninInput`.
+        #[doc(hidden)]
+        Payload(crate::model::signin_form::ConstraintViolation),
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingPayload => write!(f, "`payload` was not provided but it is required when building `SigninInput`"),
+                ConstraintViolation::Payload(_) => write!(f, "constraint violation occurred building member `payload` when building `SigninInput`"),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ConstraintViolation {
+        pub(crate) fn as_validation_exception_field(
+            self,
+            path: ::std::string::String,
+        ) -> crate::model::ValidationExceptionField {
+            match self {
+        ConstraintViolation::MissingPayload => crate::model::ValidationExceptionField {
+                                    message: format!("Value at '{}/payload' failed to satisfy constraint: Member must not be null", path),
+                                    path: path + "/payload",
+                                },
+        ConstraintViolation::Payload(inner) => inner.as_validation_exception_field(path + "/payload"),
+    }
+        }
+    }
+    impl ::std::convert::From<ConstraintViolation>
+        for ::aws_smithy_http_server::protocol::rest_json_1::rejection::RequestRejection
+    {
+        fn from(constraint_violation: ConstraintViolation) -> Self {
+            let first_validation_exception_field =
+                constraint_violation.as_validation_exception_field("".to_owned());
+            let validation_exception = crate::error::ValidationException {
+                message: format!(
+                    "1 validation error detected. {}",
+                    &first_validation_exception_field.message
+                ),
+                field_list: Some(vec![first_validation_exception_field]),
+            };
+            Self::ConstraintViolation(
+                            crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
+                                .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
+                        )
+        }
+    }
+    impl ::std::convert::From<Builder>
+        for crate::constrained::MaybeConstrained<crate::input::SigninInput>
+    {
+        fn from(builder: Builder) -> Self {
+            Self::Unconstrained(builder)
+        }
+    }
+    impl ::std::convert::TryFrom<Builder> for crate::input::SigninInput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`SigninInput`](crate::input::SigninInput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) payload:
+            ::std::option::Option<crate::constrained::MaybeConstrained<crate::model::SigninForm>>,
+    }
+    impl Builder {
+        /// Contains username and password. Currently any username and password is accepted.
+        pub fn payload(mut self, input: crate::model::SigninForm) -> Self {
+            self.payload = Some(crate::constrained::MaybeConstrained::Constrained(input));
+            self
+        }
+        /// Contains username and password. Currently any username and password is accepted.
+        pub(crate) fn set_payload(
+            mut self,
+            input: impl ::std::convert::Into<
+                crate::constrained::MaybeConstrained<crate::model::SigninForm>,
+            >,
+        ) -> Self {
+            self.payload = Some(input.into());
+            self
+        }
+        /// Consumes the builder and constructs a [`SigninInput`](crate::input::SigninInput).
+        ///
+        /// The builder fails to construct a [`SigninInput`](crate::input::SigninInput) if a [`ConstraintViolation`] occurs.
+        ///
+        /// If the builder fails, it will return the _first_ encountered [`ConstraintViolation`].
+        pub fn build(self) -> Result<crate::input::SigninInput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::input::SigninInput, ConstraintViolation> {
+            Ok(crate::input::SigninInput {
+                payload: self
+                    .payload
+                    .map(|v| match v {
+                        crate::constrained::MaybeConstrained::Constrained(x) => Ok(x),
+                        crate::constrained::MaybeConstrained::Unconstrained(x) => x.try_into(),
+                    })
+                    .map(|res| res.map_err(ConstraintViolation::Payload))
+                    .transpose()?
+                    .ok_or(ConstraintViolation::MissingPayload)?,
+            })
+        }
+    }
 }
 /// See [`EchoMessageInput`](crate::input::EchoMessageInput).
 ///

@@ -22,6 +22,8 @@ version = "1.0.1"
 version = "0.3"
 [dependencies.http]
 version = "0.2.9"
+[dependencies.hyper]
+version = "0.14.26"
 [dependencies.mime]
 version = "0.3"
 [dependencies.pin-project-lite]
@@ -37,5 +39,3 @@ version = "1.23.1"
 [features]
 rt-tokio = ["aws-smithy-types/rt-tokio"]
 default = ["rt-tokio"]
-
-

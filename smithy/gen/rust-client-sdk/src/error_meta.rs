@@ -3,6 +3,12 @@
 #[non_exhaustive]
 #[derive(::std::fmt::Debug)]
 pub enum Error {
+    /// Forbidden error.
+    ForbiddenError(crate::types::error::ForbiddenError),
+    /// Throttling error.
+    ThrottlingError(crate::types::error::ThrottlingError),
+    /// Unauthorized error.
+    UnauthorizedError(crate::types::error::UnauthorizedError),
     /// A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
     ValidationError(crate::types::error::ValidationError),
     /// An unexpected error occurred (e.g., invalid JSON returned by the service or an unknown error code).
@@ -19,6 +25,9 @@ pub enum Error {
 impl ::std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Error::ForbiddenError(inner) => inner.fmt(f),
+            Error::ThrottlingError(inner) => inner.fmt(f),
+            Error::UnauthorizedError(inner) => inner.fmt(f),
             Error::ValidationError(inner) => inner.fmt(f),
             Error::Unhandled(_) => {
                 if let ::std::option::Option::Some(code) =
@@ -43,6 +52,9 @@ impl From<::aws_smithy_types::error::operation::BuildError> for Error {
 impl ::aws_smithy_types::error::metadata::ProvideErrorMetadata for Error {
     fn meta(&self) -> &::aws_smithy_types::error::metadata::ErrorMetadata {
         match self {
+            Self::ForbiddenError(inner) => inner.meta(),
+            Self::ThrottlingError(inner) => inner.meta(),
+            Self::UnauthorizedError(inner) => inner.meta(),
             Self::ValidationError(inner) => inner.meta(),
             Self::Unhandled(inner) => &inner.meta,
         }
@@ -87,9 +99,58 @@ impl From<crate::operation::echo_message::EchoMessageError> for Error {
         }
     }
 }
+impl<R>
+    From<
+        ::aws_smithy_runtime_api::client::result::SdkError<
+            crate::operation::signin::SigninError,
+            R,
+        >,
+    > for Error
+where
+    R: Send + Sync + std::fmt::Debug + 'static,
+{
+    fn from(
+        err: ::aws_smithy_runtime_api::client::result::SdkError<
+            crate::operation::signin::SigninError,
+            R,
+        >,
+    ) -> Self {
+        match err {
+            ::aws_smithy_runtime_api::client::result::SdkError::ServiceError(context) => {
+                Self::from(context.into_err())
+            }
+            _ => Error::Unhandled(crate::error::sealed_unhandled::Unhandled {
+                meta: ::aws_smithy_types::error::metadata::ProvideErrorMetadata::meta(&err).clone(),
+                source: err.into(),
+            }),
+        }
+    }
+}
+impl From<crate::operation::signin::SigninError> for Error {
+    fn from(err: crate::operation::signin::SigninError) -> Self {
+        match err {
+            crate::operation::signin::SigninError::ValidationError(inner) => {
+                Error::ValidationError(inner)
+            }
+            crate::operation::signin::SigninError::UnauthorizedError(inner) => {
+                Error::UnauthorizedError(inner)
+            }
+            crate::operation::signin::SigninError::ForbiddenError(inner) => {
+                Error::ForbiddenError(inner)
+            }
+            crate::operation::signin::SigninError::ThrottlingError(inner) => {
+                Error::ThrottlingError(inner)
+            }
+            crate::operation::signin::SigninError::Unhandled(inner) => Error::Unhandled(inner),
+        }
+    }
+}
 impl ::std::error::Error for Error {
     fn source(&self) -> std::option::Option<&(dyn ::std::error::Error + 'static)> {
         match self {
+            Error::ForbiddenError(inner) => inner.source(),
+            Error::ThrottlingError(inner) => inner.source(),
+            Error::UnauthorizedError(inner) => inner.source(),
             Error::ValidationError(inner) => inner.source(),
             Error::Unhandled(inner) => ::std::option::Option::Some(&*inner.source),
         }

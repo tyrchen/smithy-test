@@ -18,3 +18,6 @@ build-smithy:
 	cp -r build/smithy/source/swift-codegen gen/swift-client-sdk; \
 	cp -r build/smithy/source/rust-server-codegen gen/rust-server-sdk
 	@cargo fmt --all
+
+watch:
+	@watchexec --restart --exts rs -- cargo run

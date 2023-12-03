@@ -1,2 +1,24 @@
 [workspace]
-members = ["smithy/gen/rust-client-sdk", "smithy/gen/rust-server-sdk"]
+members = [
+  "smithy/gen/rust-client-sdk",
+  "smithy/gen/rust-server-sdk",
+  "crates/server",
+  "crates/service",
+]
+resolver = "2"
+
+[workspace.dependencies]
+anyhow = "1"
+axum = { version = "0.6", features = ["headers", "query", "tracing"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+echo-server-sdk = { path = "smithy/gen/rust-server-sdk" }
+echo-service = { path = "crates/service" }
+tokio = { version = "1", features = [
+  "rt",
+  "rt-multi-thread",
+  "macros",
+  "time",
+] }
+tracing = "0.1"
+tracing-subscriber = "0.3"

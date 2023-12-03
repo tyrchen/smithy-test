@@ -116,3 +116,174 @@ class ValidationException(ApiError[Literal["ValidationException"]]):
             "field_list",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class ForbiddenError(ApiError[Literal["ForbiddenError"]]):
+    code: Literal["ForbiddenError"] = "ForbiddenError"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Forbidden error.
+        :param message: A message associated with the specific error.
+
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ForbiddenError to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ForbiddenError":
+        """Creates a ForbiddenError from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return ForbiddenError(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "ForbiddenError("
+        result += f"message={self.message},"
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, ForbiddenError):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class ThrottlingError(ApiError[Literal["ThrottlingError"]]):
+    code: Literal["ThrottlingError"] = "ThrottlingError"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Throttling error.
+        :param message: A message associated with the specific error.
+
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ThrottlingError to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ThrottlingError":
+        """Creates a ThrottlingError from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return ThrottlingError(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "ThrottlingError("
+        result += f"message={self.message},"
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, ThrottlingError):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class UnauthorizedError(ApiError[Literal["UnauthorizedError"]]):
+    code: Literal["UnauthorizedError"] = "UnauthorizedError"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Unauthorized error.
+        :param message: A message associated with the specific error.
+
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UnauthorizedError to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UnauthorizedError":
+        """Creates a UnauthorizedError from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return UnauthorizedError(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "UnauthorizedError("
+        result += f"message={self.message},"
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, UnauthorizedError):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)

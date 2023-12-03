@@ -9,8 +9,21 @@ from smithy_python.types import Document
 from smithy_python.utils import expect_type
 
 from .config import Config
-from .errors import ApiError, ServiceError, UnknownApiError, ValidationException
-from .models import EchoMessageOutput, ValidationExceptionField
+from .errors import (
+    ApiError,
+    ForbiddenError,
+    ServiceError,
+    ThrottlingError,
+    UnauthorizedError,
+    UnknownApiError,
+    ValidationException,
+)
+from .models import (
+    EchoMessageOutput,
+    SigninOutput,
+    SigninToken,
+    ValidationExceptionField,
+)
 
 
 async def _deserialize_echo_message(
@@ -49,6 +62,116 @@ async def _deserialize_error_echo_message(
             return UnknownApiError(message)
 
 
+async def _deserialize_signin(
+    http_response: HTTPResponse, config: Config
+) -> SigninOutput:
+    if http_response.status != 200 and http_response.status >= 300:
+        raise await _deserialize_error_signin(http_response, config)
+
+    kwargs: dict[str, Any] = {}
+
+    if body := await http_response.consume_body():
+        kwargs["payload"] = _deserialize_signin_token(json.loads(body), config)
+
+    return SigninOutput(**kwargs)
+
+
+async def _deserialize_error_signin(
+    http_response: HTTPResponse, config: Config
+) -> ApiError[Any]:
+    code, message, parsed_body = await parse_rest_json_error_info(http_response)
+
+    match code.lower():
+        case "validationexception":
+            return await _deserialize_error_validation_exception(
+                http_response, config, parsed_body, message
+            )
+
+        case "unauthorizederror":
+            return await _deserialize_error_unauthorized_error(
+                http_response, config, parsed_body, message
+            )
+
+        case "forbiddenerror":
+            return await _deserialize_error_forbidden_error(
+                http_response, config, parsed_body, message
+            )
+
+        case "throttlingerror":
+            return await _deserialize_error_throttling_error(
+                http_response, config, parsed_body, message
+            )
+
+        case _:
+            return UnknownApiError(message)
+
+
+async def _deserialize_error_forbidden_error(
+    http_response: HTTPResponse,
+    config: Config,
+    parsed_body: dict[str, Document] | None,
+    default_message: str,
+) -> ForbiddenError:
+    kwargs: dict[str, Any] = {"message": default_message}
+
+    if (parsed_body is None) and (body := await http_response.consume_body()):
+        parsed_body = json.loads(body)
+
+    output: dict[str, Document] = parsed_body if parsed_body is not None else {}
+
+    if "message" not in output:
+        raise ServiceError(
+            'Expected to find "message" in the operation output, but it was not present.'
+        )
+    kwargs["message"] = expect_type(str, output["message"])
+
+    return ForbiddenError(**kwargs)
+
+
+async def _deserialize_error_throttling_error(
+    http_response: HTTPResponse,
+    config: Config,
+    parsed_body: dict[str, Document] | None,
+    default_message: str,
+) -> ThrottlingError:
+    kwargs: dict[str, Any] = {"message": default_message}
+
+    if (parsed_body is None) and (body := await http_response.consume_body()):
+        parsed_body = json.loads(body)
+
+    output: dict[str, Document] = parsed_body if parsed_body is not None else {}
+
+    if "message" not in output:
+        raise ServiceError(
+            'Expected to find "message" in the operation output, but it was not present.'
+        )
+    kwargs["message"] = expect_type(str, output["message"])
+
+    return ThrottlingError(**kwargs)
+
+
+async def _deserialize_error_unauthorized_error(
+    http_response: HTTPResponse,
+    config: Config,
+    parsed_body: dict[str, Document] | None,
+    default_message: str,
+) -> UnauthorizedError:
+    kwargs: dict[str, Any] = {"message": default_message}
+
+    if (parsed_body is None) and (body := await http_response.consume_body()):
+        parsed_body = json.loads(body)
+
+    output: dict[str, Document] = parsed_body if parsed_body is not None else {}
+
+    if "message" not in output:
+        raise ServiceError(
+            'Expected to find "message" in the operation output, but it was not present.'
+        )
+    kwargs["message"] = expect_type(str, output["message"])
+
+    return UnauthorizedError(**kwargs)
+
+
 async def _deserialize_error_validation_exception(
     http_response: HTTPResponse,
     config: Config,
@@ -62,18 +185,33 @@ async def _deserialize_error_validation_exception(
 
     output: dict[str, Document] = parsed_body if parsed_body is not None else {}
 
-    if (_field_list := output.get("fieldList")) is not None:
-        kwargs["field_list"] = _deserialize_validation_exception_field_list(
-            _field_list, config
-        )
-
     if "message" not in output:
         raise ServiceError(
             'Expected to find "message" in the operation output, but it was not present.'
         )
     kwargs["message"] = expect_type(str, output["message"])
 
+    if (_field_list := output.get("fieldList")) is not None:
+        kwargs["field_list"] = _deserialize_validation_exception_field_list(
+            _field_list, config
+        )
+
     return ValidationException(**kwargs)
+
+
+def _deserialize_signin_token(output: Document, config: Config) -> SigninToken:
+    if not isinstance(output, dict):
+        raise ServiceError(f"Expected dict, found {type(output)}")
+
+    kwargs: dict[str, Any] = {}
+
+    if "token" not in output:
+        raise ServiceError(
+            'Expected to find "token" in the operation output, but it was not present.'
+        )
+    kwargs["token"] = expect_type(str, output["token"])
+
+    return SigninToken(**kwargs)
 
 
 def _deserialize_validation_exception_field(

@@ -63,3 +63,104 @@ export class ValidationException extends __BaseException {
     this.fieldList = opts.fieldList;
   }
 }
+
+/**
+ * @public
+ * Forbidden error.
+ */
+export class ForbiddenError extends __BaseException {
+  readonly name: "ForbiddenError" = "ForbiddenError";
+  readonly $fault: "client" = "client";
+  /**
+   * @internal
+   */
+  constructor(opts: __ExceptionOptionType<ForbiddenError, __BaseException>) {
+    super({
+      name: "ForbiddenError",
+      $fault: "client",
+      ...opts
+    });
+    Object.setPrototypeOf(this, ForbiddenError.prototype);
+  }
+}
+
+/**
+ * @public
+ * Contains username and password. Currently any username and password is accepted.
+ */
+export interface SigninForm {
+  username: string | undefined;
+  password: string | undefined;
+}
+
+/**
+ * @public
+ */
+export interface SigninInput {
+  /**
+   * @public
+   * Contains username and password. Currently any username and password is accepted.
+   */
+  payload: SigninForm | undefined;
+}
+
+/**
+ * @public
+ * Contains a bearer token for authentication.
+ */
+export interface SigninToken {
+  token: string | undefined;
+}
+
+/**
+ * @public
+ */
+export interface SigninOutput {
+  /**
+   * @public
+   * Contains a bearer token for authentication.
+   */
+  payload: SigninToken | undefined;
+}
+
+/**
+ * @public
+ * Throttling error.
+ */
+export class ThrottlingError extends __BaseException {
+  readonly name: "ThrottlingError" = "ThrottlingError";
+  readonly $fault: "client" = "client";
+  $retryable = {
+  };
+  /**
+   * @internal
+   */
+  constructor(opts: __ExceptionOptionType<ThrottlingError, __BaseException>) {
+    super({
+      name: "ThrottlingError",
+      $fault: "client",
+      ...opts
+    });
+    Object.setPrototypeOf(this, ThrottlingError.prototype);
+  }
+}
+
+/**
+ * @public
+ * Unauthorized error.
+ */
+export class UnauthorizedError extends __BaseException {
+  readonly name: "UnauthorizedError" = "UnauthorizedError";
+  readonly $fault: "client" = "client";
+  /**
+   * @internal
+   */
+  constructor(opts: __ExceptionOptionType<UnauthorizedError, __BaseException>) {
+    super({
+      name: "UnauthorizedError",
+      $fault: "client",
+      ...opts
+    });
+    Object.setPrototypeOf(this, UnauthorizedError.prototype);
+  }
+}

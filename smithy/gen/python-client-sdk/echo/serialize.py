@@ -6,9 +6,10 @@ from smithy_python._private import Field, Fields, URI as _URI
 from smithy_python._private.http import HTTPRequest as _HTTPRequest
 from smithy_python.interfaces.blobs import AsyncBytesReader
 from smithy_python.interfaces.http import HTTPRequest
+from smithy_python.types import Document
 
 from .config import Config
-from .models import EchoMessageInput
+from .models import EchoMessageInput, SigninForm, SigninInput
 
 
 async def _serialize_echo_message(
@@ -33,3 +34,49 @@ async def _serialize_echo_message(
         fields=headers,
         body=body,
     )
+
+
+async def _serialize_signin(input: SigninInput, config: Config) -> HTTPRequest:
+    path = "/signin"
+    query: str = f""
+
+    body: AsyncIterable[bytes] = AsyncBytesReader(b"")
+    content_length: int = 0
+    if input.payload is not None:
+        content = json.dumps(_serialize_signin_form(input.payload, config)).encode(
+            "utf-8"
+        )
+        content_length = len(content)
+        body = AsyncBytesReader(content)
+    else:
+        content_length = 2
+        body = AsyncBytesReader(b"{}")
+
+    headers = Fields(
+        [
+            Field(name="Content-Type", values=["application/json"]),
+            Field(name="Content-Length", values=[str(content_length)]),
+        ]
+    )
+
+    return _HTTPRequest(
+        destination=_URI(
+            host="",
+            path=path,
+            scheme="https",
+            query=query,
+        ),
+        method="POST",
+        fields=headers,
+        body=body,
+    )
+
+
+def _serialize_signin_form(input: SigninForm, config: Config) -> dict[str, Document]:
+    result: dict[str, Document] = {}
+
+    result["username"] = input.username
+
+    result["password"] = input.password
+
+    return result

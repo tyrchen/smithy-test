@@ -4,6 +4,7 @@
 /// Constructed via [`EchoService::builder`].
 pub struct EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
     echo_message: Option<::aws_smithy_http_server::routing::Route<Body>>,
+    signin: Option<::aws_smithy_http_server::routing::Route<Body>>,
     layer: L,
     http_plugin: HttpPl,
     model_plugin: ModelPl,
@@ -159,6 +160,156 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
         self.echo_message = Some(::aws_smithy_http_server::routing::Route::new(svc));
         self
     }
+
+    /// Sets the [`Signin`](crate::operation_shape::Signin) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::SigninInput) -> Result<output::SigninOutput, error::SigninError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let app = EchoService::builder(config)
+    ///     .signin(handler)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                pub fn signin<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                where
+                    HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::Signin, HandlerExtractors>,
+
+                    ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                        EchoService<L>,
+                        crate::operation_shape::Signin,
+                        ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::Signin, HandlerType>
+                    >,
+                    ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                        EchoService<L>,
+                        crate::operation_shape::Signin,
+                        ModelPl::Output
+                    >,
+                    HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                        EchoService<L>,
+                        crate::operation_shape::Signin,
+                        <
+                            ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                            as ::aws_smithy_http_server::plugin::Plugin<
+                                EchoService<L>,
+                                crate::operation_shape::Signin,
+                                ModelPl::Output
+                            >
+                        >::Output
+                    >,
+
+                    HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                    <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::Signin::from_handler(handler);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.signin_custom(svc)
+    }
+
+    /// Sets the [`Signin`](crate::operation_shape::Signin) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::SigninInput) -> Result<output::SigninOutput, error::SigninError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let svc = ::tower::util::service_fn(handler);
+    /// let app = EchoService::builder(config)
+    ///     .signin_service(svc)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                pub fn signin_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                where
+                    S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::Signin, ServiceExtractors>,
+
+                    ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                        EchoService<L>,
+                        crate::operation_shape::Signin,
+                        ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::Signin, S>
+                    >,
+                    ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                        EchoService<L>,
+                        crate::operation_shape::Signin,
+                        ModelPl::Output
+                    >,
+                    HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                        EchoService<L>,
+                        crate::operation_shape::Signin,
+                        <
+                            ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                            as ::aws_smithy_http_server::plugin::Plugin<
+                                EchoService<L>,
+                                crate::operation_shape::Signin,
+                                ModelPl::Output
+                            >
+                        >::Output
+                    >,
+
+                    HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                    <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::Signin::from_service(service);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.signin_custom(svc)
+    }
+
+    /// Sets the [`Signin`](crate::operation_shape::Signin) to a custom [`Service`](tower::Service).
+    /// not constrained by the Smithy contract.
+    fn signin_custom<S>(mut self, svc: S) -> Self
+    where
+        S: ::tower::Service<
+                ::http::Request<Body>,
+                Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>,
+                Error = ::std::convert::Infallible,
+            > + Clone
+            + Send
+            + 'static,
+        S::Future: Send + 'static,
+    {
+        self.signin = Some(::aws_smithy_http_server::routing::Route::new(svc));
+        self
+    }
 }
 
 impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
@@ -189,6 +340,9 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
                 missing_operation_names
                     .insert(crate::operation_shape::EchoMessage::ID, ".echo_message()");
             }
+            if self.signin.is_none() {
+                missing_operation_names.insert(crate::operation_shape::Signin::ID, ".signin()");
+            }
             if !missing_operation_names.is_empty() {
                 return Err(MissingOperationsError {
                     operation_names2setter_methods: missing_operation_names,
@@ -196,10 +350,16 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
             }
             let unexpected_error_msg = "this should never panic since we are supposed to check beforehand that a handler has been registered for this operation; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues";
 
-            ::aws_smithy_http_server::protocol::rest::router::RestRouter::from_iter([(
-                request_specs::echo_message(),
-                self.echo_message.expect(unexpected_error_msg),
-            )])
+            ::aws_smithy_http_server::protocol::rest::router::RestRouter::from_iter([
+                (
+                    request_specs::echo_message(),
+                    self.echo_message.expect(unexpected_error_msg),
+                ),
+                (
+                    request_specs::signin(),
+                    self.signin.expect(unexpected_error_msg),
+                ),
+            ])
         };
         let svc = ::aws_smithy_http_server::routing::RoutingService::new(router);
         let svc = svc.map(|s| s.layer(self.layer));
@@ -223,15 +383,26 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
             >,
         >,
     {
-        let router = ::aws_smithy_http_server::protocol::rest::router::RestRouter::from_iter([(
-            request_specs::echo_message(),
-            self.echo_message.unwrap_or_else(|| {
-                let svc = ::aws_smithy_http_server::operation::MissingFailure::<
-                    ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
-                >::default();
-                ::aws_smithy_http_server::routing::Route::new(svc)
-            }),
-        )]);
+        let router = ::aws_smithy_http_server::protocol::rest::router::RestRouter::from_iter([
+            (
+                request_specs::echo_message(),
+                self.echo_message.unwrap_or_else(|| {
+                    let svc = ::aws_smithy_http_server::operation::MissingFailure::<
+                        ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
+                    >::default();
+                    ::aws_smithy_http_server::routing::Route::new(svc)
+                }),
+            ),
+            (
+                request_specs::signin(),
+                self.signin.unwrap_or_else(|| {
+                    let svc = ::aws_smithy_http_server::operation::MissingFailure::<
+                        ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
+                    >::default();
+                    ::aws_smithy_http_server::routing::Route::new(svc)
+                }),
+            ),
+        ]);
         let svc = self
             .layer
             .layer(::aws_smithy_http_server::routing::RoutingService::new(
@@ -288,6 +459,20 @@ mod request_specs {
                     ),
                 )
     }
+    pub(super) fn signin() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
+        ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
+                    ::http::Method::POST,
+                    ::aws_smithy_http_server::routing::request_spec::UriSpec::new(
+                        ::aws_smithy_http_server::routing::request_spec::PathAndQuerySpec::new(
+                            ::aws_smithy_http_server::routing::request_spec::PathSpec::from_vector_unchecked(vec![
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Literal(String::from("signin")),
+]),
+                            ::aws_smithy_http_server::routing::request_spec::QuerySpec::from_vector_unchecked(vec![
+])
+                        )
+                    ),
+                )
+    }
 }
 
 /// Echoes input
@@ -320,6 +505,7 @@ impl EchoService<()> {
     ) -> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
         EchoServiceBuilder {
             echo_message: None,
+            signin: None,
             layer: config.layers,
             http_plugin: config.http_plugins,
             model_plugin: config.model_plugins,
@@ -348,6 +534,7 @@ impl EchoService<()> {
     ) -> EchoServiceBuilder<Body, ::tower::layer::util::Identity, HttpPl, ModelPl> {
         EchoServiceBuilder {
             echo_message: None,
+            signin: None,
             layer: ::tower::layer::util::Identity::new(),
             http_plugin,
             model_plugin,
@@ -470,6 +657,7 @@ where
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Operation {
     EchoMessage,
+    Signin,
 }
 
 impl Operation {
@@ -481,6 +669,11 @@ impl Operation {
                 "com.example",
                 "EchoMessage",
             ),
+            Operation::Signin => ::aws_smithy_http_server::shape_id::ShapeId::new(
+                "com.example#Signin",
+                "com.example",
+                "Signin",
+            ),
         }
     }
 }
@@ -488,6 +681,11 @@ impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_sh
     for EchoService<L>
 {
     const VALUE: Operation = Operation::EchoMessage;
+}
+impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::Signin>
+    for EchoService<L>
+{
+    const VALUE: Operation = Operation::Signin;
 }
 
 impl<S> ::aws_smithy_http_server::service::ServiceShape for EchoService<S> {
@@ -498,7 +696,7 @@ impl<S> ::aws_smithy_http_server::service::ServiceShape for EchoService<S> {
             "EchoService",
         );
 
-    const VERSION: Option<&'static str> = Some("2006-03-01");
+    const VERSION: Option<&'static str> = Some("2023-12-03");
 
     type Protocol = ::aws_smithy_http_server::protocol::rest_json_1::RestJson1;
 
@@ -681,6 +879,15 @@ macro_rules! scope {
                     scope! { @ $ name, $ contains (EchoMessage $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
                 };
 
+                // Signin match found, pop from both `member` and `not_member`
+                (@ $ name: ident, $ contains: ident (Signin $($ member: ident)*) ($($ temp: ident)*) (Signin $($ not_member: ident)*)) => {
+                    scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                };
+                // Signin match not found, pop from `not_member` into `temp` stack
+                (@ $ name: ident, $ contains: ident (Signin $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                    scope! { @ $ name, $ contains (Signin $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                };
+
                 (
                     $(#[$ attrs:meta])*
                     $ vis:vis struct $ name:ident {
@@ -695,7 +902,7 @@ macro_rules! scope {
                             excludes: []
                         }
                     }
-                    scope! { @ $ name, False ($($ include)*) () (EchoMessage) }
+                    scope! { @ $ name, False ($($ include)*) () (EchoMessage Signin) }
                 };
                 (
                     $(#[$ attrs:meta])*
@@ -712,6 +919,6 @@ macro_rules! scope {
                             excludes: [$($ exclude),*]
                         }
                     }
-                    scope! { @ $ name, True ($($ exclude)*) () (EchoMessage) }
+                    scope! { @ $ name, True ($($ exclude)*) () (EchoMessage Signin) }
                 };
             }

@@ -212,6 +212,24 @@ impl Builder {
         self.runtime_components.set_http_client(http_client);
         self
     }
+    /// Sets the bearer token that will be used for HTTP bearer auth.
+    pub fn bearer_token(self, bearer_token: crate::config::Token) -> Self {
+        self.bearer_token_resolver(bearer_token)
+    }
+
+    /// Sets a bearer token provider that will be used for HTTP bearer auth.
+    pub fn bearer_token_resolver(
+        mut self,
+        bearer_token_resolver: impl crate::config::ResolveIdentity + 'static,
+    ) -> Self {
+        self.runtime_components.push_identity_resolver(
+            ::aws_smithy_runtime_api::client::auth::http::HTTP_BEARER_AUTH_SCHEME_ID,
+            ::aws_smithy_runtime_api::client::identity::SharedIdentityResolver::new(
+                bearer_token_resolver,
+            ),
+        );
+        self
+    }
     /// Set the endpoint URL to use when making requests.
     ///
     /// Note: setting an endpoint URL will replace any endpoint resolver that has been set.
@@ -1030,6 +1048,11 @@ impl ServiceRuntimePlugin {
             ::aws_smithy_runtime_api::client::runtime_components::RuntimeComponentsBuilder::new(
                 "ServiceRuntimePlugin",
             );
+        runtime_components.push_auth_scheme(
+            ::aws_smithy_runtime_api::client::auth::SharedAuthScheme::new(
+                ::aws_smithy_runtime::client::auth::http::BearerAuthScheme::new(),
+            ),
+        );
         runtime_components.push_interceptor(::aws_smithy_runtime::client::http::connection_poisoning::ConnectionPoisoningInterceptor::new());
         runtime_components.push_retry_classifier(
             ::aws_smithy_runtime::client::retries::classifiers::HttpStatusCodeClassifier::default(),
@@ -1184,6 +1207,10 @@ pub use ::aws_smithy_runtime_api::client::interceptors::SharedInterceptor;
 pub use ::aws_smithy_runtime_api::client::http::HttpClient;
 
 pub use ::aws_smithy_runtime_api::shared::IntoShared;
+
+pub use ::aws_smithy_runtime_api::client::identity::http::Token;
+
+pub use ::aws_smithy_runtime_api::client::identity::ResolveIdentity;
 
 pub use ::aws_smithy_async::rt::sleep::AsyncSleep;
 

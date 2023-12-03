@@ -16,7 +16,7 @@ import { EchoServiceClientConfig } from "./EchoServiceClient";
  */
 export const getRuntimeConfig = (config: EchoServiceClientConfig) => {
   return {
-    apiVersion: "2006-03-01",
+    apiVersion: "2023-12-03",
       base64Decoder: config?.base64Decoder ?? fromBase64,
   base64Encoder: config?.base64Encoder ?? toBase64,
   disableHostPrefix: config?.disableHostPrefix ?? false,

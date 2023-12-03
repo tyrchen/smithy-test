@@ -154,6 +154,7 @@
 //!    let config = EchoServiceConfig::builder().build();
 //!    let app = EchoService::builder(config)
 //!        .echo_message(echo_message)
+//!        .signin(signin)
 //!        .build()
 //!        .expect("failed to build an instance of EchoService");
 //!
@@ -171,6 +172,10 @@
 //! use echo_server_sdk::{input, output, error};
 //!
 //! async fn echo_message(input: input::EchoMessageInput) -> Result<output::EchoMessageOutput, error::EchoMessageError> {
+//!     todo!()
+//! }
+//!
+//! async fn signin(input: input::SigninInput) -> Result<output::SigninOutput, error::SigninError> {
 //!     todo!()
 //! }
 //!

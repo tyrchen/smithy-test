@@ -16,10 +16,10 @@ version = "0.60.0"
 version = "0.60.0"
 [dependencies.aws-smithy-runtime]
 version = "1.0.1"
-features = ["client"]
+features = ["client", "http-auth"]
 [dependencies.aws-smithy-runtime-api]
 version = "1.0.1"
-features = ["client", "http-02x"]
+features = ["client", "http-02x", "http-auth"]
 [dependencies.aws-smithy-types]
 version = "1.0.1"
 [dependencies.bytes]
@@ -32,5 +32,3 @@ test-util = ["aws-smithy-runtime/test-util"]
 behavior-version-latest = []
 rustls = ["aws-smithy-runtime/tls-rustls"]
 default = ["rt-tokio", "rustls"]
-
-

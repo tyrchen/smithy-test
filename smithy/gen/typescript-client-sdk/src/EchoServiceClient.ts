@@ -3,6 +3,10 @@ import {
   EchoMessageCommandInput,
   EchoMessageCommandOutput,
 } from "./commands/EchoMessageCommand";
+import {
+  SigninCommandInput,
+  SigninCommandOutput,
+} from "./commands/SigninCommand";
 import { getRuntimeConfig as __getRuntimeConfig } from "./runtimeConfig";
 import {
   RuntimeExtension,
@@ -36,13 +40,15 @@ export { __Client }
  * @public
  */
 export type ServiceInputTypes =
-  | EchoMessageCommandInput;
+  | EchoMessageCommandInput
+  | SigninCommandInput;
 
 /**
  * @public
  */
 export type ServiceOutputTypes =
-  | EchoMessageCommandOutput;
+  | EchoMessageCommandOutput
+  | SigninCommandOutput;
 
 /**
  * @public

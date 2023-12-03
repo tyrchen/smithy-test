@@ -134,3 +134,5 @@ impl Client {
 pub mod customize;
 
 mod echo_message;
+
+mod signin;

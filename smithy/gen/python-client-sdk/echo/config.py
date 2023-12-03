@@ -7,6 +7,7 @@ from smithy_python._private.http import StaticEndpointResolver
 from smithy_python._private.http.aiohttp_client import AIOHTTPClient
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces import URI
+from smithy_python.interfaces.auth import HTTPAuthScheme
 from smithy_python.interfaces.http import (
     EndpointResolver,
     HTTPClient,
@@ -15,10 +16,14 @@ from smithy_python.interfaces.http import (
 from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
 
-from .models import EchoMessageInput, EchoMessageOutput
+from .auth import HTTPAuthSchemeResolver
+from .models import EchoMessageInput, EchoMessageOutput, SigninInput, SigninOutput
 
 
-_ServiceInterceptor = Union[Interceptor[EchoMessageInput, EchoMessageOutput, Any, Any]]
+_ServiceInterceptor = Union[
+    Interceptor[EchoMessageInput, EchoMessageOutput, Any, Any],
+    Interceptor[SigninInput, SigninOutput, Any, Any],
+]
 
 
 @dataclass(init=False)
@@ -31,6 +36,8 @@ class Config:
     http_request_config: HTTPRequestConfiguration | None
     endpoint_resolver: EndpointResolver[Any]
     endpoint_uri: str | URI | None
+    http_auth_schemes: dict[str, HTTPAuthScheme[Any, Any, Any, Any]]
+    http_auth_scheme_resolver: HTTPAuthSchemeResolver
 
     def __init__(
         self,
@@ -41,6 +48,8 @@ class Config:
         http_request_config: HTTPRequestConfiguration | None = None,
         endpoint_resolver: EndpointResolver[Any] | None = None,
         endpoint_uri: str | URI | None = None,
+        http_auth_schemes: dict[str, HTTPAuthScheme[Any, Any, Any, Any]] | None = None,
+        http_auth_scheme_resolver: HTTPAuthSchemeResolver | None = None,
     ):
         """Constructor.
 
@@ -58,6 +67,11 @@ class Config:
         endpoint per-operation based on the configuration.
 
         :param endpoint_uri: A static URI to route requests to.
+
+        :param http_auth_schemes: A map of http auth scheme ids to http auth schemes.
+
+        :param http_auth_scheme_resolver: An http auth scheme resolver that determines
+        the auth scheme for each operation.
         """
         self.interceptors = interceptors or []
         self.retry_strategy = retry_strategy or SimpleRetryStrategy()
@@ -65,6 +79,20 @@ class Config:
         self.http_request_config = http_request_config
         self.endpoint_resolver = endpoint_resolver or StaticEndpointResolver()
         self.endpoint_uri = endpoint_uri
+        self.http_auth_schemes = http_auth_schemes or {}
+
+        self.http_auth_scheme_resolver = (
+            http_auth_scheme_resolver or HTTPAuthSchemeResolver()
+        )
+
+    def set_http_auth_scheme(self, scheme: HTTPAuthScheme[Any, Any, Any, Any]) -> None:
+        """Sets the implementation of an auth scheme.
+
+        Using this method ensures the correct key is used.
+
+        :param scheme: The auth scheme to add.
+        """
+        self.http_auth_schemes[scheme.scheme_id] = scheme
 
 
 # A callable that allows customizing the config object on each request.

@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "EchoService",
-        "version": "2006-03-01",
+        "version": "2023-12-03",
         "description": "Echoes input"
     },
     "paths": {
@@ -42,12 +42,145 @@
                     }
                 }
             }
+        },
+        "/signin": {
+            "post": {
+                "description": "Signin to get a token.",
+                "operationId": "Signin",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SigninForm"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Signin 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SigninToken"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "ValidationException 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "ThrottlingError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ThrottlingErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
         }
     },
     "components": {
         "schemas": {
             "EchoMessageResponseContent": {
                 "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "ForbiddenErrorResponseContent": {
+                "type": "object",
+                "description": "Forbidden error.",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "SigninForm": {
+                "type": "object",
+                "description": "Contains username and password. Currently any username and password is accepted.",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "password",
+                    "username"
+                ]
+            },
+            "SigninToken": {
+                "type": "object",
+                "description": "Contains a bearer token for authentication.",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "token"
+                ]
+            },
+            "ThrottlingErrorResponseContent": {
+                "type": "object",
+                "description": "Throttling error.",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "UnauthorizedErrorResponseContent": {
+                "type": "object",
+                "description": "Unauthorized error.",
                 "properties": {
                     "message": {
                         "type": "string"
@@ -95,6 +228,24 @@
                     "message"
                 ]
             }
+        },
+        "securitySchemes": {
+            "smithy.api.httpBearerAuth": {
+                "type": "http",
+                "description": "HTTP Bearer authentication",
+                "scheme": "Bearer"
+            }
         }
-    }
+    },
+    "security": [
+        {
+            "smithy.api.httpBearerAuth": []
+        }
+    ],
+    "servers": [
+        {
+            "url": "http://localhost:3000/api",
+            "description": "Local server"
+        }
+    ]
 }

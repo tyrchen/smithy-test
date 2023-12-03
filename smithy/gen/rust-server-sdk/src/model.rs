@@ -28,6 +28,60 @@ impl ValidationExceptionField {
         crate::model::validation_exception_field::Builder::default()
     }
 }
+
+/// Contains a bearer token for authentication.
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct SigninToken {
+    #[allow(missing_docs)] // documentation missing in model
+    pub token: ::std::string::String,
+}
+impl SigninToken {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn token(&self) -> &str {
+        use std::ops::Deref;
+        self.token.deref()
+    }
+}
+impl SigninToken {
+    /// Creates a new builder-style object to manufacture [`SigninToken`](crate::model::SigninToken).
+    pub fn builder() -> crate::model::signin_token::Builder {
+        crate::model::signin_token::Builder::default()
+    }
+}
+
+/// Contains username and password. Currently any username and password is accepted.
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct SigninForm {
+    #[allow(missing_docs)] // documentation missing in model
+    pub username: ::std::string::String,
+    #[allow(missing_docs)] // documentation missing in model
+    pub password: ::std::string::String,
+}
+impl SigninForm {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn username(&self) -> &str {
+        use std::ops::Deref;
+        self.username.deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn password(&self) -> &str {
+        use std::ops::Deref;
+        self.password.deref()
+    }
+}
+impl SigninForm {
+    /// Creates a new builder-style object to manufacture [`SigninForm`](crate::model::SigninForm).
+    pub fn builder() -> crate::model::signin_form::Builder {
+        crate::model::signin_form::Builder::default()
+    }
+}
+impl crate::constrained::Constrained for crate::model::SigninForm {
+    type Unconstrained = crate::model::signin_form::Builder;
+}
 /// See [`ValidationExceptionField`](crate::model::ValidationExceptionField).
 ///
 pub mod validation_exception_field {
@@ -89,6 +143,174 @@ pub mod validation_exception_field {
             Ok(crate::model::ValidationExceptionField {
                 path: self.path.ok_or(ConstraintViolation::MissingPath)?,
                 message: self.message.ok_or(ConstraintViolation::MissingMessage)?,
+            })
+        }
+    }
+}
+/// See [`SigninToken`](crate::model::SigninToken).
+///
+pub mod signin_token {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `token` was not provided but it is required when building `SigninToken`.
+        MissingToken,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingToken => write!(
+                    f,
+                    "`token` was not provided but it is required when building `SigninToken`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::model::SigninToken {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`SigninToken`](crate::model::SigninToken).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) token: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn token(mut self, input: ::std::string::String) -> Self {
+            self.token = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`SigninToken`](crate::model::SigninToken).
+        ///
+        /// The builder fails to construct a [`SigninToken`](crate::model::SigninToken) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::model::SigninToken, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::model::SigninToken, ConstraintViolation> {
+            Ok(crate::model::SigninToken {
+                token: self.token.ok_or(ConstraintViolation::MissingToken)?,
+            })
+        }
+    }
+}
+/// See [`SigninForm`](crate::model::SigninForm).
+///
+pub mod signin_form {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `username` was not provided but it is required when building `SigninForm`.
+        MissingUsername,
+        /// `password` was not provided but it is required when building `SigninForm`.
+        MissingPassword,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingUsername => write!(
+                    f,
+                    "`username` was not provided but it is required when building `SigninForm`"
+                ),
+                ConstraintViolation::MissingPassword => write!(
+                    f,
+                    "`password` was not provided but it is required when building `SigninForm`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ConstraintViolation {
+        pub(crate) fn as_validation_exception_field(
+            self,
+            path: ::std::string::String,
+        ) -> crate::model::ValidationExceptionField {
+            match self {
+        ConstraintViolation::MissingUsername => crate::model::ValidationExceptionField {
+                                    message: format!("Value at '{}/username' failed to satisfy constraint: Member must not be null", path),
+                                    path: path + "/username",
+                                },
+        ConstraintViolation::MissingPassword => crate::model::ValidationExceptionField {
+                                    message: format!("Value at '{}/password' failed to satisfy constraint: Member must not be null", path),
+                                    path: path + "/password",
+                                },
+    }
+        }
+    }
+    impl ::std::convert::From<Builder>
+        for crate::constrained::MaybeConstrained<crate::model::SigninForm>
+    {
+        fn from(builder: Builder) -> Self {
+            Self::Unconstrained(builder)
+        }
+    }
+    impl ::std::convert::TryFrom<Builder> for crate::model::SigninForm {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`SigninForm`](crate::model::SigninForm).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) username: ::std::option::Option<::std::string::String>,
+        pub(crate) password: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn username(mut self, input: ::std::string::String) -> Self {
+            self.username = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_username(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.username = Some(input.into());
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn password(mut self, input: ::std::string::String) -> Self {
+            self.password = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_password(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.password = Some(input.into());
+            self
+        }
+        /// Consumes the builder and constructs a [`SigninForm`](crate::model::SigninForm).
+        ///
+        /// The builder fails to construct a [`SigninForm`](crate::model::SigninForm) if a [`ConstraintViolation`] occurs.
+        ///
+        /// If the builder fails, it will return the _first_ encountered [`ConstraintViolation`].
+        pub fn build(self) -> Result<crate::model::SigninForm, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::model::SigninForm, ConstraintViolation> {
+            Ok(crate::model::SigninForm {
+                username: self.username.ok_or(ConstraintViolation::MissingUsername)?,
+                password: self.password.ok_or(ConstraintViolation::MissingPassword)?,
             })
         }
     }

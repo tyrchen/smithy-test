@@ -34,6 +34,14 @@ pub fn parse_http_error_metadata(
 
 pub(crate) mod shape_echo_message;
 
+pub(crate) mod shape_signin;
+
+pub fn rest_json_unset_struct_payload() -> ::std::vec::Vec<u8> {
+    b"{}"[..].into()
+}
+
+pub(crate) mod shape_signin_input;
+
 pub(crate) fn or_empty_doc(data: &[u8]) -> &[u8] {
     if data.is_empty() {
         b"{}"
@@ -42,7 +50,19 @@ pub(crate) fn or_empty_doc(data: &[u8]) -> &[u8] {
     }
 }
 
+pub(crate) mod shape_forbidden_error;
+
+pub(crate) mod shape_signin_output;
+
+pub(crate) mod shape_throttling_error;
+
+pub(crate) mod shape_unauthorized_error;
+
 pub(crate) mod shape_validation_exception;
+
+pub(crate) mod shape_signin_form;
+
+pub(crate) mod shape_signin_token;
 
 pub(crate) mod shape_validation_exception_field_list;
 

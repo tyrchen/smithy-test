@@ -3,6 +3,27 @@
 #[derive(
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
 )]
+pub struct SigninOutput {
+    /// Contains a bearer token for authentication.
+    pub payload: crate::model::SigninToken,
+}
+impl SigninOutput {
+    /// Contains a bearer token for authentication.
+    pub fn payload(&self) -> &crate::model::SigninToken {
+        &self.payload
+    }
+}
+impl SigninOutput {
+    /// Creates a new builder-style object to manufacture [`SigninOutput`](crate::output::SigninOutput).
+    pub fn builder() -> crate::output::signin_output::Builder {
+        crate::output::signin_output::Builder::default()
+    }
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
 pub struct EchoMessageOutput {
     #[allow(missing_docs)] // documentation missing in model
     pub message: ::std::string::String,
@@ -18,6 +39,63 @@ impl EchoMessageOutput {
     /// Creates a new builder-style object to manufacture [`EchoMessageOutput`](crate::output::EchoMessageOutput).
     pub fn builder() -> crate::output::echo_message_output::Builder {
         crate::output::echo_message_output::Builder::default()
+    }
+}
+/// See [`SigninOutput`](crate::output::SigninOutput).
+///
+pub mod signin_output {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `payload` was not provided but it is required when building `SigninOutput`.
+        MissingPayload,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingPayload => write!(
+                    f,
+                    "`payload` was not provided but it is required when building `SigninOutput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::output::SigninOutput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`SigninOutput`](crate::output::SigninOutput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) payload: ::std::option::Option<crate::model::SigninToken>,
+    }
+    impl Builder {
+        /// Contains a bearer token for authentication.
+        pub fn payload(mut self, input: crate::model::SigninToken) -> Self {
+            self.payload = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`SigninOutput`](crate::output::SigninOutput).
+        ///
+        /// The builder fails to construct a [`SigninOutput`](crate::output::SigninOutput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::output::SigninOutput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::output::SigninOutput, ConstraintViolation> {
+            Ok(crate::output::SigninOutput {
+                payload: self.payload.ok_or(ConstraintViolation::MissingPayload)?,
+            })
+        }
     }
 }
 /// See [`EchoMessageOutput`](crate::output::EchoMessageOutput).

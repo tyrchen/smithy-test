@@ -8,11 +8,17 @@ import {
   EchoMessageCommandInput,
   EchoMessageCommandOutput,
 } from "./commands/EchoMessageCommand";
+import {
+  SigninCommand,
+  SigninCommandInput,
+  SigninCommandOutput,
+} from "./commands/SigninCommand";
 import { createAggregatedClient } from "@smithy/smithy-client";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@smithy/types";
 
 const commands = {
   EchoMessageCommand,
+  SigninCommand,
 }
 
 export interface EchoService {
@@ -31,6 +37,23 @@ export interface EchoService {
     args: EchoMessageCommandInput,
     options: __HttpHandlerOptions,
     cb: (err: any, data?: EchoMessageCommandOutput) => void
+  ): void;
+
+  /**
+   * @see {@link SigninCommand}
+   */
+  signin(
+    args: SigninCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Promise<SigninCommandOutput>;
+  signin(
+    args: SigninCommandInput,
+    cb: (err: any, data?: SigninCommandOutput) => void
+  ): void;
+  signin(
+    args: SigninCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: SigninCommandOutput) => void
   ): void;
 
 }

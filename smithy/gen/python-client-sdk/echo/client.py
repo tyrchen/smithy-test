@@ -2,24 +2,27 @@
 
 from asyncio import sleep
 from copy import deepcopy
-from typing import Awaitable, Callable, TypeVar, cast
+from typing import Any, Awaitable, Callable, TypeVar, cast
 
 from smithy_python._private import URI
 from smithy_python._private.http import StaticEndpointParams
 from smithy_python.exceptions import SmithyRetryException
+from smithy_python.interfaces.auth import HTTPAuthOption, HTTPSigner
 from smithy_python.interfaces.http import (
     HTTPRequest,
     HTTPRequestConfiguration,
     HTTPResponse,
 )
+from smithy_python.interfaces.identity import Identity
 from smithy_python.interfaces.interceptor import Interceptor, InterceptorContext
 from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
 
+from .auth import HTTPAuthParams
 from .config import Config, Plugin
-from .deserialize import _deserialize_echo_message
+from .deserialize import _deserialize_echo_message, _deserialize_signin
 from .errors import ServiceError
-from .models import EchoMessageInput, EchoMessageOutput
-from .serialize import _serialize_echo_message
+from .models import EchoMessageInput, EchoMessageOutput, SigninInput, SigninOutput
+from .serialize import _serialize_echo_message, _serialize_signin
 
 
 Input = TypeVar("Input")
@@ -70,6 +73,30 @@ class EchoService:
             deserialize=_deserialize_echo_message,
             config=self._config,
             operation_name="EchoMessage",
+        )
+
+    async def signin(
+        self, input: SigninInput, plugins: list[Plugin] | None = None
+    ) -> SigninOutput:
+        """Signin to get a token.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = []
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_signin,
+            deserialize=_deserialize_signin,
+            config=self._config,
+            operation_name="Signin",
         )
 
     async def _execute_operation(
@@ -232,6 +259,36 @@ class EchoService:
             for interceptor in interceptors:
                 interceptor.read_before_attempt(context)
 
+            # Step 7b: Invoke service_auth_scheme_resolver.resolve_auth_scheme
+            auth_parameters: HTTPAuthParams = HTTPAuthParams(
+                operation=operation_name,
+            )
+
+            auth_options = config.http_auth_scheme_resolver.resolve_auth_scheme(
+                auth_parameters=auth_parameters
+            )
+            auth_option: HTTPAuthOption | None = None
+            for option in auth_options:
+                if option.scheme_id in config.http_auth_schemes:
+                    auth_option = option
+
+            signer: HTTPSigner[Any, Any] | None = None
+            identity: Identity | None = None
+
+            if auth_option:
+                auth_scheme = config.http_auth_schemes[auth_option.scheme_id]
+
+                # Step 7c: Invoke auth_scheme.identity_resolver
+                identity_resolver = auth_scheme.identity_resolver(config=config)
+
+                # Step 7d: Invoke auth_scheme.signer
+                signer = auth_scheme.signer
+
+                # Step 7e: Invoke identity_resolver.get_identity
+                identity = await identity_resolver.get_identity(
+                    identity_properties=auth_option.identity_properties
+                )
+
             # Step 7f: Invoke endpoint_resolver.resolve_endpoint
             if config.endpoint_resolver is None:
                 raise ServiceError(
@@ -266,6 +323,14 @@ class EchoService:
             # Step 7h: Invoke read_before_signing
             for interceptor in interceptors:
                 interceptor.read_before_signing(context)
+
+            # Step 7i: sign the request
+            if auth_option and signer:
+                context._transport_request = await signer.sign(
+                    http_request=context.transport_request,
+                    identity=identity,
+                    signing_properties=auth_option.signer_properties,
+                )
 
             # Step 7j: Invoke read_after_signing
             for interceptor in interceptors:

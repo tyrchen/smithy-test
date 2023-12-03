@@ -19,7 +19,18 @@
   "plugins": {
     "openapi": {
       "service": "com.example#EchoService",
-      "version": "3.1.0"
+      "protocol": "aws.protocols#restJson1",
+      "version": "3.1.0",
+      "tags": true,
+      "useIntegerType": true,
+      "jsonAdd": {
+        "/servers": [
+          {
+            "url": "http://localhost:3000/api",
+            "description": "Local server"
+          }
+        ]
+      }
     },
     "rust-server-codegen": {
       "service": "com.example#EchoService",
