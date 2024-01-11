@@ -272,3 +272,18 @@ export interface UpdateTodoInput {
 export interface UpdateTodoOutput {
   rowsAffected: number | undefined;
 }
+
+/**
+ * @public
+ */
+export interface UpdateTodoStatusInput {
+  id: string | undefined;
+  status: boolean | undefined;
+}
+
+/**
+ * @public
+ */
+export interface UpdateTodoStatusOutput {
+  rowsAffected: number | undefined;
+}

@@ -27,6 +27,7 @@ from .deserialize import (
     _deserialize_list_todos,
     _deserialize_signin,
     _deserialize_update_todo,
+    _deserialize_update_todo_status,
 )
 from .errors import ServiceError
 from .models import (
@@ -44,6 +45,8 @@ from .models import (
     SigninOutput,
     UpdateTodoInput,
     UpdateTodoOutput,
+    UpdateTodoStatusInput,
+    UpdateTodoStatusOutput,
 )
 from .serialize import (
     _serialize_create_todo,
@@ -53,6 +56,7 @@ from .serialize import (
     _serialize_list_todos,
     _serialize_signin,
     _serialize_update_todo,
+    _serialize_update_todo_status,
 )
 
 
@@ -248,6 +252,30 @@ class EchoService:
             deserialize=_deserialize_update_todo,
             config=self._config,
             operation_name="UpdateTodo",
+        )
+
+    async def update_todo_status(
+        self, input: UpdateTodoStatusInput, plugins: list[Plugin] | None = None
+    ) -> UpdateTodoStatusOutput:
+        """Update the status of a todo item.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = []
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_update_todo_status,
+            deserialize=_deserialize_update_todo_status,
+            config=self._config,
+            operation_name="UpdateTodoStatus",
         )
 
     async def _execute_operation(

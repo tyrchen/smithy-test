@@ -20,3 +20,6 @@ pub mod signin;
 
 /// Types for the `UpdateTodo` operation.
 pub mod update_todo;
+
+/// Types for the `UpdateTodoStatus` operation.
+pub mod update_todo_status;

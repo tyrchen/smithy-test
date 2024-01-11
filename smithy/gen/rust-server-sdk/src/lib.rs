@@ -162,6 +162,7 @@
 //!        .list_todos(list_todos)
 //!        .signin(signin)
 //!        .update_todo(update_todo)
+//!        .update_todo_status(update_todo_status)
 //!        .build()
 //!        .expect("failed to build an instance of EchoService");
 //!
@@ -203,6 +204,10 @@
 //! }
 //!
 //! async fn update_todo(input: input::UpdateTodoInput) -> Result<output::UpdateTodoOutput, error::UpdateTodoError> {
+//!     todo!()
+//! }
+//!
+//! async fn update_todo_status(input: input::UpdateTodoStatusInput) -> Result<output::UpdateTodoStatusOutput, error::UpdateTodoStatusError> {
 //!     todo!()
 //! }
 //!

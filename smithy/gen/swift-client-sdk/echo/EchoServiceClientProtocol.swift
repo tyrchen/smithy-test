@@ -101,6 +101,20 @@ public protocol EchoServiceClientProtocol {
     /// - `NotFoundError` : Not found error.
     /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
     func updateTodo(input: UpdateTodoInput) async throws -> UpdateTodoOutput
+    /// Performs the `UpdateTodoStatus` operation on the `EchoService` service.
+    ///
+    /// Update the status of a todo item.
+    ///
+    /// - Parameter UpdateTodoStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTodoStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NotFoundError` : Not found error.
+    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    func updateTodoStatus(input: UpdateTodoStatusInput) async throws -> UpdateTodoStatusOutput
 }
 
 public enum EchoServiceClientTypes {}

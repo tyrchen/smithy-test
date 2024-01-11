@@ -60,6 +60,7 @@ pub async fn get_router(conf: AppConfig) -> Router {
         .create_todo(api::create_todo)
         .update_todo(api::update_todo)
         .delete_todo(api::delete_todo)
+        .update_todo_status(api::update_todo_status)
         .build()
         .expect("failed to build an instance of Echo Service");
 

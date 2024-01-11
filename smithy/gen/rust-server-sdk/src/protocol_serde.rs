@@ -13,6 +13,8 @@ pub(crate) mod shape_signin;
 
 pub(crate) mod shape_update_todo;
 
+pub(crate) mod shape_update_todo_status;
+
 pub(crate) mod shape_conflict_error;
 
 pub(crate) fn or_empty_doc(data: &[u8]) -> &[u8] {
@@ -54,6 +56,10 @@ pub(crate) mod shape_unauthorized_error;
 pub(crate) mod shape_update_todo_input;
 
 pub(crate) mod shape_update_todo_output;
+
+pub(crate) mod shape_update_todo_status_input;
+
+pub(crate) mod shape_update_todo_status_output;
 
 pub(crate) mod shape_validation_exception;
 

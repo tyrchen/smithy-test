@@ -27,6 +27,10 @@ import {
   UpdateTodoCommandInput,
   UpdateTodoCommandOutput,
 } from "./commands/UpdateTodoCommand";
+import {
+  UpdateTodoStatusCommandInput,
+  UpdateTodoStatusCommandOutput,
+} from "./commands/UpdateTodoStatusCommand";
 import { getRuntimeConfig as __getRuntimeConfig } from "./runtimeConfig";
 import {
   RuntimeExtension,
@@ -104,7 +108,8 @@ export type ServiceInputTypes =
   | GetTodoCommandInput
   | ListTodosCommandInput
   | SigninCommandInput
-  | UpdateTodoCommandInput;
+  | UpdateTodoCommandInput
+  | UpdateTodoStatusCommandInput;
 
 /**
  * @public
@@ -116,7 +121,8 @@ export type ServiceOutputTypes =
   | GetTodoCommandOutput
   | ListTodosCommandOutput
   | SigninCommandOutput
-  | UpdateTodoCommandOutput;
+  | UpdateTodoCommandOutput
+  | UpdateTodoStatusCommandOutput;
 
 /**
  * @public

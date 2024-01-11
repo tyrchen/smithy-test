@@ -909,6 +909,121 @@ class UpdateTodoOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class UpdateTodoStatusInput:
+    id: Optional[str]
+    status: Optional[bool]
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+        status: Optional[bool] = None,
+    ):
+        self.id = id
+        self.status = status
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UpdateTodoStatusInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.id is not None:
+            d["id"] = self.id
+
+        if self.status is not None:
+            d["status"] = self.status
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UpdateTodoStatusInput":
+        """Creates a UpdateTodoStatusInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "id" in d:
+            kwargs["id"] = d["id"]
+
+        if "status" in d:
+            kwargs["status"] = d["status"]
+
+        return UpdateTodoStatusInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "UpdateTodoStatusInput("
+        if self.id is not None:
+            result += f"id={repr(self.id)}, "
+
+        if self.status is not None:
+            result += f"status={repr(self.status)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, UpdateTodoStatusInput):
+            return False
+        attributes: list[str] = [
+            "id",
+            "status",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class UpdateTodoStatusOutput:
+    rows_affected: int
+
+    def __init__(
+        self,
+        *,
+        rows_affected: int,
+    ):
+        self.rows_affected = rows_affected
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UpdateTodoStatusOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "rowsAffected": self.rows_affected,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UpdateTodoStatusOutput":
+        """Creates a UpdateTodoStatusOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "rows_affected": d["rowsAffected"],
+        }
+
+        return UpdateTodoStatusOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "UpdateTodoStatusOutput("
+        if self.rows_affected is not None:
+            result += f"rows_affected={repr(self.rows_affected)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, UpdateTodoStatusOutput):
+            return False
+        attributes: list[str] = [
+            "rows_affected",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 def _validation_exception_field_list_as_dict(
     given: list[ValidationExceptionField],
 ) -> List[Any]:

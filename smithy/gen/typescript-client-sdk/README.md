@@ -247,3 +247,10 @@ UpdateTodo
 
 [Command API Reference](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-echo/classes/updatetodocommand.html) / [Input](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-echo/interfaces/updatetodocommandinput.html) / [Output](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-echo/interfaces/updatetodocommandoutput.html)
 </details>
+<details>
+<summary>
+UpdateTodoStatus
+</summary>
+
+[Command API Reference](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-echo/classes/updatetodostatuscommand.html) / [Input](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-echo/interfaces/updatetodostatuscommandinput.html) / [Output](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-echo/interfaces/updatetodostatuscommandoutput.html)
+</details>

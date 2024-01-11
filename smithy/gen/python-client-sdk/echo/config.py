@@ -32,6 +32,8 @@ from .models import (
     SigninOutput,
     UpdateTodoInput,
     UpdateTodoOutput,
+    UpdateTodoStatusInput,
+    UpdateTodoStatusOutput,
 )
 
 
@@ -43,6 +45,7 @@ _ServiceInterceptor = Union[
     Interceptor[ListTodosInput, ListTodosOutput, Any, Any],
     Interceptor[SigninInput, SigninOutput, Any, Any],
     Interceptor[UpdateTodoInput, UpdateTodoOutput, Any, Any],
+    Interceptor[UpdateTodoStatusInput, UpdateTodoStatusOutput, Any, Any],
 ]
 
 

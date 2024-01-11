@@ -6,9 +6,9 @@ use tracing::info;
 
 pub async fn echo_message(
     input: input::EchoMessageInput,
-    Extension(state): Extension<Arc<AppState>>,
+    Extension(_state): Extension<Arc<AppState>>,
 ) -> Result<output::EchoMessageOutput, error::EchoMessageError> {
-    info!("state: {:?}", state);
+    info!("echo: {:?}", input);
     let message = input.message;
     let output = output::EchoMessageOutput { message };
     Ok(output)
@@ -94,6 +94,15 @@ pub async fn delete_todo(
     info!("delete todo: {:?}", input);
 
     Ok(output::DeleteTodoOutput { rows_affected: 1 })
+}
+
+pub async fn update_todo_status(
+    input: input::UpdateTodoStatusInput,
+    Extension(_state): Extension<Arc<AppState>>,
+) -> Result<output::UpdateTodoStatusOutput, error::UpdateTodoStatusError> {
+    info!("update todo status: {:?}", input);
+
+    Ok(output::UpdateTodoStatusOutput { rows_affected: 1 })
 }
 
 fn get_id() -> String {

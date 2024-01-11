@@ -29,6 +29,7 @@ from .models import (
     SigninOutput,
     TodoItem,
     UpdateTodoOutput,
+    UpdateTodoStatusOutput,
     ValidationExceptionField,
 )
 
@@ -295,6 +296,44 @@ async def _deserialize_update_todo(
 
 
 async def _deserialize_error_update_todo(
+    http_response: HTTPResponse, config: Config
+) -> ApiError[Any]:
+    code, message, parsed_body = await parse_rest_json_error_info(http_response)
+
+    match code.lower():
+        case "notfounderror":
+            return await _deserialize_error_not_found_error(
+                http_response, config, parsed_body, message
+            )
+
+        case "validationexception":
+            return await _deserialize_error_validation_exception(
+                http_response, config, parsed_body, message
+            )
+
+        case _:
+            return UnknownApiError(message)
+
+
+async def _deserialize_update_todo_status(
+    http_response: HTTPResponse, config: Config
+) -> UpdateTodoStatusOutput:
+    if http_response.status != 200 and http_response.status >= 300:
+        raise await _deserialize_error_update_todo_status(http_response, config)
+
+    kwargs: dict[str, Any] = {}
+
+    for fld in http_response.fields:
+        for key, value in fld.as_tuples():
+            _key_lowercase = key.lower()
+            match _key_lowercase:
+                case "x-rows-affected":
+                    kwargs["rows_affected"] = int(value)
+
+    return UpdateTodoStatusOutput(**kwargs)
+
+
+async def _deserialize_error_update_todo_status(
     http_response: HTTPResponse, config: Config
 ) -> ApiError[Any]:
     code, message, parsed_body = await parse_rest_json_error_info(http_response)

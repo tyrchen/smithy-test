@@ -6,3 +6,4 @@ export * from "./GetTodoCommand";
 export * from "./ListTodosCommand";
 export * from "./SigninCommand";
 export * from "./UpdateTodoCommand";
+export * from "./UpdateTodoStatusCommand";

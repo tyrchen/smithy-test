@@ -359,6 +359,64 @@
                     }
                 }
             }
+        },
+        "/todos/{id}/status": {
+            "put": {
+                "description": "Update the status of a todo item.",
+                "operationId": "UpdateTodoStatus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "X-Todo-Status",
+                        "in": "header",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateTodoStatus 200 response",
+                        "headers": {
+                            "X-Rows-Affected": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "required": true
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "ValidationException 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationExceptionResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

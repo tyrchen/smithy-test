@@ -38,6 +38,11 @@ import {
   UpdateTodoCommandInput,
   UpdateTodoCommandOutput,
 } from "./commands/UpdateTodoCommand";
+import {
+  UpdateTodoStatusCommand,
+  UpdateTodoStatusCommandInput,
+  UpdateTodoStatusCommandOutput,
+} from "./commands/UpdateTodoStatusCommand";
 import { createAggregatedClient } from "@smithy/smithy-client";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@smithy/types";
 
@@ -49,6 +54,7 @@ const commands = {
   ListTodosCommand,
   SigninCommand,
   UpdateTodoCommand,
+  UpdateTodoStatusCommand,
 }
 
 export interface Echo {
@@ -169,6 +175,23 @@ export interface Echo {
     args: UpdateTodoCommandInput,
     options: __HttpHandlerOptions,
     cb: (err: any, data?: UpdateTodoCommandOutput) => void
+  ): void;
+
+  /**
+   * @see {@link UpdateTodoStatusCommand}
+   */
+  updateTodoStatus(
+    args: UpdateTodoStatusCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Promise<UpdateTodoStatusCommandOutput>;
+  updateTodoStatus(
+    args: UpdateTodoStatusCommandInput,
+    cb: (err: any, data?: UpdateTodoStatusCommandOutput) => void
+  ): void;
+  updateTodoStatus(
+    args: UpdateTodoStatusCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateTodoStatusCommandOutput) => void
   ): void;
 
 }

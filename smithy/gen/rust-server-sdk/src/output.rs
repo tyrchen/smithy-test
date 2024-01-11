@@ -3,6 +3,27 @@
 #[derive(
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
 )]
+pub struct UpdateTodoStatusOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub rows_affected: i32,
+}
+impl UpdateTodoStatusOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn rows_affected(&self) -> i32 {
+        self.rows_affected
+    }
+}
+impl UpdateTodoStatusOutput {
+    /// Creates a new builder-style object to manufacture [`UpdateTodoStatusOutput`](crate::output::UpdateTodoStatusOutput).
+    pub fn builder() -> crate::output::update_todo_status_output::Builder {
+        crate::output::update_todo_status_output::Builder::default()
+    }
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
 pub struct DeleteTodoOutput {
     #[allow(missing_docs)] // documentation missing in model
     pub rows_affected: i32,
@@ -153,6 +174,62 @@ impl EchoMessageOutput {
     /// Creates a new builder-style object to manufacture [`EchoMessageOutput`](crate::output::EchoMessageOutput).
     pub fn builder() -> crate::output::echo_message_output::Builder {
         crate::output::echo_message_output::Builder::default()
+    }
+}
+/// See [`UpdateTodoStatusOutput`](crate::output::UpdateTodoStatusOutput).
+///
+pub mod update_todo_status_output {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `rows_affected` was not provided but it is required when building `UpdateTodoStatusOutput`.
+        MissingRowsAffected,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingRowsAffected => write!(f, "`rows_affected` was not provided but it is required when building `UpdateTodoStatusOutput`"),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::output::UpdateTodoStatusOutput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`UpdateTodoStatusOutput`](crate::output::UpdateTodoStatusOutput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) rows_affected: ::std::option::Option<i32>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn rows_affected(mut self, input: i32) -> Self {
+            self.rows_affected = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`UpdateTodoStatusOutput`](crate::output::UpdateTodoStatusOutput).
+        ///
+        /// The builder fails to construct a [`UpdateTodoStatusOutput`](crate::output::UpdateTodoStatusOutput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::output::UpdateTodoStatusOutput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::output::UpdateTodoStatusOutput, ConstraintViolation> {
+            Ok(crate::output::UpdateTodoStatusOutput {
+                rows_affected: self
+                    .rows_affected
+                    .ok_or(ConstraintViolation::MissingRowsAffected)?,
+            })
+        }
     }
 }
 /// See [`DeleteTodoOutput`](crate::output::DeleteTodoOutput).

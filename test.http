@@ -22,3 +22,13 @@ Content-Type: application/json
 POST http://localhost:3000/api/echo
 Authorization: Bearer {{ token }}
 X-Echo-Message: hello world!
+
+
+### update todo status
+
+
+@token = {{ login.response.body.token }}
+
+PUT http://localhost:3000/api/todos/1/status
+Authorization: Bearer {{ token }}
+X-Todo-Status: true

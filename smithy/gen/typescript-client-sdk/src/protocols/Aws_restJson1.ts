@@ -27,6 +27,10 @@ import {
   UpdateTodoCommandInput,
   UpdateTodoCommandOutput,
 } from "../commands/UpdateTodoCommand";
+import {
+  UpdateTodoStatusCommandInput,
+  UpdateTodoStatusCommandOutput,
+} from "../commands/UpdateTodoStatusCommand";
 import { EchoServiceException as __BaseException } from "../models/EchoServiceException";
 import { EchoServiceServiceException as __BaseException } from "../models/EchoServiceServiceException";
 import {
@@ -233,6 +237,31 @@ export const se_UpdateTodoCommand = async(
   body = JSON.stringify(take(input, {
     'title': [],
   }));
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
+    headers,
+    path: resolvedPath,
+    body,
+  });
+}
+
+/**
+ * serializeAws_restJson1UpdateTodoStatusCommand
+ */
+export const se_UpdateTodoStatusCommand = async(
+  input: UpdateTodoStatusCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const {hostname, protocol = "https", port, path: basePath} = await context.endpoint();
+  const headers: any = map({}, isSerializableHeaderValue, {
+    'x-todo-status': [() => isSerializableHeaderValue(input.status), () => input.status!.toString()],
+  });
+  let resolvedPath = `${basePath?.endsWith('/') ? basePath.slice(0, -1) : (basePath || '')}` + "/todos/{id}/status";
+  resolvedPath = __resolvedPath(resolvedPath, input, 'id', () => input.id!, '{id}', false)
+  let body: any;
   return new __HttpRequest({
     protocol,
     hostname,
@@ -586,206 +615,253 @@ const de_CreateTodoCommandError = async(
                 }
               }
 
-              const throwDefaultError = withBaseException(__BaseException);
               /**
-               * deserializeAws_restJson1ConflictErrorRes
+               * deserializeAws_restJson1UpdateTodoStatusCommand
                */
-              const de_ConflictErrorRes = async (
-                parsedOutput: any,
+              export const de_UpdateTodoStatusCommand = async(
+                output: __HttpResponse,
                 context: __SerdeContext
-              ): Promise<ConflictError> => {
-                const contents: any = map({
-                });
-                const data: any = parsedOutput.body;
-                const doc = take(data, {
-                  'message': __expectString,
-                });
-                Object.assign(contents, doc);
-                const exception = new ConflictError({
-                  $metadata: deserializeMetadata(parsedOutput),
-                  ...contents
-                });
-                return __decorateServiceException(exception, parsedOutput.body);
-              };
-
-              /**
-               * deserializeAws_restJson1ForbiddenErrorRes
-               */
-              const de_ForbiddenErrorRes = async (
-                parsedOutput: any,
-                context: __SerdeContext
-              ): Promise<ForbiddenError> => {
-                const contents: any = map({
-                });
-                const data: any = parsedOutput.body;
-                const doc = take(data, {
-                  'message': __expectString,
-                });
-                Object.assign(contents, doc);
-                const exception = new ForbiddenError({
-                  $metadata: deserializeMetadata(parsedOutput),
-                  ...contents
-                });
-                return __decorateServiceException(exception, parsedOutput.body);
-              };
-
-              /**
-               * deserializeAws_restJson1NotFoundErrorRes
-               */
-              const de_NotFoundErrorRes = async (
-                parsedOutput: any,
-                context: __SerdeContext
-              ): Promise<NotFoundError> => {
-                const contents: any = map({
-                });
-                const data: any = parsedOutput.body;
-                const doc = take(data, {
-                  'message': __expectString,
-                });
-                Object.assign(contents, doc);
-                const exception = new NotFoundError({
-                  $metadata: deserializeMetadata(parsedOutput),
-                  ...contents
-                });
-                return __decorateServiceException(exception, parsedOutput.body);
-              };
-
-              /**
-               * deserializeAws_restJson1ThrottlingErrorRes
-               */
-              const de_ThrottlingErrorRes = async (
-                parsedOutput: any,
-                context: __SerdeContext
-              ): Promise<ThrottlingError> => {
-                const contents: any = map({
-                });
-                const data: any = parsedOutput.body;
-                const doc = take(data, {
-                  'message': __expectString,
-                });
-                Object.assign(contents, doc);
-                const exception = new ThrottlingError({
-                  $metadata: deserializeMetadata(parsedOutput),
-                  ...contents
-                });
-                return __decorateServiceException(exception, parsedOutput.body);
-              };
-
-              /**
-               * deserializeAws_restJson1UnauthorizedErrorRes
-               */
-              const de_UnauthorizedErrorRes = async (
-                parsedOutput: any,
-                context: __SerdeContext
-              ): Promise<UnauthorizedError> => {
-                const contents: any = map({
-                });
-                const data: any = parsedOutput.body;
-                const doc = take(data, {
-                  'message': __expectString,
-                });
-                Object.assign(contents, doc);
-                const exception = new UnauthorizedError({
-                  $metadata: deserializeMetadata(parsedOutput),
-                  ...contents
-                });
-                return __decorateServiceException(exception, parsedOutput.body);
-              };
-
-              /**
-               * deserializeAws_restJson1ValidationExceptionRes
-               */
-              const de_ValidationExceptionRes = async (
-                parsedOutput: any,
-                context: __SerdeContext
-              ): Promise<ValidationException> => {
-                const contents: any = map({
-                });
-                const data: any = parsedOutput.body;
-                const doc = take(data, {
-                  'fieldList': _json,
-                  'message': __expectString,
-                });
-                Object.assign(contents, doc);
-                const exception = new ValidationException({
-                  $metadata: deserializeMetadata(parsedOutput),
-                  ...contents
-                });
-                return __decorateServiceException(exception, parsedOutput.body);
-              };
-
-              // de_TodoItem omitted.
-
-              // de_TodoList omitted.
-
-              // de_ValidationExceptionField omitted.
-
-              // de_ValidationExceptionFieldList omitted.
-
-              const deserializeMetadata = (output: __HttpResponse): __ResponseMetadata => ({
-                httpStatusCode: output.statusCode,
-                requestId: output.headers["x-amzn-requestid"] ?? output.headers["x-amzn-request-id"] ?? output.headers["x-amz-request-id"],
-                extendedRequestId: output.headers["x-amz-id-2"],
-                cfId: output.headers["x-amz-cf-id"],
-              });
-
-              // Encode Uint8Array data into string with utf-8.
-              const collectBodyString = (streamBody: any, context: __SerdeContext): Promise<string> => collectBody(streamBody, context).then(body => context.utf8Encoder(body))
-
-              const isSerializableHeaderValue = (value: any): boolean =>
-                value !== undefined &&
-                value !== null &&
-                value !== "" &&
-                (!Object.getOwnPropertyNames(value).includes("length") ||
-                  value.length != 0) &&
-                (!Object.getOwnPropertyNames(value).includes("size") || value.size != 0);
-
-              const parseBody = (streamBody: any, context: __SerdeContext): any => collectBodyString(streamBody, context).then(encoded => {
-                if (encoded.length) {
-                  return JSON.parse(encoded);
+              ): Promise<UpdateTodoStatusCommandOutput> => {
+                if (output.statusCode !== 200 && output.statusCode >= 300) {
+                  return de_UpdateTodoStatusCommandError(output, context);
                 }
-                return {};
-              });
-
-              const parseErrorBody = async (errorBody: any, context: __SerdeContext) => {
-                const value = await parseBody(errorBody, context);
-                value.message = value.message ?? value.Message;
-                return value;
+                const contents: any = map({
+                  $metadata: deserializeMetadata(output),
+                  rowsAffected: [() => void 0 !== output.headers['x-rows-affected'], () => __strictParseInt32(output.headers['x-rows-affected'])],
+                });
+                await collectBody(output.body, context);
+                return contents;
               }
 
               /**
-               * Load an error code for the aws.rest-json-1.1 protocol.
+               * deserializeAws_restJson1UpdateTodoStatusCommandError
                */
-              const loadRestJsonErrorCode = (output: __HttpResponse, data: any): string | undefined => {
-                const findKey = (object: any, key: string) => Object.keys(object).find((k) => k.toLowerCase() === key.toLowerCase());
+              const de_UpdateTodoStatusCommandError = async(
+                output: __HttpResponse,
+                context: __SerdeContext,
+              ): Promise<UpdateTodoStatusCommandOutput> => {
+                const parsedOutput: any = {
+                  ...output,
+                  body: await parseErrorBody(output.body, context)
+                };
+                const errorCode = loadRestJsonErrorCode(output, parsedOutput.body);
+                switch (errorCode) {
+                  case "NotFoundError":
+                  case "com.example#NotFoundError":
+                    throw await de_NotFoundErrorRes(parsedOutput, context);
+                  case "ValidationException":
+                  case "smithy.framework#ValidationException":
+                    throw await de_ValidationExceptionRes(parsedOutput, context);
+                  default:
+                    const parsedBody = parsedOutput.body;
+                    return throwDefaultError({
+                      output,
+                      parsedBody,
+                      errorCode
+                    })
+                  }
+                }
 
-                const sanitizeErrorCode = (rawValue: string | number): string => {
-                  let cleanValue = rawValue;
-                  if (typeof cleanValue === "number") {
-                    cleanValue = cleanValue.toString();
-                  }
-                  if (cleanValue.indexOf(",") >= 0) {
-                    cleanValue = cleanValue.split(",")[0];
-                  }
-                  if (cleanValue.indexOf(":") >= 0) {
-                    cleanValue = cleanValue.split(":")[0];
-                  }
-                  if (cleanValue.indexOf("#") >= 0) {
-                    cleanValue = cleanValue.split("#")[1];
-                  }
-                  return cleanValue;
+                const throwDefaultError = withBaseException(__BaseException);
+                /**
+                 * deserializeAws_restJson1ConflictErrorRes
+                 */
+                const de_ConflictErrorRes = async (
+                  parsedOutput: any,
+                  context: __SerdeContext
+                ): Promise<ConflictError> => {
+                  const contents: any = map({
+                  });
+                  const data: any = parsedOutput.body;
+                  const doc = take(data, {
+                    'message': __expectString,
+                  });
+                  Object.assign(contents, doc);
+                  const exception = new ConflictError({
+                    $metadata: deserializeMetadata(parsedOutput),
+                    ...contents
+                  });
+                  return __decorateServiceException(exception, parsedOutput.body);
                 };
 
-                const headerKey = findKey(output.headers, "x-amzn-errortype");
-                if (headerKey !== undefined) {
-                  return sanitizeErrorCode(output.headers[headerKey]);
+                /**
+                 * deserializeAws_restJson1ForbiddenErrorRes
+                 */
+                const de_ForbiddenErrorRes = async (
+                  parsedOutput: any,
+                  context: __SerdeContext
+                ): Promise<ForbiddenError> => {
+                  const contents: any = map({
+                  });
+                  const data: any = parsedOutput.body;
+                  const doc = take(data, {
+                    'message': __expectString,
+                  });
+                  Object.assign(contents, doc);
+                  const exception = new ForbiddenError({
+                    $metadata: deserializeMetadata(parsedOutput),
+                    ...contents
+                  });
+                  return __decorateServiceException(exception, parsedOutput.body);
+                };
+
+                /**
+                 * deserializeAws_restJson1NotFoundErrorRes
+                 */
+                const de_NotFoundErrorRes = async (
+                  parsedOutput: any,
+                  context: __SerdeContext
+                ): Promise<NotFoundError> => {
+                  const contents: any = map({
+                  });
+                  const data: any = parsedOutput.body;
+                  const doc = take(data, {
+                    'message': __expectString,
+                  });
+                  Object.assign(contents, doc);
+                  const exception = new NotFoundError({
+                    $metadata: deserializeMetadata(parsedOutput),
+                    ...contents
+                  });
+                  return __decorateServiceException(exception, parsedOutput.body);
+                };
+
+                /**
+                 * deserializeAws_restJson1ThrottlingErrorRes
+                 */
+                const de_ThrottlingErrorRes = async (
+                  parsedOutput: any,
+                  context: __SerdeContext
+                ): Promise<ThrottlingError> => {
+                  const contents: any = map({
+                  });
+                  const data: any = parsedOutput.body;
+                  const doc = take(data, {
+                    'message': __expectString,
+                  });
+                  Object.assign(contents, doc);
+                  const exception = new ThrottlingError({
+                    $metadata: deserializeMetadata(parsedOutput),
+                    ...contents
+                  });
+                  return __decorateServiceException(exception, parsedOutput.body);
+                };
+
+                /**
+                 * deserializeAws_restJson1UnauthorizedErrorRes
+                 */
+                const de_UnauthorizedErrorRes = async (
+                  parsedOutput: any,
+                  context: __SerdeContext
+                ): Promise<UnauthorizedError> => {
+                  const contents: any = map({
+                  });
+                  const data: any = parsedOutput.body;
+                  const doc = take(data, {
+                    'message': __expectString,
+                  });
+                  Object.assign(contents, doc);
+                  const exception = new UnauthorizedError({
+                    $metadata: deserializeMetadata(parsedOutput),
+                    ...contents
+                  });
+                  return __decorateServiceException(exception, parsedOutput.body);
+                };
+
+                /**
+                 * deserializeAws_restJson1ValidationExceptionRes
+                 */
+                const de_ValidationExceptionRes = async (
+                  parsedOutput: any,
+                  context: __SerdeContext
+                ): Promise<ValidationException> => {
+                  const contents: any = map({
+                  });
+                  const data: any = parsedOutput.body;
+                  const doc = take(data, {
+                    'fieldList': _json,
+                    'message': __expectString,
+                  });
+                  Object.assign(contents, doc);
+                  const exception = new ValidationException({
+                    $metadata: deserializeMetadata(parsedOutput),
+                    ...contents
+                  });
+                  return __decorateServiceException(exception, parsedOutput.body);
+                };
+
+                // de_TodoItem omitted.
+
+                // de_TodoList omitted.
+
+                // de_ValidationExceptionField omitted.
+
+                // de_ValidationExceptionFieldList omitted.
+
+                const deserializeMetadata = (output: __HttpResponse): __ResponseMetadata => ({
+                  httpStatusCode: output.statusCode,
+                  requestId: output.headers["x-amzn-requestid"] ?? output.headers["x-amzn-request-id"] ?? output.headers["x-amz-request-id"],
+                  extendedRequestId: output.headers["x-amz-id-2"],
+                  cfId: output.headers["x-amz-cf-id"],
+                });
+
+                // Encode Uint8Array data into string with utf-8.
+                const collectBodyString = (streamBody: any, context: __SerdeContext): Promise<string> => collectBody(streamBody, context).then(body => context.utf8Encoder(body))
+
+                const isSerializableHeaderValue = (value: any): boolean =>
+                  value !== undefined &&
+                  value !== null &&
+                  value !== "" &&
+                  (!Object.getOwnPropertyNames(value).includes("length") ||
+                    value.length != 0) &&
+                  (!Object.getOwnPropertyNames(value).includes("size") || value.size != 0);
+
+                const parseBody = (streamBody: any, context: __SerdeContext): any => collectBodyString(streamBody, context).then(encoded => {
+                  if (encoded.length) {
+                    return JSON.parse(encoded);
+                  }
+                  return {};
+                });
+
+                const parseErrorBody = async (errorBody: any, context: __SerdeContext) => {
+                  const value = await parseBody(errorBody, context);
+                  value.message = value.message ?? value.Message;
+                  return value;
                 }
 
-                if (data.code !== undefined) {
-                  return sanitizeErrorCode(data.code);
-                }
+                /**
+                 * Load an error code for the aws.rest-json-1.1 protocol.
+                 */
+                const loadRestJsonErrorCode = (output: __HttpResponse, data: any): string | undefined => {
+                  const findKey = (object: any, key: string) => Object.keys(object).find((k) => k.toLowerCase() === key.toLowerCase());
 
-                if (data["__type"] !== undefined) {
-                  return sanitizeErrorCode(data["__type"]);
-                }
-              };
+                  const sanitizeErrorCode = (rawValue: string | number): string => {
+                    let cleanValue = rawValue;
+                    if (typeof cleanValue === "number") {
+                      cleanValue = cleanValue.toString();
+                    }
+                    if (cleanValue.indexOf(",") >= 0) {
+                      cleanValue = cleanValue.split(",")[0];
+                    }
+                    if (cleanValue.indexOf(":") >= 0) {
+                      cleanValue = cleanValue.split(":")[0];
+                    }
+                    if (cleanValue.indexOf("#") >= 0) {
+                      cleanValue = cleanValue.split("#")[1];
+                    }
+                    return cleanValue;
+                  };
+
+                  const headerKey = findKey(output.headers, "x-amzn-errortype");
+                  if (headerKey !== undefined) {
+                    return sanitizeErrorCode(output.headers[headerKey]);
+                  }
+
+                  if (data.code !== undefined) {
+                    return sanitizeErrorCode(data.code);
+                  }
+
+                  if (data["__type"] !== undefined) {
+                    return sanitizeErrorCode(data["__type"]);
+                  }
+                };

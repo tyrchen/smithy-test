@@ -12,6 +12,7 @@ resource Todo {
     create: CreateTodo
     update: UpdateTodo
     delete: DeleteTodo
+    operations: [UpdateTodoStatus]
 }
 
 /// Get a todo item.
@@ -93,6 +94,26 @@ operation DeleteTodo {
         @required
         @httpLabel
         id: String
+    }
+    output := {
+        @required
+        @httpHeader("X-Rows-Affected")
+        rowsAffected: Integer
+    }
+    errors: [NotFoundError, ValidationException]
+}
+
+/// Update the status of a todo item.
+@idempotent
+@http(uri: "/todos/{id}/status", method: "PUT")
+operation UpdateTodoStatus {
+    input := {
+        @required
+        @httpLabel
+        id: String
+        @required
+        @httpHeader("X-Todo-Status")
+        status: Boolean
     }
     output := {
         @required

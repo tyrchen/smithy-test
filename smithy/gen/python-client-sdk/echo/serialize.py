@@ -21,6 +21,7 @@ from .models import (
     ListTodosInput,
     SigninInput,
     UpdateTodoInput,
+    UpdateTodoStatusInput,
 )
 
 
@@ -223,6 +224,44 @@ async def _serialize_update_todo(input: UpdateTodoInput, config: Config) -> HTTP
         ]
     )
 
+    return _HTTPRequest(
+        destination=_URI(
+            host="",
+            path=path,
+            scheme="https",
+            query=query,
+        ),
+        method="PUT",
+        fields=headers,
+        body=body,
+    )
+
+
+async def _serialize_update_todo_status(
+    input: UpdateTodoStatusInput, config: Config
+) -> HTTPRequest:
+    if not input.id:
+        raise ServiceError("id must not be empty.")
+
+    path = "/todos/{id}/status".format(
+        id=urlquote(input.id, safe=""),
+    )
+    query: str = f""
+
+    body: AsyncIterable[bytes] = AsyncBytesReader(b"")
+    headers = Fields([])
+
+    if input.status is not None:
+        headers.extend(
+            Fields(
+                [
+                    Field(
+                        name="X-Todo-Status",
+                        values=[("true" if input.status else "false")],
+                    )
+                ]
+            )
+        )
     return _HTTPRequest(
         destination=_URI(
             host="",
