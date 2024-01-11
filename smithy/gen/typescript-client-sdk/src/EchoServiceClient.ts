@@ -1,12 +1,32 @@
 // smithy-typescript generated code
 import {
+  CreateTodoCommandInput,
+  CreateTodoCommandOutput,
+} from "./commands/CreateTodoCommand";
+import {
+  DeleteTodoCommandInput,
+  DeleteTodoCommandOutput,
+} from "./commands/DeleteTodoCommand";
+import {
   EchoMessageCommandInput,
   EchoMessageCommandOutput,
 } from "./commands/EchoMessageCommand";
 import {
+  GetTodoCommandInput,
+  GetTodoCommandOutput,
+} from "./commands/GetTodoCommand";
+import {
+  ListTodosCommandInput,
+  ListTodosCommandOutput,
+} from "./commands/ListTodosCommand";
+import {
   SigninCommandInput,
   SigninCommandOutput,
 } from "./commands/SigninCommand";
+import {
+  UpdateTodoCommandInput,
+  UpdateTodoCommandOutput,
+} from "./commands/UpdateTodoCommand";
 import { getRuntimeConfig as __getRuntimeConfig } from "./runtimeConfig";
 import {
   RuntimeExtension,
@@ -40,15 +60,25 @@ export { __Client }
  * @public
  */
 export type ServiceInputTypes =
+  | CreateTodoCommandInput
+  | DeleteTodoCommandInput
   | EchoMessageCommandInput
-  | SigninCommandInput;
+  | GetTodoCommandInput
+  | ListTodosCommandInput
+  | SigninCommandInput
+  | UpdateTodoCommandInput;
 
 /**
  * @public
  */
 export type ServiceOutputTypes =
+  | CreateTodoCommandOutput
+  | DeleteTodoCommandOutput
   | EchoMessageCommandOutput
-  | SigninCommandOutput;
+  | GetTodoCommandOutput
+  | ListTodosCommandOutput
+  | SigninCommandOutput
+  | UpdateTodoCommandOutput;
 
 /**
  * @public

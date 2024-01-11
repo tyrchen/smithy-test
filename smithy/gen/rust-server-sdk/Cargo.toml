@@ -7,7 +7,7 @@ description = "Rust server SDK for echo server"
 edition = "2021"
 
 [package.metadata.smithy]
-codegen-version = "null-75b4c351add4e28cf0324615b756e3ace7f37780"
+codegen-version = "1.1.1-b829bb419a8b2a93598ad24b7bd671ecf3ac6178"
 [dependencies.aws-smithy-http]
 version = "0.60.0"
 [dependencies.aws-smithy-http-server]
@@ -15,9 +15,11 @@ version = "0.60.0"
 [dependencies.aws-smithy-json]
 version = "0.60.0"
 [dependencies.aws-smithy-runtime-api]
-version = "1.0.1"
+version = "1.1.1"
 [dependencies.aws-smithy-types]
-version = "1.0.1"
+version = "1.1.1"
+[dependencies.form_urlencoded]
+version = "1"
 [dependencies.futures-util]
 version = "0.3"
 [dependencies.http]
@@ -26,6 +28,10 @@ version = "0.2.9"
 version = "0.14.26"
 [dependencies.mime]
 version = "0.3"
+[dependencies.nom]
+version = "7"
+[dependencies.percent-encoding]
+version = "2.0.0"
 [dependencies.pin-project-lite]
 version = "0.2"
 [dependencies.tower]
@@ -39,5 +45,3 @@ version = "1.23.1"
 [features]
 rt-tokio = ["aws-smithy-types/rt-tokio"]
 default = ["rt-tokio"]
-
-

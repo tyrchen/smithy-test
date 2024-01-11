@@ -20,6 +20,7 @@ thiserror = "1.0.50"
 tokio = { workspace = true }
 tower = "0.4.13"
 tracing = { workspace = true }
+uuid7 = { version = "0.7.2", features = ["serde"] }
 
 [dev-dependencies]
 anyhow = { workspace = true }

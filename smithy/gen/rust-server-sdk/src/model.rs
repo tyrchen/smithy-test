@@ -29,6 +29,41 @@ impl ValidationExceptionField {
     }
 }
 
+/// Contains a todo item.
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct TodoItem {
+    #[allow(missing_docs)] // documentation missing in model
+    pub id: ::std::string::String,
+    #[allow(missing_docs)] // documentation missing in model
+    pub title: ::std::string::String,
+    #[allow(missing_docs)] // documentation missing in model
+    pub completed: bool,
+}
+impl TodoItem {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn id(&self) -> &str {
+        use std::ops::Deref;
+        self.id.deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn title(&self) -> &str {
+        use std::ops::Deref;
+        self.title.deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn completed(&self) -> bool {
+        self.completed
+    }
+}
+impl TodoItem {
+    /// Creates a new builder-style object to manufacture [`TodoItem`](crate::model::TodoItem).
+    pub fn builder() -> crate::model::todo_item::Builder {
+        crate::model::todo_item::Builder::default()
+    }
+}
+
 /// Contains a bearer token for authentication.
 #[derive(
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
@@ -147,6 +182,92 @@ pub mod validation_exception_field {
         }
     }
 }
+/// See [`TodoItem`](crate::model::TodoItem).
+///
+pub mod todo_item {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `id` was not provided but it is required when building `TodoItem`.
+        MissingId,
+        /// `title` was not provided but it is required when building `TodoItem`.
+        MissingTitle,
+        /// `completed` was not provided but it is required when building `TodoItem`.
+        MissingCompleted,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingId => write!(
+                    f,
+                    "`id` was not provided but it is required when building `TodoItem`"
+                ),
+                ConstraintViolation::MissingTitle => write!(
+                    f,
+                    "`title` was not provided but it is required when building `TodoItem`"
+                ),
+                ConstraintViolation::MissingCompleted => write!(
+                    f,
+                    "`completed` was not provided but it is required when building `TodoItem`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::model::TodoItem {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`TodoItem`](crate::model::TodoItem).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) id: ::std::option::Option<::std::string::String>,
+        pub(crate) title: ::std::option::Option<::std::string::String>,
+        pub(crate) completed: ::std::option::Option<bool>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn id(mut self, input: ::std::string::String) -> Self {
+            self.id = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn title(mut self, input: ::std::string::String) -> Self {
+            self.title = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn completed(mut self, input: bool) -> Self {
+            self.completed = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`TodoItem`](crate::model::TodoItem).
+        ///
+        /// The builder fails to construct a [`TodoItem`](crate::model::TodoItem) if a [`ConstraintViolation`] occurs.
+        ///
+        /// If the builder fails, it will return the _first_ encountered [`ConstraintViolation`].
+        pub fn build(self) -> Result<crate::model::TodoItem, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::model::TodoItem, ConstraintViolation> {
+            Ok(crate::model::TodoItem {
+                id: self.id.ok_or(ConstraintViolation::MissingId)?,
+                title: self.title.ok_or(ConstraintViolation::MissingTitle)?,
+                completed: self
+                    .completed
+                    .ok_or(ConstraintViolation::MissingCompleted)?,
+            })
+        }
+    }
+}
 /// See [`SigninToken`](crate::model::SigninToken).
 ///
 pub mod signin_token {
@@ -240,13 +361,13 @@ pub mod signin_form {
         ) -> crate::model::ValidationExceptionField {
             match self {
         ConstraintViolation::MissingUsername => crate::model::ValidationExceptionField {
-                                    message: format!("Value at '{}/username' failed to satisfy constraint: Member must not be null", path),
-                                    path: path + "/username",
-                                },
+                                        message: format!("Value at '{}/username' failed to satisfy constraint: Member must not be null", path),
+                                        path: path + "/username",
+                                    },
         ConstraintViolation::MissingPassword => crate::model::ValidationExceptionField {
-                                    message: format!("Value at '{}/password' failed to satisfy constraint: Member must not be null", path),
-                                    path: path + "/password",
-                                },
+                                        message: format!("Value at '{}/password' failed to satisfy constraint: Member must not be null", path),
+                                        path: path + "/password",
+                                    },
     }
         }
     }

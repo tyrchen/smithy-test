@@ -3,6 +3,143 @@
 #[derive(
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
 )]
+pub struct DeleteTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub id: ::std::string::String,
+}
+impl DeleteTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn id(&self) -> &str {
+        use std::ops::Deref;
+        self.id.deref()
+    }
+}
+impl DeleteTodoInput {
+    /// Creates a new builder-style object to manufacture [`DeleteTodoInput`](crate::input::DeleteTodoInput).
+    pub fn builder() -> crate::input::delete_todo_input::Builder {
+        crate::input::delete_todo_input::Builder::default()
+    }
+}
+impl crate::constrained::Constrained for crate::input::DeleteTodoInput {
+    type Unconstrained = crate::input::delete_todo_input::Builder;
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct UpdateTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub id: ::std::string::String,
+    #[allow(missing_docs)] // documentation missing in model
+    pub title: ::std::string::String,
+}
+impl UpdateTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn id(&self) -> &str {
+        use std::ops::Deref;
+        self.id.deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn title(&self) -> &str {
+        use std::ops::Deref;
+        self.title.deref()
+    }
+}
+impl UpdateTodoInput {
+    /// Creates a new builder-style object to manufacture [`UpdateTodoInput`](crate::input::UpdateTodoInput).
+    pub fn builder() -> crate::input::update_todo_input::Builder {
+        crate::input::update_todo_input::Builder::default()
+    }
+}
+impl crate::constrained::Constrained for crate::input::UpdateTodoInput {
+    type Unconstrained = crate::input::update_todo_input::Builder;
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct GetTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub id: ::std::string::String,
+}
+impl GetTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn id(&self) -> &str {
+        use std::ops::Deref;
+        self.id.deref()
+    }
+}
+impl GetTodoInput {
+    /// Creates a new builder-style object to manufacture [`GetTodoInput`](crate::input::GetTodoInput).
+    pub fn builder() -> crate::input::get_todo_input::Builder {
+        crate::input::get_todo_input::Builder::default()
+    }
+}
+impl crate::constrained::Constrained for crate::input::GetTodoInput {
+    type Unconstrained = crate::input::get_todo_input::Builder;
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct CreateTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub title: ::std::string::String,
+}
+impl CreateTodoInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn title(&self) -> &str {
+        use std::ops::Deref;
+        self.title.deref()
+    }
+}
+impl CreateTodoInput {
+    /// Creates a new builder-style object to manufacture [`CreateTodoInput`](crate::input::CreateTodoInput).
+    pub fn builder() -> crate::input::create_todo_input::Builder {
+        crate::input::create_todo_input::Builder::default()
+    }
+}
+impl crate::constrained::Constrained for crate::input::CreateTodoInput {
+    type Unconstrained = crate::input::create_todo_input::Builder;
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct ListTodosInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub next_token: ::std::option::Option<::std::string::String>,
+    #[allow(missing_docs)] // documentation missing in model
+    pub size: i32,
+}
+impl ListTodosInput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn next_token(&self) -> ::std::option::Option<&str> {
+        self.next_token.as_deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn size(&self) -> i32 {
+        self.size
+    }
+}
+impl ListTodosInput {
+    /// Creates a new builder-style object to manufacture [`ListTodosInput`](crate::input::ListTodosInput).
+    pub fn builder() -> crate::input::list_todos_input::Builder {
+        crate::input::list_todos_input::Builder::default()
+    }
+}
+impl crate::constrained::Constrained for crate::input::ListTodosInput {
+    type Unconstrained = crate::input::list_todos_input::Builder;
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
 pub struct SigninInput {
     /// Contains username and password. Currently any username and password is accepted.
     pub payload: crate::model::SigninForm,
@@ -47,6 +184,514 @@ impl EchoMessageInput {
 impl crate::constrained::Constrained for crate::input::EchoMessageInput {
     type Unconstrained = crate::input::echo_message_input::Builder;
 }
+/// See [`DeleteTodoInput`](crate::input::DeleteTodoInput).
+///
+pub mod delete_todo_input {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `id` was not provided but it is required when building `DeleteTodoInput`.
+        MissingId,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingId => write!(
+                    f,
+                    "`id` was not provided but it is required when building `DeleteTodoInput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ConstraintViolation {
+        pub(crate) fn as_validation_exception_field(
+            self,
+            path: ::std::string::String,
+        ) -> crate::model::ValidationExceptionField {
+            match self {
+                ConstraintViolation::MissingId => crate::model::ValidationExceptionField {
+                    message: format!(
+                        "Value at '{}/id' failed to satisfy constraint: Member must not be null",
+                        path
+                    ),
+                    path: path + "/id",
+                },
+            }
+        }
+    }
+    impl ::std::convert::From<ConstraintViolation>
+        for ::aws_smithy_http_server::protocol::rest_json_1::rejection::RequestRejection
+    {
+        fn from(constraint_violation: ConstraintViolation) -> Self {
+            let first_validation_exception_field =
+                constraint_violation.as_validation_exception_field("".to_owned());
+            let validation_exception = crate::error::ValidationException {
+                message: format!(
+                    "1 validation error detected. {}",
+                    &first_validation_exception_field.message
+                ),
+                field_list: Some(vec![first_validation_exception_field]),
+            };
+            Self::ConstraintViolation(
+                                crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
+                                    .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
+                            )
+        }
+    }
+    impl ::std::convert::From<Builder>
+        for crate::constrained::MaybeConstrained<crate::input::DeleteTodoInput>
+    {
+        fn from(builder: Builder) -> Self {
+            Self::Unconstrained(builder)
+        }
+    }
+    impl ::std::convert::TryFrom<Builder> for crate::input::DeleteTodoInput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`DeleteTodoInput`](crate::input::DeleteTodoInput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) id: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn id(mut self, input: ::std::string::String) -> Self {
+            self.id = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_id(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.id = Some(input.into());
+            self
+        }
+        /// Consumes the builder and constructs a [`DeleteTodoInput`](crate::input::DeleteTodoInput).
+        ///
+        /// The builder fails to construct a [`DeleteTodoInput`](crate::input::DeleteTodoInput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::input::DeleteTodoInput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::input::DeleteTodoInput, ConstraintViolation> {
+            Ok(crate::input::DeleteTodoInput {
+                id: self.id.ok_or(ConstraintViolation::MissingId)?,
+            })
+        }
+    }
+}
+/// See [`UpdateTodoInput`](crate::input::UpdateTodoInput).
+///
+pub mod update_todo_input {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `id` was not provided but it is required when building `UpdateTodoInput`.
+        MissingId,
+        /// `title` was not provided but it is required when building `UpdateTodoInput`.
+        MissingTitle,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingId => write!(
+                    f,
+                    "`id` was not provided but it is required when building `UpdateTodoInput`"
+                ),
+                ConstraintViolation::MissingTitle => write!(
+                    f,
+                    "`title` was not provided but it is required when building `UpdateTodoInput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ConstraintViolation {
+        pub(crate) fn as_validation_exception_field(
+            self,
+            path: ::std::string::String,
+        ) -> crate::model::ValidationExceptionField {
+            match self {
+                ConstraintViolation::MissingId => crate::model::ValidationExceptionField {
+                    message: format!(
+                        "Value at '{}/id' failed to satisfy constraint: Member must not be null",
+                        path
+                    ),
+                    path: path + "/id",
+                },
+                ConstraintViolation::MissingTitle => crate::model::ValidationExceptionField {
+                    message: format!(
+                        "Value at '{}/title' failed to satisfy constraint: Member must not be null",
+                        path
+                    ),
+                    path: path + "/title",
+                },
+            }
+        }
+    }
+    impl ::std::convert::From<ConstraintViolation>
+        for ::aws_smithy_http_server::protocol::rest_json_1::rejection::RequestRejection
+    {
+        fn from(constraint_violation: ConstraintViolation) -> Self {
+            let first_validation_exception_field =
+                constraint_violation.as_validation_exception_field("".to_owned());
+            let validation_exception = crate::error::ValidationException {
+                message: format!(
+                    "1 validation error detected. {}",
+                    &first_validation_exception_field.message
+                ),
+                field_list: Some(vec![first_validation_exception_field]),
+            };
+            Self::ConstraintViolation(
+                                crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
+                                    .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
+                            )
+        }
+    }
+    impl ::std::convert::From<Builder>
+        for crate::constrained::MaybeConstrained<crate::input::UpdateTodoInput>
+    {
+        fn from(builder: Builder) -> Self {
+            Self::Unconstrained(builder)
+        }
+    }
+    impl ::std::convert::TryFrom<Builder> for crate::input::UpdateTodoInput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`UpdateTodoInput`](crate::input::UpdateTodoInput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) id: ::std::option::Option<::std::string::String>,
+        pub(crate) title: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn id(mut self, input: ::std::string::String) -> Self {
+            self.id = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_id(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.id = Some(input.into());
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn title(mut self, input: ::std::string::String) -> Self {
+            self.title = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_title(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.title = Some(input.into());
+            self
+        }
+        /// Consumes the builder and constructs a [`UpdateTodoInput`](crate::input::UpdateTodoInput).
+        ///
+        /// The builder fails to construct a [`UpdateTodoInput`](crate::input::UpdateTodoInput) if a [`ConstraintViolation`] occurs.
+        ///
+        /// If the builder fails, it will return the _first_ encountered [`ConstraintViolation`].
+        pub fn build(self) -> Result<crate::input::UpdateTodoInput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::input::UpdateTodoInput, ConstraintViolation> {
+            Ok(crate::input::UpdateTodoInput {
+                id: self.id.ok_or(ConstraintViolation::MissingId)?,
+                title: self.title.ok_or(ConstraintViolation::MissingTitle)?,
+            })
+        }
+    }
+}
+/// See [`GetTodoInput`](crate::input::GetTodoInput).
+///
+pub mod get_todo_input {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `id` was not provided but it is required when building `GetTodoInput`.
+        MissingId,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingId => write!(
+                    f,
+                    "`id` was not provided but it is required when building `GetTodoInput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ConstraintViolation {
+        pub(crate) fn as_validation_exception_field(
+            self,
+            path: ::std::string::String,
+        ) -> crate::model::ValidationExceptionField {
+            match self {
+                ConstraintViolation::MissingId => crate::model::ValidationExceptionField {
+                    message: format!(
+                        "Value at '{}/id' failed to satisfy constraint: Member must not be null",
+                        path
+                    ),
+                    path: path + "/id",
+                },
+            }
+        }
+    }
+    impl ::std::convert::From<ConstraintViolation>
+        for ::aws_smithy_http_server::protocol::rest_json_1::rejection::RequestRejection
+    {
+        fn from(constraint_violation: ConstraintViolation) -> Self {
+            let first_validation_exception_field =
+                constraint_violation.as_validation_exception_field("".to_owned());
+            let validation_exception = crate::error::ValidationException {
+                message: format!(
+                    "1 validation error detected. {}",
+                    &first_validation_exception_field.message
+                ),
+                field_list: Some(vec![first_validation_exception_field]),
+            };
+            Self::ConstraintViolation(
+                                crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
+                                    .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
+                            )
+        }
+    }
+    impl ::std::convert::From<Builder>
+        for crate::constrained::MaybeConstrained<crate::input::GetTodoInput>
+    {
+        fn from(builder: Builder) -> Self {
+            Self::Unconstrained(builder)
+        }
+    }
+    impl ::std::convert::TryFrom<Builder> for crate::input::GetTodoInput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`GetTodoInput`](crate::input::GetTodoInput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) id: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn id(mut self, input: ::std::string::String) -> Self {
+            self.id = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_id(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.id = Some(input.into());
+            self
+        }
+        /// Consumes the builder and constructs a [`GetTodoInput`](crate::input::GetTodoInput).
+        ///
+        /// The builder fails to construct a [`GetTodoInput`](crate::input::GetTodoInput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::input::GetTodoInput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::input::GetTodoInput, ConstraintViolation> {
+            Ok(crate::input::GetTodoInput {
+                id: self.id.ok_or(ConstraintViolation::MissingId)?,
+            })
+        }
+    }
+}
+/// See [`CreateTodoInput`](crate::input::CreateTodoInput).
+///
+pub mod create_todo_input {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `title` was not provided but it is required when building `CreateTodoInput`.
+        MissingTitle,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingTitle => write!(
+                    f,
+                    "`title` was not provided but it is required when building `CreateTodoInput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ConstraintViolation {
+        pub(crate) fn as_validation_exception_field(
+            self,
+            path: ::std::string::String,
+        ) -> crate::model::ValidationExceptionField {
+            match self {
+                ConstraintViolation::MissingTitle => crate::model::ValidationExceptionField {
+                    message: format!(
+                        "Value at '{}/title' failed to satisfy constraint: Member must not be null",
+                        path
+                    ),
+                    path: path + "/title",
+                },
+            }
+        }
+    }
+    impl ::std::convert::From<ConstraintViolation>
+        for ::aws_smithy_http_server::protocol::rest_json_1::rejection::RequestRejection
+    {
+        fn from(constraint_violation: ConstraintViolation) -> Self {
+            let first_validation_exception_field =
+                constraint_violation.as_validation_exception_field("".to_owned());
+            let validation_exception = crate::error::ValidationException {
+                message: format!(
+                    "1 validation error detected. {}",
+                    &first_validation_exception_field.message
+                ),
+                field_list: Some(vec![first_validation_exception_field]),
+            };
+            Self::ConstraintViolation(
+                                crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
+                                    .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
+                            )
+        }
+    }
+    impl ::std::convert::From<Builder>
+        for crate::constrained::MaybeConstrained<crate::input::CreateTodoInput>
+    {
+        fn from(builder: Builder) -> Self {
+            Self::Unconstrained(builder)
+        }
+    }
+    impl ::std::convert::TryFrom<Builder> for crate::input::CreateTodoInput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`CreateTodoInput`](crate::input::CreateTodoInput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) title: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn title(mut self, input: ::std::string::String) -> Self {
+            self.title = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_title(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.title = Some(input.into());
+            self
+        }
+        /// Consumes the builder and constructs a [`CreateTodoInput`](crate::input::CreateTodoInput).
+        ///
+        /// The builder fails to construct a [`CreateTodoInput`](crate::input::CreateTodoInput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::input::CreateTodoInput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::input::CreateTodoInput, ConstraintViolation> {
+            Ok(crate::input::CreateTodoInput {
+                title: self.title.ok_or(ConstraintViolation::MissingTitle)?,
+            })
+        }
+    }
+}
+/// See [`ListTodosInput`](crate::input::ListTodosInput).
+///
+pub mod list_todos_input {
+
+    impl ::std::convert::From<Builder> for crate::input::ListTodosInput {
+        fn from(builder: Builder) -> Self {
+            builder.build()
+        }
+    }
+    /// A builder for [`ListTodosInput`](crate::input::ListTodosInput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) next_token: ::std::option::Option<::std::string::String>,
+        pub(crate) size: ::std::option::Option<i32>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn next_token(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
+            self.next_token = input;
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_next_token(
+            mut self,
+            input: Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.next_token = input.map(|v| v.into());
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn size(mut self, input: i32) -> Self {
+            self.size = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_size(mut self, input: impl ::std::convert::Into<i32>) -> Self {
+            self.size = Some(input.into());
+            self
+        }
+        /// Consumes the builder and constructs a [`ListTodosInput`](crate::input::ListTodosInput).
+        pub fn build(self) -> crate::input::ListTodosInput {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(self) -> crate::input::ListTodosInput {
+            crate::input::ListTodosInput {
+                next_token: self.next_token,
+                size: self.size.unwrap_or(50i32),
+            }
+        }
+    }
+}
 /// See [`SigninInput`](crate::input::SigninInput).
 ///
 pub mod signin_input {
@@ -78,9 +723,9 @@ pub mod signin_input {
         ) -> crate::model::ValidationExceptionField {
             match self {
         ConstraintViolation::MissingPayload => crate::model::ValidationExceptionField {
-                                    message: format!("Value at '{}/payload' failed to satisfy constraint: Member must not be null", path),
-                                    path: path + "/payload",
-                                },
+                                        message: format!("Value at '{}/payload' failed to satisfy constraint: Member must not be null", path),
+                                        path: path + "/payload",
+                                    },
         ConstraintViolation::Payload(inner) => inner.as_validation_exception_field(path + "/payload"),
     }
         }
@@ -99,9 +744,9 @@ pub mod signin_input {
                 field_list: Some(vec![first_validation_exception_field]),
             };
             Self::ConstraintViolation(
-                            crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
-                                .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
-                        )
+                                crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
+                                    .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
+                            )
         }
     }
     impl ::std::convert::From<Builder>
@@ -192,9 +837,9 @@ pub mod echo_message_input {
         ) -> crate::model::ValidationExceptionField {
             match self {
         ConstraintViolation::MissingMessage => crate::model::ValidationExceptionField {
-                                    message: format!("Value at '{}/message' failed to satisfy constraint: Member must not be null", path),
-                                    path: path + "/message",
-                                },
+                                        message: format!("Value at '{}/message' failed to satisfy constraint: Member must not be null", path),
+                                        path: path + "/message",
+                                    },
     }
         }
     }
@@ -212,9 +857,9 @@ pub mod echo_message_input {
                 field_list: Some(vec![first_validation_exception_field]),
             };
             Self::ConstraintViolation(
-                            crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
-                                .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
-                        )
+                                crate::protocol_serde::shape_validation_exception::ser_validation_exception_error(&validation_exception)
+                                    .expect("validation exceptions should never fail to serialize; please file a bug report under https://github.com/smithy-lang/smithy-rs/issues")
+                            )
         }
     }
     impl ::std::convert::From<Builder>

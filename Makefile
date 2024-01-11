@@ -1,5 +1,8 @@
 ASSETS = assets.tar.gz
 
+run:
+	@cargo run --bin echo-server
+
 validate:
 	@cd smithy && smithy validate
 
@@ -19,8 +22,13 @@ build-smithy:
 	cp -r build/smithy/source/rust-server-codegen gen/rust-server-sdk
 	@cargo fmt --all
 
+build-smithy-js:
+	@cd smithy/gen/typescript-client-sdk && yarn && yarn build
+
 watch:
 	@watchexec --restart --exts rs -- cargo run --bin echo-server
 
 client:
 	@cargo run --bin echo-client
+
+.PHONY: run validate update-smithy build-smithy build-smithy-js watch client

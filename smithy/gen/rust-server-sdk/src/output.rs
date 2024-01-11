@@ -3,6 +3,119 @@
 #[derive(
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
 )]
+pub struct DeleteTodoOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub rows_affected: i32,
+}
+impl DeleteTodoOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn rows_affected(&self) -> i32 {
+        self.rows_affected
+    }
+}
+impl DeleteTodoOutput {
+    /// Creates a new builder-style object to manufacture [`DeleteTodoOutput`](crate::output::DeleteTodoOutput).
+    pub fn builder() -> crate::output::delete_todo_output::Builder {
+        crate::output::delete_todo_output::Builder::default()
+    }
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct UpdateTodoOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub rows_affected: i32,
+}
+impl UpdateTodoOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn rows_affected(&self) -> i32 {
+        self.rows_affected
+    }
+}
+impl UpdateTodoOutput {
+    /// Creates a new builder-style object to manufacture [`UpdateTodoOutput`](crate::output::UpdateTodoOutput).
+    pub fn builder() -> crate::output::update_todo_output::Builder {
+        crate::output::update_todo_output::Builder::default()
+    }
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct GetTodoOutput {
+    /// Contains a todo item.
+    pub todo: crate::model::TodoItem,
+}
+impl GetTodoOutput {
+    /// Contains a todo item.
+    pub fn todo(&self) -> &crate::model::TodoItem {
+        &self.todo
+    }
+}
+impl GetTodoOutput {
+    /// Creates a new builder-style object to manufacture [`GetTodoOutput`](crate::output::GetTodoOutput).
+    pub fn builder() -> crate::output::get_todo_output::Builder {
+        crate::output::get_todo_output::Builder::default()
+    }
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct CreateTodoOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub id: ::std::string::String,
+}
+impl CreateTodoOutput {
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn id(&self) -> &str {
+        use std::ops::Deref;
+        self.id.deref()
+    }
+}
+impl CreateTodoOutput {
+    /// Creates a new builder-style object to manufacture [`CreateTodoOutput`](crate::output::CreateTodoOutput).
+    pub fn builder() -> crate::output::create_todo_output::Builder {
+        crate::output::create_todo_output::Builder::default()
+    }
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
+pub struct ListTodosOutput {
+    /// Contains a list of todo items.
+    pub todos: ::std::vec::Vec<crate::model::TodoItem>,
+    #[allow(missing_docs)] // documentation missing in model
+    pub next_token: ::std::option::Option<::std::string::String>,
+}
+impl ListTodosOutput {
+    /// Contains a list of todo items.
+    pub fn todos(&self) -> &[crate::model::TodoItem] {
+        use std::ops::Deref;
+        self.todos.deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn next_token(&self) -> ::std::option::Option<&str> {
+        self.next_token.as_deref()
+    }
+}
+impl ListTodosOutput {
+    /// Creates a new builder-style object to manufacture [`ListTodosOutput`](crate::output::ListTodosOutput).
+    pub fn builder() -> crate::output::list_todos_output::Builder {
+        crate::output::list_todos_output::Builder::default()
+    }
+}
+
+#[allow(missing_docs)] // documentation missing in model
+#[derive(
+    ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
+)]
 pub struct SigninOutput {
     /// Contains a bearer token for authentication.
     pub payload: crate::model::SigninToken,
@@ -39,6 +152,296 @@ impl EchoMessageOutput {
     /// Creates a new builder-style object to manufacture [`EchoMessageOutput`](crate::output::EchoMessageOutput).
     pub fn builder() -> crate::output::echo_message_output::Builder {
         crate::output::echo_message_output::Builder::default()
+    }
+}
+/// See [`DeleteTodoOutput`](crate::output::DeleteTodoOutput).
+///
+pub mod delete_todo_output {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `rows_affected` was not provided but it is required when building `DeleteTodoOutput`.
+        MissingRowsAffected,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingRowsAffected => write!(f, "`rows_affected` was not provided but it is required when building `DeleteTodoOutput`"),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::output::DeleteTodoOutput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`DeleteTodoOutput`](crate::output::DeleteTodoOutput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) rows_affected: ::std::option::Option<i32>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn rows_affected(mut self, input: i32) -> Self {
+            self.rows_affected = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`DeleteTodoOutput`](crate::output::DeleteTodoOutput).
+        ///
+        /// The builder fails to construct a [`DeleteTodoOutput`](crate::output::DeleteTodoOutput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::output::DeleteTodoOutput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::output::DeleteTodoOutput, ConstraintViolation> {
+            Ok(crate::output::DeleteTodoOutput {
+                rows_affected: self
+                    .rows_affected
+                    .ok_or(ConstraintViolation::MissingRowsAffected)?,
+            })
+        }
+    }
+}
+/// See [`UpdateTodoOutput`](crate::output::UpdateTodoOutput).
+///
+pub mod update_todo_output {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `rows_affected` was not provided but it is required when building `UpdateTodoOutput`.
+        MissingRowsAffected,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingRowsAffected => write!(f, "`rows_affected` was not provided but it is required when building `UpdateTodoOutput`"),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::output::UpdateTodoOutput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`UpdateTodoOutput`](crate::output::UpdateTodoOutput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) rows_affected: ::std::option::Option<i32>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn rows_affected(mut self, input: i32) -> Self {
+            self.rows_affected = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`UpdateTodoOutput`](crate::output::UpdateTodoOutput).
+        ///
+        /// The builder fails to construct a [`UpdateTodoOutput`](crate::output::UpdateTodoOutput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::output::UpdateTodoOutput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::output::UpdateTodoOutput, ConstraintViolation> {
+            Ok(crate::output::UpdateTodoOutput {
+                rows_affected: self
+                    .rows_affected
+                    .ok_or(ConstraintViolation::MissingRowsAffected)?,
+            })
+        }
+    }
+}
+/// See [`GetTodoOutput`](crate::output::GetTodoOutput).
+///
+pub mod get_todo_output {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `todo` was not provided but it is required when building `GetTodoOutput`.
+        MissingTodo,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingTodo => write!(
+                    f,
+                    "`todo` was not provided but it is required when building `GetTodoOutput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::output::GetTodoOutput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`GetTodoOutput`](crate::output::GetTodoOutput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) todo: ::std::option::Option<crate::model::TodoItem>,
+    }
+    impl Builder {
+        /// Contains a todo item.
+        pub fn todo(mut self, input: crate::model::TodoItem) -> Self {
+            self.todo = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`GetTodoOutput`](crate::output::GetTodoOutput).
+        ///
+        /// The builder fails to construct a [`GetTodoOutput`](crate::output::GetTodoOutput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::output::GetTodoOutput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::output::GetTodoOutput, ConstraintViolation> {
+            Ok(crate::output::GetTodoOutput {
+                todo: self.todo.ok_or(ConstraintViolation::MissingTodo)?,
+            })
+        }
+    }
+}
+/// See [`CreateTodoOutput`](crate::output::CreateTodoOutput).
+///
+pub mod create_todo_output {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `id` was not provided but it is required when building `CreateTodoOutput`.
+        MissingId,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingId => write!(
+                    f,
+                    "`id` was not provided but it is required when building `CreateTodoOutput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::output::CreateTodoOutput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`CreateTodoOutput`](crate::output::CreateTodoOutput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) id: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn id(mut self, input: ::std::string::String) -> Self {
+            self.id = Some(input);
+            self
+        }
+        /// Consumes the builder and constructs a [`CreateTodoOutput`](crate::output::CreateTodoOutput).
+        ///
+        /// The builder fails to construct a [`CreateTodoOutput`](crate::output::CreateTodoOutput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::output::CreateTodoOutput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::output::CreateTodoOutput, ConstraintViolation> {
+            Ok(crate::output::CreateTodoOutput {
+                id: self.id.ok_or(ConstraintViolation::MissingId)?,
+            })
+        }
+    }
+}
+/// See [`ListTodosOutput`](crate::output::ListTodosOutput).
+///
+pub mod list_todos_output {
+
+    #[derive(::std::cmp::PartialEq, ::std::fmt::Debug)]
+    /// Holds one variant for each of the ways the builder can fail.
+    #[non_exhaustive]
+    #[allow(clippy::enum_variant_names)]
+    pub enum ConstraintViolation {
+        /// `todos` was not provided but it is required when building `ListTodosOutput`.
+        MissingTodos,
+    }
+    impl ::std::fmt::Display for ConstraintViolation {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            match self {
+                ConstraintViolation::MissingTodos => write!(
+                    f,
+                    "`todos` was not provided but it is required when building `ListTodosOutput`"
+                ),
+            }
+        }
+    }
+    impl ::std::error::Error for ConstraintViolation {}
+    impl ::std::convert::TryFrom<Builder> for crate::output::ListTodosOutput {
+        type Error = ConstraintViolation;
+
+        fn try_from(builder: Builder) -> Result<Self, Self::Error> {
+            builder.build()
+        }
+    }
+    /// A builder for [`ListTodosOutput`](crate::output::ListTodosOutput).
+    #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
+    pub struct Builder {
+        pub(crate) todos: ::std::option::Option<::std::vec::Vec<crate::model::TodoItem>>,
+        pub(crate) next_token: ::std::option::Option<::std::string::String>,
+    }
+    impl Builder {
+        /// Contains a list of todo items.
+        pub fn todos(mut self, input: ::std::vec::Vec<crate::model::TodoItem>) -> Self {
+            self.todos = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn next_token(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
+            self.next_token = input;
+            self
+        }
+        /// Consumes the builder and constructs a [`ListTodosOutput`](crate::output::ListTodosOutput).
+        ///
+        /// The builder fails to construct a [`ListTodosOutput`](crate::output::ListTodosOutput) if a [`ConstraintViolation`] occurs.
+        ///
+        pub fn build(self) -> Result<crate::output::ListTodosOutput, ConstraintViolation> {
+            self.build_enforcing_all_constraints()
+        }
+        fn build_enforcing_all_constraints(
+            self,
+        ) -> Result<crate::output::ListTodosOutput, ConstraintViolation> {
+            Ok(crate::output::ListTodosOutput {
+                todos: self.todos.ok_or(ConstraintViolation::MissingTodos)?,
+                next_token: self.next_token,
+            })
+        }
     }
 }
 /// See [`SigninOutput`](crate::output::SigninOutput).

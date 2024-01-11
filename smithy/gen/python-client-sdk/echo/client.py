@@ -19,10 +19,41 @@ from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
 
 from .auth import HTTPAuthParams
 from .config import Config, Plugin
-from .deserialize import _deserialize_echo_message, _deserialize_signin
+from .deserialize import (
+    _deserialize_create_todo,
+    _deserialize_delete_todo,
+    _deserialize_echo_message,
+    _deserialize_get_todo,
+    _deserialize_list_todos,
+    _deserialize_signin,
+    _deserialize_update_todo,
+)
 from .errors import ServiceError
-from .models import EchoMessageInput, EchoMessageOutput, SigninInput, SigninOutput
-from .serialize import _serialize_echo_message, _serialize_signin
+from .models import (
+    CreateTodoInput,
+    CreateTodoOutput,
+    DeleteTodoInput,
+    DeleteTodoOutput,
+    EchoMessageInput,
+    EchoMessageOutput,
+    GetTodoInput,
+    GetTodoOutput,
+    ListTodosInput,
+    ListTodosOutput,
+    SigninInput,
+    SigninOutput,
+    UpdateTodoInput,
+    UpdateTodoOutput,
+)
+from .serialize import (
+    _serialize_create_todo,
+    _serialize_delete_todo,
+    _serialize_echo_message,
+    _serialize_get_todo,
+    _serialize_list_todos,
+    _serialize_signin,
+    _serialize_update_todo,
+)
 
 
 Input = TypeVar("Input")
@@ -51,6 +82,54 @@ class EchoService:
         for plugin in client_plugins:
             plugin(self._config)
 
+    async def create_todo(
+        self, input: CreateTodoInput, plugins: list[Plugin] | None = None
+    ) -> CreateTodoOutput:
+        """Create a todo item.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = []
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_create_todo,
+            deserialize=_deserialize_create_todo,
+            config=self._config,
+            operation_name="CreateTodo",
+        )
+
+    async def delete_todo(
+        self, input: DeleteTodoInput, plugins: list[Plugin] | None = None
+    ) -> DeleteTodoOutput:
+        """Delete a todo item.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = []
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_delete_todo,
+            deserialize=_deserialize_delete_todo,
+            config=self._config,
+            operation_name="DeleteTodo",
+        )
+
     async def echo_message(
         self, input: EchoMessageInput, plugins: list[Plugin] | None = None
     ) -> EchoMessageOutput:
@@ -75,6 +154,54 @@ class EchoService:
             operation_name="EchoMessage",
         )
 
+    async def get_todo(
+        self, input: GetTodoInput, plugins: list[Plugin] | None = None
+    ) -> GetTodoOutput:
+        """Get a todo item.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = []
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_get_todo,
+            deserialize=_deserialize_get_todo,
+            config=self._config,
+            operation_name="GetTodo",
+        )
+
+    async def list_todos(
+        self, input: ListTodosInput, plugins: list[Plugin] | None = None
+    ) -> ListTodosOutput:
+        """list todo items.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = []
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_list_todos,
+            deserialize=_deserialize_list_todos,
+            config=self._config,
+            operation_name="ListTodos",
+        )
+
     async def signin(
         self, input: SigninInput, plugins: list[Plugin] | None = None
     ) -> SigninOutput:
@@ -97,6 +224,30 @@ class EchoService:
             deserialize=_deserialize_signin,
             config=self._config,
             operation_name="Signin",
+        )
+
+    async def update_todo(
+        self, input: UpdateTodoInput, plugins: list[Plugin] | None = None
+    ) -> UpdateTodoOutput:
+        """Update a todo item.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = []
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_update_todo,
+            deserialize=_deserialize_update_todo,
+            config=self._config,
+            operation_name="UpdateTodo",
         )
 
     async def _execute_operation(

@@ -1,2 +1,4 @@
 build/
 smithy/build/
+node_modules/
+dist*/

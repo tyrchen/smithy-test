@@ -3,6 +3,274 @@
 from typing import Any, Dict, List, Optional
 
 
+class CreateTodoInput:
+    title: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        title: Optional[str] = None,
+    ):
+        self.title = title
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the CreateTodoInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.title is not None:
+            d["title"] = self.title
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "CreateTodoInput":
+        """Creates a CreateTodoInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "title" in d:
+            kwargs["title"] = d["title"]
+
+        return CreateTodoInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "CreateTodoInput("
+        if self.title is not None:
+            result += f"title={repr(self.title)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, CreateTodoInput):
+            return False
+        attributes: list[str] = [
+            "title",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class CreateTodoOutput:
+    id: str
+
+    def __init__(
+        self,
+        *,
+        id: str,
+    ):
+        self.id = id
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the CreateTodoOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "id": self.id,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "CreateTodoOutput":
+        """Creates a CreateTodoOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "id": d["id"],
+        }
+
+        return CreateTodoOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "CreateTodoOutput("
+        if self.id is not None:
+            result += f"id={repr(self.id)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, CreateTodoOutput):
+            return False
+        attributes: list[str] = [
+            "id",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class ValidationExceptionField:
+    path: str
+    message: str
+
+    def __init__(
+        self,
+        *,
+        path: str,
+        message: str,
+    ):
+        """Describes one specific validation failure for an input member.
+
+        :param path: A JSONPointer expression to the structure member whose value failed
+        to satisfy the modeled constraints.
+        :param message: A detailed description of the validation failure.
+        """
+        self.path = path
+        self.message = message
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ValidationExceptionField to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "path": self.path,
+            "message": self.message,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ValidationExceptionField":
+        """Creates a ValidationExceptionField from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "path": d["path"],
+            "message": d["message"],
+        }
+
+        return ValidationExceptionField(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "ValidationExceptionField("
+        if self.path is not None:
+            result += f"path={repr(self.path)}, "
+
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, ValidationExceptionField):
+            return False
+        attributes: list[str] = [
+            "path",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class DeleteTodoInput:
+    id: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+    ):
+        self.id = id
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DeleteTodoInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.id is not None:
+            d["id"] = self.id
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DeleteTodoInput":
+        """Creates a DeleteTodoInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "id" in d:
+            kwargs["id"] = d["id"]
+
+        return DeleteTodoInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "DeleteTodoInput("
+        if self.id is not None:
+            result += f"id={repr(self.id)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, DeleteTodoInput):
+            return False
+        attributes: list[str] = [
+            "id",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class DeleteTodoOutput:
+    rows_affected: int
+
+    def __init__(
+        self,
+        *,
+        rows_affected: int,
+    ):
+        self.rows_affected = rows_affected
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DeleteTodoOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "rowsAffected": self.rows_affected,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DeleteTodoOutput":
+        """Creates a DeleteTodoOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "rows_affected": d["rowsAffected"],
+        }
+
+        return DeleteTodoOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "DeleteTodoOutput("
+        if self.rows_affected is not None:
+            result += f"rows_affected={repr(self.rows_affected)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, DeleteTodoOutput):
+            return False
+        attributes: list[str] = [
+            "rows_affected",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class EchoMessageInput:
     message: Optional[str]
 
@@ -100,70 +368,6 @@ class EchoMessageOutput:
         if not isinstance(other, EchoMessageOutput):
             return False
         attributes: list[str] = [
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class ValidationExceptionField:
-    path: str
-    message: str
-
-    def __init__(
-        self,
-        *,
-        path: str,
-        message: str,
-    ):
-        """Describes one specific validation failure for an input member.
-
-        :param path: A JSONPointer expression to the structure member whose value failed
-        to satisfy the modeled constraints.
-        :param message: A detailed description of the validation failure.
-        """
-        self.path = path
-        self.message = message
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the ValidationExceptionField to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {
-            "path": self.path,
-            "message": self.message,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ValidationExceptionField":
-        """Creates a ValidationExceptionField from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "path": d["path"],
-            "message": d["message"],
-        }
-
-        return ValidationExceptionField(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "ValidationExceptionField("
-        if self.path is not None:
-            result += f"path={repr(self.path)}, "
-
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, ValidationExceptionField):
-            return False
-        attributes: list[str] = [
-            "path",
             "message",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
@@ -387,6 +591,427 @@ class SigninOutput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class GetTodoInput:
+    id: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+    ):
+        self.id = id
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetTodoInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.id is not None:
+            d["id"] = self.id
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetTodoInput":
+        """Creates a GetTodoInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "id" in d:
+            kwargs["id"] = d["id"]
+
+        return GetTodoInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetTodoInput("
+        if self.id is not None:
+            result += f"id={repr(self.id)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetTodoInput):
+            return False
+        attributes: list[str] = [
+            "id",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class TodoItem:
+    id: str
+    title: str
+    completed: bool
+
+    def __init__(
+        self,
+        *,
+        id: str,
+        title: str,
+        completed: bool,
+    ):
+        """Contains a todo item."""
+        self.id = id
+        self.title = title
+        self.completed = completed
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the TodoItem to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "id": self.id,
+            "title": self.title,
+            "completed": self.completed,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "TodoItem":
+        """Creates a TodoItem from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "id": d["id"],
+            "title": d["title"],
+            "completed": d["completed"],
+        }
+
+        return TodoItem(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "TodoItem("
+        if self.id is not None:
+            result += f"id={repr(self.id)}, "
+
+        if self.title is not None:
+            result += f"title={repr(self.title)}, "
+
+        if self.completed is not None:
+            result += f"completed={repr(self.completed)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, TodoItem):
+            return False
+        attributes: list[str] = [
+            "id",
+            "title",
+            "completed",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class GetTodoOutput:
+    todo: TodoItem
+
+    def __init__(
+        self,
+        *,
+        todo: TodoItem,
+    ):
+        """
+        :param todo: Contains a todo item.
+        """
+        self.todo = todo
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetTodoOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "todo": self.todo.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetTodoOutput":
+        """Creates a GetTodoOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "todo": TodoItem.from_dict(d["todo"]),
+        }
+
+        return GetTodoOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetTodoOutput("
+        if self.todo is not None:
+            result += f"todo={repr(self.todo)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetTodoOutput):
+            return False
+        attributes: list[str] = [
+            "todo",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class ListTodosInput:
+    next_token: Optional[str]
+    size: Optional[int]
+
+    def __init__(
+        self,
+        *,
+        next_token: Optional[str] = None,
+        size: Optional[int] = None,
+    ):
+        self.next_token = next_token
+        self.size = size
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ListTodosInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.next_token is not None:
+            d["nextToken"] = self.next_token
+
+        if self.size is not None:
+            d["size"] = self.size
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ListTodosInput":
+        """Creates a ListTodosInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "nextToken" in d:
+            kwargs["next_token"] = d["nextToken"]
+
+        if "size" in d:
+            kwargs["size"] = d["size"]
+
+        return ListTodosInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "ListTodosInput("
+        if self.next_token is not None:
+            result += f"next_token={repr(self.next_token)}, "
+
+        if self.size is not None:
+            result += f"size={repr(self.size)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, ListTodosInput):
+            return False
+        attributes: list[str] = [
+            "next_token",
+            "size",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class ListTodosOutput:
+    todos: list[TodoItem]
+    next_token: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        todos: list[TodoItem],
+        next_token: Optional[str] = None,
+    ):
+        """
+        :param todos: Contains a list of todo items.
+        """
+        self.todos = todos
+        self.next_token = next_token
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ListTodosOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "todos": _todo_list_as_dict(self.todos),
+        }
+
+        if self.next_token is not None:
+            d["nextToken"] = self.next_token
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ListTodosOutput":
+        """Creates a ListTodosOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "todos": _todo_list_from_dict(d["todos"]),
+        }
+
+        if "nextToken" in d:
+            kwargs["next_token"] = d["nextToken"]
+
+        return ListTodosOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "ListTodosOutput("
+        if self.todos is not None:
+            result += f"todos={repr(self.todos)}, "
+
+        if self.next_token is not None:
+            result += f"next_token={repr(self.next_token)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, ListTodosOutput):
+            return False
+        attributes: list[str] = [
+            "todos",
+            "next_token",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class UpdateTodoInput:
+    id: Optional[str]
+    title: Optional[str]
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+        title: Optional[str] = None,
+    ):
+        self.id = id
+        self.title = title
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UpdateTodoInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.id is not None:
+            d["id"] = self.id
+
+        if self.title is not None:
+            d["title"] = self.title
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UpdateTodoInput":
+        """Creates a UpdateTodoInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "id" in d:
+            kwargs["id"] = d["id"]
+
+        if "title" in d:
+            kwargs["title"] = d["title"]
+
+        return UpdateTodoInput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "UpdateTodoInput("
+        if self.id is not None:
+            result += f"id={repr(self.id)}, "
+
+        if self.title is not None:
+            result += f"title={repr(self.title)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, UpdateTodoInput):
+            return False
+        attributes: list[str] = [
+            "id",
+            "title",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class UpdateTodoOutput:
+    rows_affected: int
+
+    def __init__(
+        self,
+        *,
+        rows_affected: int,
+    ):
+        self.rows_affected = rows_affected
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the UpdateTodoOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "rowsAffected": self.rows_affected,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "UpdateTodoOutput":
+        """Creates a UpdateTodoOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "rows_affected": d["rowsAffected"],
+        }
+
+        return UpdateTodoOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "UpdateTodoOutput("
+        if self.rows_affected is not None:
+            result += f"rows_affected={repr(self.rows_affected)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, UpdateTodoOutput):
+            return False
+        attributes: list[str] = [
+            "rows_affected",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 def _validation_exception_field_list_as_dict(
     given: list[ValidationExceptionField],
 ) -> List[Any]:
@@ -397,3 +1022,11 @@ def _validation_exception_field_list_from_dict(
     given: List[Any],
 ) -> list[ValidationExceptionField]:
     return [ValidationExceptionField.from_dict(v) for v in given]
+
+
+def _todo_list_as_dict(given: list[TodoItem]) -> List[Any]:
+    return [v.as_dict() for v in given]
+
+
+def _todo_list_from_dict(given: List[Any]) -> list[TodoItem]:
+    return [TodoItem.from_dict(v) for v in given]

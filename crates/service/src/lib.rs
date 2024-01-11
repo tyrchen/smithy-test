@@ -49,6 +49,11 @@ pub async fn get_router(conf: AppConfig) -> Router {
     let api = EchoService::builder(config)
         .echo_message(api::echo_message)
         .signin(api::signin)
+        .get_todo(api::get_todo)
+        .list_todos(api::list_todos)
+        .create_todo(api::create_todo)
+        .update_todo(api::update_todo)
+        .delete_todo(api::delete_todo)
         .build()
         .expect("failed to build an instance of Echo Service");
 

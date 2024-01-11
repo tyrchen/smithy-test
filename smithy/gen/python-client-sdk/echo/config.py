@@ -17,12 +17,32 @@ from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
 
 from .auth import HTTPAuthSchemeResolver
-from .models import EchoMessageInput, EchoMessageOutput, SigninInput, SigninOutput
+from .models import (
+    CreateTodoInput,
+    CreateTodoOutput,
+    DeleteTodoInput,
+    DeleteTodoOutput,
+    EchoMessageInput,
+    EchoMessageOutput,
+    GetTodoInput,
+    GetTodoOutput,
+    ListTodosInput,
+    ListTodosOutput,
+    SigninInput,
+    SigninOutput,
+    UpdateTodoInput,
+    UpdateTodoOutput,
+)
 
 
 _ServiceInterceptor = Union[
+    Interceptor[CreateTodoInput, CreateTodoOutput, Any, Any],
+    Interceptor[DeleteTodoInput, DeleteTodoOutput, Any, Any],
     Interceptor[EchoMessageInput, EchoMessageOutput, Any, Any],
+    Interceptor[GetTodoInput, GetTodoOutput, Any, Any],
+    Interceptor[ListTodosInput, ListTodosOutput, Any, Any],
     Interceptor[SigninInput, SigninOutput, Any, Any],
+    Interceptor[UpdateTodoInput, UpdateTodoOutput, Any, Any],
 ]
 
 

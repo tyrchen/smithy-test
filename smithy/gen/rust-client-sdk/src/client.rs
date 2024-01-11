@@ -106,6 +106,8 @@ impl Client {
     }
 }
 
+mod create_todo;
+
 /// Operation customization and supporting types.
 ///
 /// The underlying HTTP requests made during an operation can be customized
@@ -133,6 +135,14 @@ impl Client {
 /// ```
 pub mod customize;
 
+mod delete_todo;
+
 mod echo_message;
 
+mod get_todo;
+
+mod list_todos;
+
 mod signin;
+
+mod update_todo;

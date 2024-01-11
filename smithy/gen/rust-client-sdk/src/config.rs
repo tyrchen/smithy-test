@@ -222,7 +222,7 @@ impl Builder {
         mut self,
         bearer_token_resolver: impl crate::config::ResolveIdentity + 'static,
     ) -> Self {
-        self.runtime_components.push_identity_resolver(
+        self.runtime_components.set_identity_resolver(
             ::aws_smithy_runtime_api::client::auth::http::HTTP_BEARER_AUTH_SCHEME_ID,
             ::aws_smithy_runtime_api::client::identity::SharedIdentityResolver::new(
                 bearer_token_resolver,
@@ -1004,6 +1004,8 @@ impl Builder {
                 ),
             ),
         ));
+        self.behavior_version =
+            ::std::option::Option::Some(crate::config::BehaviorVersion::latest());
         self
     }
     #[cfg(any(feature = "test-util", test))]
@@ -1164,21 +1166,21 @@ pub(crate) fn base_client_runtime_plugins(
     }
 
     let mut plugins = ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugins::new()
-                    // defaults
-                    .with_client_plugins(::aws_smithy_runtime::client::defaults::default_plugins(
-                        ::aws_smithy_runtime::client::defaults::DefaultPluginParams::new()
-                            .with_retry_partition_name("EchoService")
-                            .with_behavior_version(behavior_version.expect("Invalid client configuration: A behavior major version must be set when sending a request or constructing a client. You must set it during client construction or by enabling the `behavior-version-latest` cargo feature."))
-                    ))
-                    // user config
-                    .with_client_plugin(
-                        ::aws_smithy_runtime_api::client::runtime_plugin::StaticRuntimePlugin::new()
-                            .with_config(config.config.clone())
-                            .with_runtime_components(config.runtime_components.clone())
-                    )
-                    // codegen config
-                    .with_client_plugin(crate::config::ServiceRuntimePlugin::new(config))
-                    .with_client_plugin(::aws_smithy_runtime::client::auth::no_auth::NoAuthRuntimePlugin::new());
+                        // defaults
+                        .with_client_plugins(::aws_smithy_runtime::client::defaults::default_plugins(
+                            ::aws_smithy_runtime::client::defaults::DefaultPluginParams::new()
+                                .with_retry_partition_name("EchoService")
+                                .with_behavior_version(behavior_version.expect("Invalid client configuration: A behavior major version must be set when sending a request or constructing a client. You must set it during client construction or by enabling the `behavior-version-latest` cargo feature."))
+                        ))
+                        // user config
+                        .with_client_plugin(
+                            ::aws_smithy_runtime_api::client::runtime_plugin::StaticRuntimePlugin::new()
+                                .with_config(config.config.clone())
+                                .with_runtime_components(config.runtime_components.clone())
+                        )
+                        // codegen config
+                        .with_client_plugin(crate::config::ServiceRuntimePlugin::new(config))
+                        .with_client_plugin(::aws_smithy_runtime::client::auth::no_auth::NoAuthRuntimePlugin::new());
 
     for plugin in configured_plugins {
         plugins = plugins.with_client_plugin(plugin);

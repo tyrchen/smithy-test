@@ -19,6 +19,6 @@ Content-Type: application/json
 
 @token = {{ login.response.body.token }}
 
-GET http://localhost:3000/api/echo
+POST http://localhost:3000/api/echo
 Authorization: Bearer {{ token }}
 X-Echo-Message: hello world!

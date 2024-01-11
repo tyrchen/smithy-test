@@ -1,6 +1,10 @@
 use crate::{forbidden, AppState};
 use aws_smithy_http_server::Extension;
-use echo_server_sdk::{error, input, model::SigninToken, output};
+use echo_server_sdk::{
+    error, input,
+    model::{SigninToken, TodoItem},
+    output,
+};
 use std::sync::Arc;
 use tracing::info;
 
@@ -18,7 +22,7 @@ pub async fn signin(
     input: input::SigninInput,
     Extension(state): Extension<Arc<AppState>>,
 ) -> Result<output::SigninOutput, error::SigninError> {
-    info!("input: {:?}", input);
+    info!("signin: {:?}", input);
     let signer = &state.signer;
     let username = input.payload.username;
     if input.payload.password.len() < 8 {
@@ -28,4 +32,76 @@ pub async fn signin(
     Ok(output::SigninOutput {
         payload: SigninToken { token },
     })
+}
+
+pub async fn get_todo(
+    input: input::GetTodoInput,
+    Extension(_state): Extension<Arc<AppState>>,
+) -> Result<output::GetTodoOutput, error::GetTodoError> {
+    info!("get todo: {:?}", input);
+    let todo = TodoItem {
+        id: get_id(),
+        title: "todo".to_string(),
+        completed: false,
+    };
+    Ok(output::GetTodoOutput { todo })
+}
+
+pub async fn list_todos(
+    input: input::ListTodosInput,
+    Extension(_state): Extension<Arc<AppState>>,
+) -> Result<output::ListTodosOutput, error::ListTodosError> {
+    info!("list todos: {:?}", input);
+    let todos = vec![
+        TodoItem {
+            id: get_id(),
+            title: "todo 1".to_string(),
+            completed: false,
+        },
+        TodoItem {
+            id: get_id(),
+            title: "todo 2".to_string(),
+            completed: false,
+        },
+        TodoItem {
+            id: get_id(),
+            title: "todo 3".to_string(),
+            completed: true,
+        },
+    ];
+    Ok(output::ListTodosOutput {
+        todos,
+        next_token: None,
+    })
+}
+
+pub async fn create_todo(
+    input: input::CreateTodoInput,
+    Extension(_state): Extension<Arc<AppState>>,
+) -> Result<output::CreateTodoOutput, error::CreateTodoError> {
+    info!("create todo: {:?}", input);
+
+    Ok(output::CreateTodoOutput { id: get_id() })
+}
+
+pub async fn update_todo(
+    input: input::UpdateTodoInput,
+    Extension(_state): Extension<Arc<AppState>>,
+) -> Result<output::UpdateTodoOutput, error::UpdateTodoError> {
+    info!("update todo: {:?}", input);
+
+    Ok(output::UpdateTodoOutput { rows_affected: 1 })
+}
+
+pub async fn delete_todo(
+    input: input::DeleteTodoInput,
+    Extension(_state): Extension<Arc<AppState>>,
+) -> Result<output::DeleteTodoOutput, error::DeleteTodoError> {
+    info!("delete todo: {:?}", input);
+
+    Ok(output::DeleteTodoOutput { rows_affected: 1 })
+}
+
+fn get_id() -> String {
+    uuid7::uuid7().to_string()
 }

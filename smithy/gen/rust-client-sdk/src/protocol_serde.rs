@@ -32,7 +32,15 @@ pub fn parse_http_error_metadata(
     crate::json_errors::parse_error_metadata(response_body, response_headers)
 }
 
+pub(crate) mod shape_create_todo;
+
+pub(crate) mod shape_delete_todo;
+
 pub(crate) mod shape_echo_message;
+
+pub(crate) mod shape_get_todo;
+
+pub(crate) mod shape_list_todos;
 
 pub(crate) mod shape_signin;
 
@@ -42,6 +50,8 @@ pub fn rest_json_unset_struct_payload() -> ::std::vec::Vec<u8> {
 
 pub(crate) mod shape_signin_input;
 
+pub(crate) mod shape_update_todo;
+
 pub(crate) fn or_empty_doc(data: &[u8]) -> &[u8] {
     if data.is_empty() {
         b"{}"
@@ -50,7 +60,17 @@ pub(crate) fn or_empty_doc(data: &[u8]) -> &[u8] {
     }
 }
 
+pub(crate) mod shape_conflict_error;
+
+pub(crate) mod shape_create_todo_input;
+
+pub(crate) mod shape_create_todo_output;
+
+pub(crate) mod shape_delete_todo_output;
+
 pub(crate) mod shape_forbidden_error;
+
+pub(crate) mod shape_not_found_error;
 
 pub(crate) mod shape_signin_output;
 
@@ -58,11 +78,19 @@ pub(crate) mod shape_throttling_error;
 
 pub(crate) mod shape_unauthorized_error;
 
+pub(crate) mod shape_update_todo_input;
+
+pub(crate) mod shape_update_todo_output;
+
 pub(crate) mod shape_validation_exception;
 
 pub(crate) mod shape_signin_form;
 
 pub(crate) mod shape_signin_token;
+
+pub(crate) mod shape_todo_item;
+
+pub(crate) mod shape_todo_list;
 
 pub(crate) mod shape_validation_exception_field_list;
 

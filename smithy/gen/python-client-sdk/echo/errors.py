@@ -34,6 +34,63 @@ class UnknownApiError(ApiError[Literal["Unknown"]]):
     code: Literal["Unknown"] = "Unknown"
 
 
+class ConflictError(ApiError[Literal["ConflictError"]]):
+    code: Literal["ConflictError"] = "ConflictError"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Conflict error.
+        :param message: A message associated with the specific error.
+
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ConflictError to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ConflictError":
+        """Creates a ConflictError from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return ConflictError(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "ConflictError("
+        result += f"message={self.message},"
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, ConflictError):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class ValidationException(ApiError[Literal["ValidationException"]]):
     code: Literal["ValidationException"] = "ValidationException"
     message: str
@@ -114,6 +171,63 @@ class ValidationException(ApiError[Literal["ValidationException"]]):
             "message",
             "message",
             "field_list",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class NotFoundError(ApiError[Literal["NotFoundError"]]):
+    code: Literal["NotFoundError"] = "NotFoundError"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """Not found error.
+        :param message: A message associated with the specific error.
+
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the NotFoundError to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "NotFoundError":
+        """Creates a NotFoundError from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return NotFoundError(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "NotFoundError("
+        result += f"message={self.message},"
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, NotFoundError):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 

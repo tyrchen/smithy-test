@@ -3,14 +3,319 @@
 ///
 /// Constructed via [`EchoService::builder`].
 pub struct EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
+    create_todo: Option<::aws_smithy_http_server::routing::Route<Body>>,
+    delete_todo: Option<::aws_smithy_http_server::routing::Route<Body>>,
     echo_message: Option<::aws_smithy_http_server::routing::Route<Body>>,
+    get_todo: Option<::aws_smithy_http_server::routing::Route<Body>>,
+    list_todos: Option<::aws_smithy_http_server::routing::Route<Body>>,
     signin: Option<::aws_smithy_http_server::routing::Route<Body>>,
+    update_todo: Option<::aws_smithy_http_server::routing::Route<Body>>,
     layer: L,
     http_plugin: HttpPl,
     model_plugin: ModelPl,
 }
 
 impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
+    /// Sets the [`CreateTodo`](crate::operation_shape::CreateTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::CreateTodoInput) -> Result<output::CreateTodoOutput, error::CreateTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let app = EchoService::builder(config)
+    ///     .create_todo(handler)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn create_todo<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                    where
+                        HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::CreateTodo, HandlerExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::CreateTodo,
+                            ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::CreateTodo, HandlerType>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::CreateTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::CreateTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::CreateTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::CreateTodo::from_handler(handler);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.create_todo_custom(svc)
+    }
+
+    /// Sets the [`CreateTodo`](crate::operation_shape::CreateTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::CreateTodoInput) -> Result<output::CreateTodoOutput, error::CreateTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let svc = ::tower::util::service_fn(handler);
+    /// let app = EchoService::builder(config)
+    ///     .create_todo_service(svc)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn create_todo_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                    where
+                        S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::CreateTodo, ServiceExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::CreateTodo,
+                            ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::CreateTodo, S>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::CreateTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::CreateTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::CreateTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::CreateTodo::from_service(service);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.create_todo_custom(svc)
+    }
+
+    /// Sets the [`CreateTodo`](crate::operation_shape::CreateTodo) to a custom [`Service`](tower::Service).
+    /// not constrained by the Smithy contract.
+    fn create_todo_custom<S>(mut self, svc: S) -> Self
+    where
+        S: ::tower::Service<
+                ::http::Request<Body>,
+                Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>,
+                Error = ::std::convert::Infallible,
+            > + Clone
+            + Send
+            + 'static,
+        S::Future: Send + 'static,
+    {
+        self.create_todo = Some(::aws_smithy_http_server::routing::Route::new(svc));
+        self
+    }
+
+    /// Sets the [`DeleteTodo`](crate::operation_shape::DeleteTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::DeleteTodoInput) -> Result<output::DeleteTodoOutput, error::DeleteTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let app = EchoService::builder(config)
+    ///     .delete_todo(handler)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn delete_todo<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                    where
+                        HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::DeleteTodo, HandlerExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::DeleteTodo,
+                            ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::DeleteTodo, HandlerType>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::DeleteTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::DeleteTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::DeleteTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::DeleteTodo::from_handler(handler);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.delete_todo_custom(svc)
+    }
+
+    /// Sets the [`DeleteTodo`](crate::operation_shape::DeleteTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::DeleteTodoInput) -> Result<output::DeleteTodoOutput, error::DeleteTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let svc = ::tower::util::service_fn(handler);
+    /// let app = EchoService::builder(config)
+    ///     .delete_todo_service(svc)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn delete_todo_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                    where
+                        S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::DeleteTodo, ServiceExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::DeleteTodo,
+                            ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::DeleteTodo, S>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::DeleteTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::DeleteTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::DeleteTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::DeleteTodo::from_service(service);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.delete_todo_custom(svc)
+    }
+
+    /// Sets the [`DeleteTodo`](crate::operation_shape::DeleteTodo) to a custom [`Service`](tower::Service).
+    /// not constrained by the Smithy contract.
+    fn delete_todo_custom<S>(mut self, svc: S) -> Self
+    where
+        S: ::tower::Service<
+                ::http::Request<Body>,
+                Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>,
+                Error = ::std::convert::Infallible,
+            > + Clone
+            + Send
+            + 'static,
+        S::Future: Send + 'static,
+    {
+        self.delete_todo = Some(::aws_smithy_http_server::routing::Route::new(svc));
+        self
+    }
+
     /// Sets the [`EchoMessage`](crate::operation_shape::EchoMessage) operation.
     ///
     /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
@@ -36,37 +341,37 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
     /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
     /// ```
     ///
-                pub fn echo_message<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
-                where
-                    HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::EchoMessage, HandlerExtractors>,
+                    pub fn echo_message<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                    where
+                        HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::EchoMessage, HandlerExtractors>,
 
-                    ModelPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::EchoMessage,
-                        ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::EchoMessage, HandlerType>
-                    >,
-                    ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::EchoMessage,
-                        ModelPl::Output
-                    >,
-                    HttpPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::EchoMessage,
-                        <
-                            ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
-                            as ::aws_smithy_http_server::plugin::Plugin<
-                                EchoService<L>,
-                                crate::operation_shape::EchoMessage,
-                                ModelPl::Output
-                            >
-                        >::Output
-                    >,
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::EchoMessage,
+                            ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::EchoMessage, HandlerType>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::EchoMessage,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::EchoMessage,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::EchoMessage,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
 
-                    HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
-                    <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
 
-                {
+                    {
         use ::aws_smithy_http_server::operation::OperationShapeExt;
         use ::aws_smithy_http_server::plugin::Plugin;
         let svc = crate::operation_shape::EchoMessage::from_handler(handler);
@@ -103,37 +408,37 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
     /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
     /// ```
     ///
-                pub fn echo_message_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
-                where
-                    S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::EchoMessage, ServiceExtractors>,
+                    pub fn echo_message_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                    where
+                        S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::EchoMessage, ServiceExtractors>,
 
-                    ModelPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::EchoMessage,
-                        ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::EchoMessage, S>
-                    >,
-                    ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::EchoMessage,
-                        ModelPl::Output
-                    >,
-                    HttpPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::EchoMessage,
-                        <
-                            ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
-                            as ::aws_smithy_http_server::plugin::Plugin<
-                                EchoService<L>,
-                                crate::operation_shape::EchoMessage,
-                                ModelPl::Output
-                            >
-                        >::Output
-                    >,
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::EchoMessage,
+                            ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::EchoMessage, S>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::EchoMessage,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::EchoMessage,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::EchoMessage,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
 
-                    HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
-                    <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
 
-                {
+                    {
         use ::aws_smithy_http_server::operation::OperationShapeExt;
         use ::aws_smithy_http_server::plugin::Plugin;
         let svc = crate::operation_shape::EchoMessage::from_service(service);
@@ -158,6 +463,306 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
         S::Future: Send + 'static,
     {
         self.echo_message = Some(::aws_smithy_http_server::routing::Route::new(svc));
+        self
+    }
+
+    /// Sets the [`GetTodo`](crate::operation_shape::GetTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::GetTodoInput) -> Result<output::GetTodoOutput, error::GetTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let app = EchoService::builder(config)
+    ///     .get_todo(handler)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn get_todo<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                    where
+                        HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::GetTodo, HandlerExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::GetTodo,
+                            ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::GetTodo, HandlerType>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::GetTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::GetTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::GetTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::GetTodo::from_handler(handler);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.get_todo_custom(svc)
+    }
+
+    /// Sets the [`GetTodo`](crate::operation_shape::GetTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::GetTodoInput) -> Result<output::GetTodoOutput, error::GetTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let svc = ::tower::util::service_fn(handler);
+    /// let app = EchoService::builder(config)
+    ///     .get_todo_service(svc)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn get_todo_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                    where
+                        S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::GetTodo, ServiceExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::GetTodo,
+                            ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::GetTodo, S>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::GetTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::GetTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::GetTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::GetTodo::from_service(service);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.get_todo_custom(svc)
+    }
+
+    /// Sets the [`GetTodo`](crate::operation_shape::GetTodo) to a custom [`Service`](tower::Service).
+    /// not constrained by the Smithy contract.
+    fn get_todo_custom<S>(mut self, svc: S) -> Self
+    where
+        S: ::tower::Service<
+                ::http::Request<Body>,
+                Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>,
+                Error = ::std::convert::Infallible,
+            > + Clone
+            + Send
+            + 'static,
+        S::Future: Send + 'static,
+    {
+        self.get_todo = Some(::aws_smithy_http_server::routing::Route::new(svc));
+        self
+    }
+
+    /// Sets the [`ListTodos`](crate::operation_shape::ListTodos) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::ListTodosInput) -> Result<output::ListTodosOutput, error::ListTodosError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let app = EchoService::builder(config)
+    ///     .list_todos(handler)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn list_todos<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                    where
+                        HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::ListTodos, HandlerExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::ListTodos,
+                            ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::ListTodos, HandlerType>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::ListTodos,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::ListTodos,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::ListTodos,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::ListTodos::from_handler(handler);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.list_todos_custom(svc)
+    }
+
+    /// Sets the [`ListTodos`](crate::operation_shape::ListTodos) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::ListTodosInput) -> Result<output::ListTodosOutput, error::ListTodosError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let svc = ::tower::util::service_fn(handler);
+    /// let app = EchoService::builder(config)
+    ///     .list_todos_service(svc)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn list_todos_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                    where
+                        S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::ListTodos, ServiceExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::ListTodos,
+                            ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::ListTodos, S>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::ListTodos,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::ListTodos,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::ListTodos,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::ListTodos::from_service(service);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.list_todos_custom(svc)
+    }
+
+    /// Sets the [`ListTodos`](crate::operation_shape::ListTodos) to a custom [`Service`](tower::Service).
+    /// not constrained by the Smithy contract.
+    fn list_todos_custom<S>(mut self, svc: S) -> Self
+    where
+        S: ::tower::Service<
+                ::http::Request<Body>,
+                Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>,
+                Error = ::std::convert::Infallible,
+            > + Clone
+            + Send
+            + 'static,
+        S::Future: Send + 'static,
+    {
+        self.list_todos = Some(::aws_smithy_http_server::routing::Route::new(svc));
         self
     }
 
@@ -186,37 +791,37 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
     /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
     /// ```
     ///
-                pub fn signin<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
-                where
-                    HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::Signin, HandlerExtractors>,
+                    pub fn signin<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                    where
+                        HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::Signin, HandlerExtractors>,
 
-                    ModelPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::Signin,
-                        ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::Signin, HandlerType>
-                    >,
-                    ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::Signin,
-                        ModelPl::Output
-                    >,
-                    HttpPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::Signin,
-                        <
-                            ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
-                            as ::aws_smithy_http_server::plugin::Plugin<
-                                EchoService<L>,
-                                crate::operation_shape::Signin,
-                                ModelPl::Output
-                            >
-                        >::Output
-                    >,
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::Signin,
+                            ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::Signin, HandlerType>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::Signin,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::Signin,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::Signin,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
 
-                    HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
-                    <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
 
-                {
+                    {
         use ::aws_smithy_http_server::operation::OperationShapeExt;
         use ::aws_smithy_http_server::plugin::Plugin;
         let svc = crate::operation_shape::Signin::from_handler(handler);
@@ -253,37 +858,37 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
     /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
     /// ```
     ///
-                pub fn signin_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
-                where
-                    S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::Signin, ServiceExtractors>,
+                    pub fn signin_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                    where
+                        S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::Signin, ServiceExtractors>,
 
-                    ModelPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::Signin,
-                        ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::Signin, S>
-                    >,
-                    ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::Signin,
-                        ModelPl::Output
-                    >,
-                    HttpPl: ::aws_smithy_http_server::plugin::Plugin<
-                        EchoService<L>,
-                        crate::operation_shape::Signin,
-                        <
-                            ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
-                            as ::aws_smithy_http_server::plugin::Plugin<
-                                EchoService<L>,
-                                crate::operation_shape::Signin,
-                                ModelPl::Output
-                            >
-                        >::Output
-                    >,
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::Signin,
+                            ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::Signin, S>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::Signin,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::Signin,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::Signin,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
 
-                    HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
-                    <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
 
-                {
+                    {
         use ::aws_smithy_http_server::operation::OperationShapeExt;
         use ::aws_smithy_http_server::plugin::Plugin;
         let svc = crate::operation_shape::Signin::from_service(service);
@@ -308,6 +913,156 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
         S::Future: Send + 'static,
     {
         self.signin = Some(::aws_smithy_http_server::routing::Route::new(svc));
+        self
+    }
+
+    /// Sets the [`UpdateTodo`](crate::operation_shape::UpdateTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::UpdateTodoInput) -> Result<output::UpdateTodoOutput, error::UpdateTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let app = EchoService::builder(config)
+    ///     .update_todo(handler)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn update_todo<HandlerType, HandlerExtractors, UpgradeExtractors>(self, handler: HandlerType) -> Self
+                    where
+                        HandlerType: ::aws_smithy_http_server::operation::Handler<crate::operation_shape::UpdateTodo, HandlerExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::UpdateTodo,
+                            ::aws_smithy_http_server::operation::IntoService<crate::operation_shape::UpdateTodo, HandlerType>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::UpdateTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::UpdateTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::UpdateTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::UpdateTodo::from_handler(handler);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.update_todo_custom(svc)
+    }
+
+    /// Sets the [`UpdateTodo`](crate::operation_shape::UpdateTodo) operation.
+    ///
+    /// This should be an async function satisfying the [`Handler`](::aws_smithy_http_server::operation::Handler) trait.
+    /// See the [operation module documentation](::aws_smithy_http_server::operation) for more information.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use echo_server_sdk::{EchoService, EchoServiceConfig};
+    ///
+    /// use echo_server_sdk::{input, output, error};
+    ///
+    /// async fn handler(input: input::UpdateTodoInput) -> Result<output::UpdateTodoOutput, error::UpdateTodoError> {
+    ///     todo!()
+    /// }
+    ///
+    /// let config = EchoServiceConfig::builder().build();
+    /// let svc = ::tower::util::service_fn(handler);
+    /// let app = EchoService::builder(config)
+    ///     .update_todo_service(svc)
+    ///     /* Set other handlers */
+    ///     .build()
+    ///     .unwrap();
+    /// # let app: EchoService<::aws_smithy_http_server::routing::RoutingService<::aws_smithy_http_server::protocol::rest::router::RestRouter<::aws_smithy_http_server::routing::Route>, ::aws_smithy_http_server::protocol::rest_json_1::RestJson1>> = app;
+    /// ```
+    ///
+                    pub fn update_todo_service<S, ServiceExtractors, UpgradeExtractors>(self, service: S) -> Self
+                    where
+                        S: ::aws_smithy_http_server::operation::OperationService<crate::operation_shape::UpdateTodo, ServiceExtractors>,
+
+                        ModelPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::UpdateTodo,
+                            ::aws_smithy_http_server::operation::Normalize<crate::operation_shape::UpdateTodo, S>
+                        >,
+                        ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::UpdateTodo,
+                            ModelPl::Output
+                        >,
+                        HttpPl: ::aws_smithy_http_server::plugin::Plugin<
+                            EchoService<L>,
+                            crate::operation_shape::UpdateTodo,
+                            <
+                                ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>
+                                as ::aws_smithy_http_server::plugin::Plugin<
+                                    EchoService<L>,
+                                    crate::operation_shape::UpdateTodo,
+                                    ModelPl::Output
+                                >
+                            >::Output
+                        >,
+
+                        HttpPl::Output: ::tower::Service<::http::Request<Body>, Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>, Error = ::std::convert::Infallible> + Clone + Send + 'static,
+                        <HttpPl::Output as ::tower::Service<::http::Request<Body>>>::Future: Send + 'static,
+
+                    {
+        use ::aws_smithy_http_server::operation::OperationShapeExt;
+        use ::aws_smithy_http_server::plugin::Plugin;
+        let svc = crate::operation_shape::UpdateTodo::from_service(service);
+        let svc = self.model_plugin.apply(svc);
+        let svc = ::aws_smithy_http_server::operation::UpgradePlugin::<UpgradeExtractors>::new()
+            .apply(svc);
+        let svc = self.http_plugin.apply(svc);
+        self.update_todo_custom(svc)
+    }
+
+    /// Sets the [`UpdateTodo`](crate::operation_shape::UpdateTodo) to a custom [`Service`](tower::Service).
+    /// not constrained by the Smithy contract.
+    fn update_todo_custom<S>(mut self, svc: S) -> Self
+    where
+        S: ::tower::Service<
+                ::http::Request<Body>,
+                Response = ::http::Response<::aws_smithy_http_server::body::BoxBody>,
+                Error = ::std::convert::Infallible,
+            > + Clone
+            + Send
+            + 'static,
+        S::Future: Send + 'static,
+    {
+        self.update_todo = Some(::aws_smithy_http_server::routing::Route::new(svc));
         self
     }
 }
@@ -336,12 +1091,31 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
         let router = {
             use ::aws_smithy_http_server::operation::OperationShape;
             let mut missing_operation_names = std::collections::HashMap::new();
+            if self.create_todo.is_none() {
+                missing_operation_names
+                    .insert(crate::operation_shape::CreateTodo::ID, ".create_todo()");
+            }
+            if self.delete_todo.is_none() {
+                missing_operation_names
+                    .insert(crate::operation_shape::DeleteTodo::ID, ".delete_todo()");
+            }
             if self.echo_message.is_none() {
                 missing_operation_names
                     .insert(crate::operation_shape::EchoMessage::ID, ".echo_message()");
             }
+            if self.get_todo.is_none() {
+                missing_operation_names.insert(crate::operation_shape::GetTodo::ID, ".get_todo()");
+            }
+            if self.list_todos.is_none() {
+                missing_operation_names
+                    .insert(crate::operation_shape::ListTodos::ID, ".list_todos()");
+            }
             if self.signin.is_none() {
                 missing_operation_names.insert(crate::operation_shape::Signin::ID, ".signin()");
+            }
+            if self.update_todo.is_none() {
+                missing_operation_names
+                    .insert(crate::operation_shape::UpdateTodo::ID, ".update_todo()");
             }
             if !missing_operation_names.is_empty() {
                 return Err(MissingOperationsError {
@@ -352,12 +1126,32 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
 
             ::aws_smithy_http_server::protocol::rest::router::RestRouter::from_iter([
                 (
+                    request_specs::create_todo(),
+                    self.create_todo.expect(unexpected_error_msg),
+                ),
+                (
+                    request_specs::delete_todo(),
+                    self.delete_todo.expect(unexpected_error_msg),
+                ),
+                (
                     request_specs::echo_message(),
                     self.echo_message.expect(unexpected_error_msg),
                 ),
                 (
+                    request_specs::get_todo(),
+                    self.get_todo.expect(unexpected_error_msg),
+                ),
+                (
+                    request_specs::list_todos(),
+                    self.list_todos.expect(unexpected_error_msg),
+                ),
+                (
                     request_specs::signin(),
                     self.signin.expect(unexpected_error_msg),
+                ),
+                (
+                    request_specs::update_todo(),
+                    self.update_todo.expect(unexpected_error_msg),
                 ),
             ])
         };
@@ -385,6 +1179,24 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
     {
         let router = ::aws_smithy_http_server::protocol::rest::router::RestRouter::from_iter([
             (
+                request_specs::create_todo(),
+                self.create_todo.unwrap_or_else(|| {
+                    let svc = ::aws_smithy_http_server::operation::MissingFailure::<
+                        ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
+                    >::default();
+                    ::aws_smithy_http_server::routing::Route::new(svc)
+                }),
+            ),
+            (
+                request_specs::delete_todo(),
+                self.delete_todo.unwrap_or_else(|| {
+                    let svc = ::aws_smithy_http_server::operation::MissingFailure::<
+                        ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
+                    >::default();
+                    ::aws_smithy_http_server::routing::Route::new(svc)
+                }),
+            ),
+            (
                 request_specs::echo_message(),
                 self.echo_message.unwrap_or_else(|| {
                     let svc = ::aws_smithy_http_server::operation::MissingFailure::<
@@ -394,8 +1206,35 @@ impl<Body, L, HttpPl, ModelPl> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
                 }),
             ),
             (
+                request_specs::get_todo(),
+                self.get_todo.unwrap_or_else(|| {
+                    let svc = ::aws_smithy_http_server::operation::MissingFailure::<
+                        ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
+                    >::default();
+                    ::aws_smithy_http_server::routing::Route::new(svc)
+                }),
+            ),
+            (
+                request_specs::list_todos(),
+                self.list_todos.unwrap_or_else(|| {
+                    let svc = ::aws_smithy_http_server::operation::MissingFailure::<
+                        ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
+                    >::default();
+                    ::aws_smithy_http_server::routing::Route::new(svc)
+                }),
+            ),
+            (
                 request_specs::signin(),
                 self.signin.unwrap_or_else(|| {
+                    let svc = ::aws_smithy_http_server::operation::MissingFailure::<
+                        ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
+                    >::default();
+                    ::aws_smithy_http_server::routing::Route::new(svc)
+                }),
+            ),
+            (
+                request_specs::update_todo(),
+                self.update_todo.unwrap_or_else(|| {
                     let svc = ::aws_smithy_http_server::operation::MissingFailure::<
                         ::aws_smithy_http_server::protocol::rest_json_1::RestJson1,
                     >::default();
@@ -425,7 +1264,7 @@ impl std::fmt::Display for MissingOperationsError {
         write!(
             f,
             "You must specify a handler for all operations attached to `EchoService`.\n\
-                        We are missing handlers for the following operations:\n",
+                            We are missing handlers for the following operations:\n",
         )?;
         for operation_name in self.operation_names2setter_methods.keys() {
             writeln!(f, "- {}", operation_name.absolute())?;
@@ -445,6 +1284,35 @@ impl std::fmt::Display for MissingOperationsError {
 impl std::error::Error for MissingOperationsError {}
 
 mod request_specs {
+    pub(super) fn create_todo() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
+        ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
+                    ::http::Method::POST,
+                    ::aws_smithy_http_server::routing::request_spec::UriSpec::new(
+                        ::aws_smithy_http_server::routing::request_spec::PathAndQuerySpec::new(
+                            ::aws_smithy_http_server::routing::request_spec::PathSpec::from_vector_unchecked(vec![
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Literal(String::from("todos")),
+]),
+                            ::aws_smithy_http_server::routing::request_spec::QuerySpec::from_vector_unchecked(vec![
+])
+                        )
+                    ),
+                )
+    }
+    pub(super) fn delete_todo() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
+        ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
+                    ::http::Method::DELETE,
+                    ::aws_smithy_http_server::routing::request_spec::UriSpec::new(
+                        ::aws_smithy_http_server::routing::request_spec::PathAndQuerySpec::new(
+                            ::aws_smithy_http_server::routing::request_spec::PathSpec::from_vector_unchecked(vec![
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Literal(String::from("todos")),
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Label,
+]),
+                            ::aws_smithy_http_server::routing::request_spec::QuerySpec::from_vector_unchecked(vec![
+])
+                        )
+                    ),
+                )
+    }
     pub(super) fn echo_message() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
         ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
                     ::http::Method::POST,
@@ -459,6 +1327,35 @@ mod request_specs {
                     ),
                 )
     }
+    pub(super) fn get_todo() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
+        ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
+                    ::http::Method::GET,
+                    ::aws_smithy_http_server::routing::request_spec::UriSpec::new(
+                        ::aws_smithy_http_server::routing::request_spec::PathAndQuerySpec::new(
+                            ::aws_smithy_http_server::routing::request_spec::PathSpec::from_vector_unchecked(vec![
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Literal(String::from("todos")),
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Label,
+]),
+                            ::aws_smithy_http_server::routing::request_spec::QuerySpec::from_vector_unchecked(vec![
+])
+                        )
+                    ),
+                )
+    }
+    pub(super) fn list_todos() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
+        ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
+                    ::http::Method::GET,
+                    ::aws_smithy_http_server::routing::request_spec::UriSpec::new(
+                        ::aws_smithy_http_server::routing::request_spec::PathAndQuerySpec::new(
+                            ::aws_smithy_http_server::routing::request_spec::PathSpec::from_vector_unchecked(vec![
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Literal(String::from("todos")),
+]),
+                            ::aws_smithy_http_server::routing::request_spec::QuerySpec::from_vector_unchecked(vec![
+])
+                        )
+                    ),
+                )
+    }
     pub(super) fn signin() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
         ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
                     ::http::Method::POST,
@@ -466,6 +1363,21 @@ mod request_specs {
                         ::aws_smithy_http_server::routing::request_spec::PathAndQuerySpec::new(
                             ::aws_smithy_http_server::routing::request_spec::PathSpec::from_vector_unchecked(vec![
     ::aws_smithy_http_server::routing::request_spec::PathSegment::Literal(String::from("signin")),
+]),
+                            ::aws_smithy_http_server::routing::request_spec::QuerySpec::from_vector_unchecked(vec![
+])
+                        )
+                    ),
+                )
+    }
+    pub(super) fn update_todo() -> ::aws_smithy_http_server::routing::request_spec::RequestSpec {
+        ::aws_smithy_http_server::routing::request_spec::RequestSpec::new(
+                    ::http::Method::PUT,
+                    ::aws_smithy_http_server::routing::request_spec::UriSpec::new(
+                        ::aws_smithy_http_server::routing::request_spec::PathAndQuerySpec::new(
+                            ::aws_smithy_http_server::routing::request_spec::PathSpec::from_vector_unchecked(vec![
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Literal(String::from("todos")),
+    ::aws_smithy_http_server::routing::request_spec::PathSegment::Label,
 ]),
                             ::aws_smithy_http_server::routing::request_spec::QuerySpec::from_vector_unchecked(vec![
 ])
@@ -504,8 +1416,13 @@ impl EchoService<()> {
         config: EchoServiceConfig<L, HttpPl, ModelPl>,
     ) -> EchoServiceBuilder<Body, L, HttpPl, ModelPl> {
         EchoServiceBuilder {
+            create_todo: None,
+            delete_todo: None,
             echo_message: None,
+            get_todo: None,
+            list_todos: None,
             signin: None,
+            update_todo: None,
             layer: config.layers,
             http_plugin: config.http_plugins,
             model_plugin: config.model_plugins,
@@ -533,8 +1450,13 @@ impl EchoService<()> {
         model_plugin: ModelPl,
     ) -> EchoServiceBuilder<Body, ::tower::layer::util::Identity, HttpPl, ModelPl> {
         EchoServiceBuilder {
+            create_todo: None,
+            delete_todo: None,
             echo_message: None,
+            get_todo: None,
+            list_todos: None,
             signin: None,
+            update_todo: None,
             layer: ::tower::layer::util::Identity::new(),
             http_plugin,
             model_plugin,
@@ -656,36 +1578,91 @@ where
 /// An enumeration of all [operations](https://smithy.io/2.0/spec/service-types.html#operation) in EchoService.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Operation {
+    CreateTodo,
+    DeleteTodo,
     EchoMessage,
+    GetTodo,
+    ListTodos,
     Signin,
+    UpdateTodo,
 }
 
 impl Operation {
     /// Returns the [operations](https://smithy.io/2.0/spec/service-types.html#operation) [`ShapeId`](::aws_smithy_http_server::shape_id::ShapeId).
     pub fn shape_id(&self) -> ::aws_smithy_http_server::shape_id::ShapeId {
         match self {
+            Operation::CreateTodo => ::aws_smithy_http_server::shape_id::ShapeId::new(
+                "com.example#CreateTodo",
+                "com.example",
+                "CreateTodo",
+            ),
+            Operation::DeleteTodo => ::aws_smithy_http_server::shape_id::ShapeId::new(
+                "com.example#DeleteTodo",
+                "com.example",
+                "DeleteTodo",
+            ),
             Operation::EchoMessage => ::aws_smithy_http_server::shape_id::ShapeId::new(
                 "com.example#EchoMessage",
                 "com.example",
                 "EchoMessage",
+            ),
+            Operation::GetTodo => ::aws_smithy_http_server::shape_id::ShapeId::new(
+                "com.example#GetTodo",
+                "com.example",
+                "GetTodo",
+            ),
+            Operation::ListTodos => ::aws_smithy_http_server::shape_id::ShapeId::new(
+                "com.example#ListTodos",
+                "com.example",
+                "ListTodos",
             ),
             Operation::Signin => ::aws_smithy_http_server::shape_id::ShapeId::new(
                 "com.example#Signin",
                 "com.example",
                 "Signin",
             ),
+            Operation::UpdateTodo => ::aws_smithy_http_server::shape_id::ShapeId::new(
+                "com.example#UpdateTodo",
+                "com.example",
+                "UpdateTodo",
+            ),
         }
     }
+}
+impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::CreateTodo>
+    for EchoService<L>
+{
+    const VALUE: Operation = Operation::CreateTodo;
+}
+impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::DeleteTodo>
+    for EchoService<L>
+{
+    const VALUE: Operation = Operation::DeleteTodo;
 }
 impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::EchoMessage>
     for EchoService<L>
 {
     const VALUE: Operation = Operation::EchoMessage;
 }
+impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::GetTodo>
+    for EchoService<L>
+{
+    const VALUE: Operation = Operation::GetTodo;
+}
+impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::ListTodos>
+    for EchoService<L>
+{
+    const VALUE: Operation = Operation::ListTodos;
+}
 impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::Signin>
     for EchoService<L>
 {
     const VALUE: Operation = Operation::Signin;
+}
+impl<L> ::aws_smithy_http_server::service::ContainsOperation<crate::operation_shape::UpdateTodo>
+    for EchoService<L>
+{
+    const VALUE: Operation = Operation::UpdateTodo;
 }
 
 impl<S> ::aws_smithy_http_server::service::ServiceShape for EchoService<S> {
@@ -826,16 +1803,16 @@ impl<L, H, M> EchoServiceConfigBuilder<L, H, M> {
 ///
 /// ```rust
 /// scope! {
-///     /// Includes [`EchoMessage`], excluding all other operations.
+///     /// Includes [`CreateTodo`], excluding all other operations.
 ///     struct ScopeA {
-///         includes: [EchoMessage]
+///         includes: [CreateTodo]
 ///     }
 /// }
 ///
 /// scope! {
-///     /// Excludes [`EchoMessage`], excluding all other operations.
+///     /// Excludes [`CreateTodo`], excluding all other operations.
 ///     struct ScopeB {
-///         excludes: [EchoMessage]
+///         excludes: [CreateTodo]
 ///     }
 /// }
 ///
@@ -845,80 +1822,125 @@ impl<L, H, M> EchoServiceConfigBuilder<L, H, M> {
 /// # impl<S, Op, T> Plugin<S, Op, T> for MockPlugin { type Output = u32; fn apply(&self, input: T) -> u32 { 3 } }
 /// # let scoped_a = Scoped::new::<ScopeA>(MockPlugin);
 /// # let scoped_b = Scoped::new::<ScopeB>(MockPlugin);
-/// # let a = Plugin::<(), echo_server_sdk::operation_shape::EchoMessage, u64>::apply(&scoped_a, 6);
-/// # let b = Plugin::<(), echo_server_sdk::operation_shape::EchoMessage, u64>::apply(&scoped_b, 6);
+/// # let a = Plugin::<(), echo_server_sdk::operation_shape::CreateTodo, u64>::apply(&scoped_a, 6);
+/// # let b = Plugin::<(), echo_server_sdk::operation_shape::CreateTodo, u64>::apply(&scoped_b, 6);
 /// # assert_eq!(a, 3_u32);
 /// # assert_eq!(b, 6_u64);
 /// ```
 #[macro_export]
 macro_rules! scope {
-                // Completed, render impls
-                (@ $ name: ident, $ contains: ident () ($($ temp: ident)*) ($($ not_member: ident)*)) => {
-                    $(
-                        impl ::aws_smithy_http_server::plugin::scoped::Membership<$ temp> for $ name {
-                            type Contains = ::aws_smithy_http_server::plugin::scoped::$ contains;
-                        }
-                    )*
-                    $(
-                        impl ::aws_smithy_http_server::plugin::scoped::Membership<$ not_member> for $ name {
-                            type Contains = ::aws_smithy_http_server::plugin::scoped::$ contains;
-                        }
-                    )*
-                };
-                // All `not_member`s exhausted, move `temp` into `not_member`
-                (@ $ name: ident, $ contains: ident ($($ member: ident)*) ($($ temp: ident)*) ()) => {
-                    scope! { @ $ name, $ contains ($($ member)*) () ($($ temp)*) }
-                };
+                    // Completed, render impls
+                    (@ $ name: ident, $ contains: ident () ($($ temp: ident)*) ($($ not_member: ident)*)) => {
+                        $(
+                            impl ::aws_smithy_http_server::plugin::scoped::Membership<$ temp> for $ name {
+                                type Contains = ::aws_smithy_http_server::plugin::scoped::$ contains;
+                            }
+                        )*
+                        $(
+                            impl ::aws_smithy_http_server::plugin::scoped::Membership<$ not_member> for $ name {
+                                type Contains = ::aws_smithy_http_server::plugin::scoped::$ contains;
+                            }
+                        )*
+                    };
+                    // All `not_member`s exhausted, move `temp` into `not_member`
+                    (@ $ name: ident, $ contains: ident ($($ member: ident)*) ($($ temp: ident)*) ()) => {
+                        scope! { @ $ name, $ contains ($($ member)*) () ($($ temp)*) }
+                    };
 
-                // EchoMessage match found, pop from both `member` and `not_member`
-                (@ $ name: ident, $ contains: ident (EchoMessage $($ member: ident)*) ($($ temp: ident)*) (EchoMessage $($ not_member: ident)*)) => {
-                    scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
-                };
-                // EchoMessage match not found, pop from `not_member` into `temp` stack
-                (@ $ name: ident, $ contains: ident (EchoMessage $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
-                    scope! { @ $ name, $ contains (EchoMessage $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
-                };
+                        // CreateTodo match found, pop from both `member` and `not_member`
+                        (@ $ name: ident, $ contains: ident (CreateTodo $($ member: ident)*) ($($ temp: ident)*) (CreateTodo $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                        };
+                        // CreateTodo match not found, pop from `not_member` into `temp` stack
+                        (@ $ name: ident, $ contains: ident (CreateTodo $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains (CreateTodo $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                        };
 
-                // Signin match found, pop from both `member` and `not_member`
-                (@ $ name: ident, $ contains: ident (Signin $($ member: ident)*) ($($ temp: ident)*) (Signin $($ not_member: ident)*)) => {
-                    scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
-                };
-                // Signin match not found, pop from `not_member` into `temp` stack
-                (@ $ name: ident, $ contains: ident (Signin $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
-                    scope! { @ $ name, $ contains (Signin $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
-                };
+                        // DeleteTodo match found, pop from both `member` and `not_member`
+                        (@ $ name: ident, $ contains: ident (DeleteTodo $($ member: ident)*) ($($ temp: ident)*) (DeleteTodo $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                        };
+                        // DeleteTodo match not found, pop from `not_member` into `temp` stack
+                        (@ $ name: ident, $ contains: ident (DeleteTodo $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains (DeleteTodo $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                        };
 
-                (
-                    $(#[$ attrs:meta])*
-                    $ vis:vis struct $ name:ident {
-                        includes: [$($ include:ident),*]
-                    }
-                ) => {
-                    use $ crate::operation_shape::*;
-                    ::aws_smithy_http_server::scope! {
-                        $(#[$ attrs])*
-                        $ vis struct $ name {
-                            includes: [$($ include),*],
-                            excludes: []
+                        // EchoMessage match found, pop from both `member` and `not_member`
+                        (@ $ name: ident, $ contains: ident (EchoMessage $($ member: ident)*) ($($ temp: ident)*) (EchoMessage $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                        };
+                        // EchoMessage match not found, pop from `not_member` into `temp` stack
+                        (@ $ name: ident, $ contains: ident (EchoMessage $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains (EchoMessage $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                        };
+
+                        // GetTodo match found, pop from both `member` and `not_member`
+                        (@ $ name: ident, $ contains: ident (GetTodo $($ member: ident)*) ($($ temp: ident)*) (GetTodo $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                        };
+                        // GetTodo match not found, pop from `not_member` into `temp` stack
+                        (@ $ name: ident, $ contains: ident (GetTodo $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains (GetTodo $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                        };
+
+                        // ListTodos match found, pop from both `member` and `not_member`
+                        (@ $ name: ident, $ contains: ident (ListTodos $($ member: ident)*) ($($ temp: ident)*) (ListTodos $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                        };
+                        // ListTodos match not found, pop from `not_member` into `temp` stack
+                        (@ $ name: ident, $ contains: ident (ListTodos $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains (ListTodos $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                        };
+
+                        // Signin match found, pop from both `member` and `not_member`
+                        (@ $ name: ident, $ contains: ident (Signin $($ member: ident)*) ($($ temp: ident)*) (Signin $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                        };
+                        // Signin match not found, pop from `not_member` into `temp` stack
+                        (@ $ name: ident, $ contains: ident (Signin $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains (Signin $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                        };
+
+                        // UpdateTodo match found, pop from both `member` and `not_member`
+                        (@ $ name: ident, $ contains: ident (UpdateTodo $($ member: ident)*) ($($ temp: ident)*) (UpdateTodo $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains ($($ member)*) ($($ temp)*) ($($ not_member)*) }
+                        };
+                        // UpdateTodo match not found, pop from `not_member` into `temp` stack
+                        (@ $ name: ident, $ contains: ident (UpdateTodo $($ member: ident)*) ($($ temp: ident)*) ($ other: ident $($ not_member: ident)*)) => {
+                            scope! { @ $ name, $ contains (UpdateTodo $($ member)*) ($ other $($ temp)*) ($($ not_member)*) }
+                        };
+
+                    (
+                        $(#[$ attrs:meta])*
+                        $ vis:vis struct $ name:ident {
+                            includes: [$($ include:ident),*]
                         }
-                    }
-                    scope! { @ $ name, False ($($ include)*) () (EchoMessage Signin) }
-                };
-                (
-                    $(#[$ attrs:meta])*
-                    $ vis:vis struct $ name:ident {
-                        excludes: [$($ exclude:ident),*]
-                    }
-                ) => {
-                    use $ crate::operation_shape::*;
-
-                    ::aws_smithy_http_server::scope! {
-                        $(#[$ attrs])*
-                        $ vis struct $ name {
-                            includes: [],
-                            excludes: [$($ exclude),*]
+                    ) => {
+                        use $ crate::operation_shape::*;
+                        ::aws_smithy_http_server::scope! {
+                            $(#[$ attrs])*
+                            $ vis struct $ name {
+                                includes: [$($ include),*],
+                                excludes: []
+                            }
                         }
-                    }
-                    scope! { @ $ name, True ($($ exclude)*) () (EchoMessage Signin) }
-                };
-            }
+                        scope! { @ $ name, False ($($ include)*) () (CreateTodo DeleteTodo EchoMessage GetTodo ListTodos Signin UpdateTodo) }
+                    };
+                    (
+                        $(#[$ attrs:meta])*
+                        $ vis:vis struct $ name:ident {
+                            excludes: [$($ exclude:ident),*]
+                        }
+                    ) => {
+                        use $ crate::operation_shape::*;
+
+                        ::aws_smithy_http_server::scope! {
+                            $(#[$ attrs])*
+                            $ vis struct $ name {
+                                includes: [],
+                                excludes: [$($ exclude),*]
+                            }
+                        }
+                        scope! { @ $ name, True ($($ exclude)*) () (CreateTodo DeleteTodo EchoMessage GetTodo ListTodos Signin UpdateTodo) }
+                    };
+                }
