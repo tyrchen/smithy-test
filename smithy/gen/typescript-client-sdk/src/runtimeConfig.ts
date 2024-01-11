@@ -1,4 +1,9 @@
 // smithy-typescript generated code
+// @ts-ignore: package.json will be imported from dist folders
+import packageInfo from "../package.json"; // eslint-disable-line
+
+import { emitWarningIfUnsupportedVersion as awsCheckVersion } from "@aws-sdk/core";
+import { defaultUserAgent } from "@aws-sdk/util-user-agent-node";
 import { Hash } from "@smithy/hash-node";
 import {
   NODE_MAX_ATTEMPT_CONFIG_OPTIONS,
@@ -25,12 +30,13 @@ export const getRuntimeConfig = (config: EchoServiceClientConfig) => {
   const defaultsMode = resolveDefaultsModeConfig(config);
   const defaultConfigProvider = () => defaultsMode().then(loadConfigsForDefaultMode);
   const clientSharedValues = getSharedRuntimeConfig(config);
-  return {
+  awsCheckVersion(process.version);return {
     ...clientSharedValues,
     ...config,
     runtime: "node",
     defaultsMode,
     bodyLengthChecker: config?.bodyLengthChecker ?? calculateBodyLength,
+    defaultUserAgentProvider: config?.defaultUserAgentProvider ?? defaultUserAgent({clientVersion: packageInfo.version}),
     maxAttempts: config?.maxAttempts ?? loadNodeConfig(NODE_MAX_ATTEMPT_CONFIG_OPTIONS),
     requestHandler: config?.requestHandler ?? new RequestHandler(defaultConfigProvider),
     retryMode: config?.retryMode ?? loadNodeConfig({...NODE_RETRY_MODE_CONFIG_OPTIONS,default: async () => (await defaultConfigProvider()).retryMode || DEFAULT_RETRY_MODE,}),

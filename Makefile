@@ -24,6 +24,7 @@ build-smithy:
 
 build-smithy-js:
 	@cd smithy/gen/typescript-client-sdk && yarn && yarn build
+	@cd web; yarn add ../smithy/gen/typescript-client-sdk && yarn
 
 watch:
 	@watchexec --restart --exts rs -- cargo run --bin echo-server

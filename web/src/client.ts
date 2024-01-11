@@ -1,10 +1,10 @@
 import { EchoServiceClient, EchoMessageCommand } from 'echo';
 
 const client = new EchoServiceClient({
-  region: "us-west-2",
   endpoint: "http://localhost:3000/api",
+  token: undefined,
 });
 
-client.send(new EchoMessageCommand({ message: "Hello World!" })).then((res) => {
-  console.log(res);
-});
+
+window.client = client;
+window.EchoMessageCommand = EchoMessageCommand;

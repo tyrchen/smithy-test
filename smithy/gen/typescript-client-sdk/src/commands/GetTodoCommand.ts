@@ -8,9 +8,26 @@ import {
   GetTodoInput,
   GetTodoOutput,
 } from "../models/models_0";
+import {
+  de_GetTodoCommand,
+  se_GetTodoCommand,
+} from "../protocols/Aws_restJson1";
 import { getSerdePlugin } from "@smithy/middleware-serde";
+import {
+  HttpRequest as __HttpRequest,
+  HttpResponse as __HttpResponse,
+} from "@smithy/protocol-http";
 import { Command as $Command } from "@smithy/smithy-client";
-import { MetadataBearer as __MetadataBearer } from "@smithy/types";
+import {
+  FinalizeHandlerArguments,
+  Handler,
+  HandlerExecutionContext,
+  MiddlewareStack,
+  SMITHY_CONTEXT_KEY,
+  HttpHandlerOptions as __HttpHandlerOptions,
+  MetadataBearer as __MetadataBearer,
+  SerdeContext as __SerdeContext,
+} from "@smithy/types";
 
 /**
  * @public
@@ -71,19 +88,69 @@ export interface GetTodoCommandOutput extends GetTodoOutput, __MetadataBearer {}
  * <p>Base exception class for all service exceptions from EchoService service.</p>
  *
  */
-export class GetTodoCommand extends $Command.classBuilder<GetTodoCommandInput, GetTodoCommandOutput, EchoServiceClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes>()
-      .m(function (this: any, Command: any, cs: any, config: EchoServiceClientResolvedConfig, o: any) {
-          return [
+export class GetTodoCommand extends $Command<GetTodoCommandInput, GetTodoCommandOutput, EchoServiceClientResolvedConfig> {
 
-  getSerdePlugin(config, this.serialize, this.deserialize),
-      ];
-  })
-  .s("EchoService", "GetTodo", {
+  /**
+   * @public
+   */
+  constructor(readonly input: GetTodoCommandInput) {
+    super();
+  }
 
-  })
-  .n("EchoServiceClient", "GetTodoCommand")
-  .f(void 0, void 0)
-  .ser(() => { throw new Error("No supported protocol was found"); })
-  .de(() => { throw new Error("No supported protocol was found"); })
-.build() {
+  /**
+   * @internal
+   */
+  resolveMiddleware(
+    clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
+    configuration: EchoServiceClientResolvedConfig,
+    options?: __HttpHandlerOptions
+  ): Handler<GetTodoCommandInput, GetTodoCommandOutput> {
+    this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
+
+    const stack = clientStack.concat(this.middlewareStack);
+
+    const { logger } = configuration;
+    const clientName = "EchoServiceClient";
+    const commandName = "GetTodoCommand";
+    const handlerExecutionContext: HandlerExecutionContext = {
+      logger,
+      clientName,
+      commandName,
+      inputFilterSensitiveLog:
+        (_: any) => _,
+      outputFilterSensitiveLog:
+        (_: any) => _,
+      [SMITHY_CONTEXT_KEY]: {
+        service: "EchoService",
+        operation: "GetTodo",
+      },
+    }
+    const { requestHandler } = configuration;
+    return stack.resolve(
+      (request: FinalizeHandlerArguments<any>) =>
+        requestHandler.handle(request.request as __HttpRequest, options || {}),
+      handlerExecutionContext
+    );
+  }
+
+  /**
+   * @internal
+   */
+  private serialize(
+    input: GetTodoCommandInput,
+    context: __SerdeContext
+  ): Promise<__HttpRequest> {
+    return se_GetTodoCommand(input, context);
+  }
+
+  /**
+   * @internal
+   */
+  private deserialize(
+    output: __HttpResponse,
+    context: __SerdeContext
+  ): Promise<GetTodoCommandOutput> {
+    return de_GetTodoCommand(output, context);
+  }
+
 }

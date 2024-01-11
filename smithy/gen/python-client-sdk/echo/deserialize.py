@@ -199,14 +199,14 @@ async def _deserialize_list_todos(
     if body := await http_response.consume_body():
         output = json.loads(body)
 
-    if (_next_token := output.get("nextToken")) is not None:
-        kwargs["next_token"] = expect_type(str, _next_token)
-
     if "todos" not in output:
         raise ServiceError(
             'Expected to find "todos" in the operation output, but it was not present.'
         )
     kwargs["todos"] = _deserialize_todo_list(output["todos"], config)
+
+    if (_next_token := output.get("nextToken")) is not None:
+        kwargs["next_token"] = expect_type(str, _next_token)
 
     return ListTodosOutput(**kwargs)
 
@@ -431,16 +431,16 @@ async def _deserialize_error_validation_exception(
 
     output: dict[str, Document] = parsed_body if parsed_body is not None else {}
 
+    if (_field_list := output.get("fieldList")) is not None:
+        kwargs["field_list"] = _deserialize_validation_exception_field_list(
+            _field_list, config
+        )
+
     if "message" not in output:
         raise ServiceError(
             'Expected to find "message" in the operation output, but it was not present.'
         )
     kwargs["message"] = expect_type(str, output["message"])
-
-    if (_field_list := output.get("fieldList")) is not None:
-        kwargs["field_list"] = _deserialize_validation_exception_field_list(
-            _field_list, config
-        )
 
     return ValidationException(**kwargs)
 

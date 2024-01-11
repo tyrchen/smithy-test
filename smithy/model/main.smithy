@@ -15,6 +15,7 @@ service EchoService {
 }
 
 @http(uri: "/echo", method: "POST")
+@auth([])
 operation EchoMessage {
     input := {
         @required

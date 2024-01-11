@@ -16,6 +16,9 @@ class HTTPAuthSchemeResolver:
     ) -> list[HTTPAuthOption]:
         auth_options: list[HTTPAuthOption] = []
 
+        if auth_parameters.operation == "EchoMessage":
+            return auth_options
+
         if auth_parameters.operation == "Signin":
             return auth_options
 

@@ -1,5 +1,9 @@
 // smithy-typescript generated code
+// @ts-ignore: package.json will be imported from dist folders
+import packageInfo from "../package.json"; // eslint-disable-line
+
 import { Sha256 } from "@aws-crypto/sha256-browser";
+import { defaultUserAgent } from "@aws-sdk/util-user-agent-browser";
 import {
   FetchHttpHandler as RequestHandler,
   streamCollector,
@@ -27,6 +31,7 @@ export const getRuntimeConfig = (config: EchoServiceClientConfig) => {
     runtime: "browser",
     defaultsMode,
     bodyLengthChecker: config?.bodyLengthChecker ?? calculateBodyLength,
+    defaultUserAgentProvider: config?.defaultUserAgentProvider ?? defaultUserAgent({clientVersion: packageInfo.version}),
     maxAttempts: config?.maxAttempts ?? DEFAULT_MAX_ATTEMPTS,
     requestHandler: config?.requestHandler ?? new RequestHandler(defaultConfigProvider),
     retryMode: config?.retryMode ?? (async () => (await defaultConfigProvider()).retryMode || DEFAULT_RETRY_MODE),
