@@ -199,14 +199,14 @@ async def _deserialize_list_todos(
     if body := await http_response.consume_body():
         output = json.loads(body)
 
+    if (_next_token := output.get("nextToken")) is not None:
+        kwargs["next_token"] = expect_type(str, _next_token)
+
     if "todos" not in output:
         raise ServiceError(
             'Expected to find "todos" in the operation output, but it was not present.'
         )
     kwargs["todos"] = _deserialize_todo_list(output["todos"], config)
-
-    if (_next_token := output.get("nextToken")) is not None:
-        kwargs["next_token"] = expect_type(str, _next_token)
 
     return ListTodosOutput(**kwargs)
 

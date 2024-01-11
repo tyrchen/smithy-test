@@ -9,21 +9,8 @@ import {
   DeleteTodoOutput,
 } from "../models/models_0";
 import { getSerdePlugin } from "@smithy/middleware-serde";
-import {
-  HttpRequest as __HttpRequest,
-  HttpResponse as __HttpResponse,
-} from "@smithy/protocol-http";
 import { Command as $Command } from "@smithy/smithy-client";
-import {
-  FinalizeHandlerArguments,
-  Handler,
-  HandlerExecutionContext,
-  MiddlewareStack,
-  SMITHY_CONTEXT_KEY,
-  HttpHandlerOptions as __HttpHandlerOptions,
-  MetadataBearer as __MetadataBearer,
-  SerdeContext as __SerdeContext,
-} from "@smithy/types";
+import { MetadataBearer as __MetadataBearer } from "@smithy/types";
 
 /**
  * @public
@@ -80,69 +67,19 @@ export interface DeleteTodoCommandOutput extends DeleteTodoOutput, __MetadataBea
  * <p>Base exception class for all service exceptions from EchoService service.</p>
  *
  */
-export class DeleteTodoCommand extends $Command<DeleteTodoCommandInput, DeleteTodoCommandOutput, EchoServiceClientResolvedConfig> {
+export class DeleteTodoCommand extends $Command.classBuilder<DeleteTodoCommandInput, DeleteTodoCommandOutput, EchoServiceClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes>()
+      .m(function (this: any, Command: any, cs: any, config: EchoServiceClientResolvedConfig, o: any) {
+          return [
 
-  /**
-   * @public
-   */
-  constructor(readonly input: DeleteTodoCommandInput) {
-    super();
-  }
+  getSerdePlugin(config, this.serialize, this.deserialize),
+      ];
+  })
+  .s("EchoService", "DeleteTodo", {
 
-  /**
-   * @internal
-   */
-  resolveMiddleware(
-    clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: EchoServiceClientResolvedConfig,
-    options?: __HttpHandlerOptions
-  ): Handler<DeleteTodoCommandInput, DeleteTodoCommandOutput> {
-    this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
-
-    const stack = clientStack.concat(this.middlewareStack);
-
-    const { logger } = configuration;
-    const clientName = "EchoServiceClient";
-    const commandName = "DeleteTodoCommand";
-    const handlerExecutionContext: HandlerExecutionContext = {
-      logger,
-      clientName,
-      commandName,
-      inputFilterSensitiveLog:
-        (_: any) => _,
-      outputFilterSensitiveLog:
-        (_: any) => _,
-      [SMITHY_CONTEXT_KEY]: {
-        service: "EchoService",
-        operation: "DeleteTodo",
-      },
-    }
-    const { requestHandler } = configuration;
-    return stack.resolve(
-      (request: FinalizeHandlerArguments<any>) =>
-        requestHandler.handle(request.request as __HttpRequest, options || {}),
-      handlerExecutionContext
-    );
-  }
-
-  /**
-   * @internal
-   */
-  private serialize(
-    input: DeleteTodoCommandInput,
-    context: __SerdeContext
-  ): Promise<__HttpRequest> {
-    throw new Error("No supported protocol was found");
-  }
-
-  /**
-   * @internal
-   */
-  private deserialize(
-    output: __HttpResponse,
-    context: __SerdeContext
-  ): Promise<DeleteTodoCommandOutput> {
-    throw new Error("No supported protocol was found");
-  }
-
+  })
+  .n("EchoServiceClient", "DeleteTodoCommand")
+  .f(void 0, void 0)
+  .ser(() => { throw new Error("No supported protocol was found"); })
+  .de(() => { throw new Error("No supported protocol was found"); })
+.build() {
 }
