@@ -17,21 +17,6 @@ list TodoList {
     member: TodoItem
 }
 
-
-/// Contains username and password. Currently any username and password is accepted.
-structure SigninForm {
-    @required
-    username: String
-    @required
-    password: String
-}
-
-/// Contains a bearer token for authentication.
-structure SigninToken {
-    @required
-    token: String
-}
-
 /// Throttling error.
 @error("client")
 @retryable

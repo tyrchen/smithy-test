@@ -19,7 +19,6 @@ from .models import (
     EchoMessageInput,
     GetTodoInput,
     ListTodosInput,
-    SigninForm,
     SigninInput,
     UpdateTodoInput,
 )
@@ -166,16 +165,17 @@ async def _serialize_signin(input: SigninInput, config: Config) -> HTTPRequest:
     query: str = f""
 
     body: AsyncIterable[bytes] = AsyncBytesReader(b"")
-    content_length: int = 0
-    if input.payload is not None:
-        content = json.dumps(_serialize_signin_form(input.payload, config)).encode(
-            "utf-8"
-        )
-        content_length = len(content)
-        body = AsyncBytesReader(content)
-    else:
-        content_length = 2
-        body = AsyncBytesReader(b"{}")
+    result: dict[str, Document] = {}
+
+    if input.password is not None:
+        result["password"] = input.password
+
+    if input.username is not None:
+        result["username"] = input.username
+
+    content = json.dumps(result).encode("utf-8")
+    content_length = len(content)
+    body = AsyncBytesReader(content)
 
     headers = Fields(
         [
@@ -234,13 +234,3 @@ async def _serialize_update_todo(input: UpdateTodoInput, config: Config) -> HTTP
         fields=headers,
         body=body,
     )
-
-
-def _serialize_signin_form(input: SigninForm, config: Config) -> dict[str, Document]:
-    result: dict[str, Document] = {}
-
-    result["username"] = input.username
-
-    result["password"] = input.password
-
-    return result

@@ -5,12 +5,12 @@
  *
  * @packageDocumentation
  */
-export * from "./EchoServiceClient";
-export * from "./EchoService";
+export * from "./EchoClient";
+export * from "./Echo";
 export { RuntimeExtension } from "./runtimeExtensions";
-export { EchoServiceExtensionConfiguration } from "./extensionConfiguration";
+export { EchoExtensionConfiguration } from "./extensionConfiguration";
 export * from "./commands";
 export * from "./pagination";
 export * from "./models";
 
-export { EchoServiceServiceException } from "./models/EchoServiceServiceException";
+export { EchoServiceException } from "./models/EchoServiceException";

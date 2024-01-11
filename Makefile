@@ -7,7 +7,7 @@ validate:
 	@cd smithy && smithy validate
 
 update-smithy:
-	@gh release download -R tyrchen/smithy-docker -p '$(ASSETS)'
+	@gh release download -R tyrchen/smithy-assets -p '$(ASSETS)'
 	@rm -rf $HOME/.m2
 	@tar -xzf $(ASSETS) -C $(HOME) --strip-components=2
 	@rm $(ASSETS)

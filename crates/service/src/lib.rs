@@ -7,13 +7,19 @@ use auth::{AuthConfig, AuthSigner, AuthVerifier};
 use aws_smithy_http_server::{
     plugin::IdentityPlugin, request::request_id::ServerRequestIdProviderLayer, AddExtensionLayer,
 };
-use axum::{http::HeaderName, response::Html, routing::get, Router};
+use axum::{
+    http::{HeaderName, Method},
+    response::Html,
+    routing::get,
+    Router,
+};
 use axum_swagger_ui::swagger_ui;
 use derive_more::Debug;
 use echo_server_sdk::{EchoService, EchoServiceConfig};
 use middleware::{BearerTokenProviderLayer, ServerTimingLayer};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
+use tower_http::cors::{Any, CorsLayer};
 
 #[derive(Debug)]
 pub struct AppState {
@@ -59,11 +65,29 @@ pub async fn get_router(conf: AppConfig) -> Router {
 
     let doc_url = "/swagger/openapi.json";
     let doc = include_str!("../../../smithy/gen/openapi/EchoService.openapi.json");
+
+    let cors = CorsLayer::new()
+        // allow `GET` and `POST` when accessing the resource
+        .allow_methods([
+            Method::GET,
+            Method::POST,
+            Method::PUT,
+            Method::DELETE,
+            Method::PATCH,
+            Method::HEAD,
+            Method::OPTIONS,
+        ])
+        .allow_headers(Any)
+        // allow requests from any origin
+        .allow_origin(Any)
+        .allow_private_network(true);
+
     Router::new()
         .route("/swagger", get(|| async { Html(swagger_ui(doc_url)) }))
         .route(doc_url, get(move || async move { doc }))
         .nest_service("/api/", api)
         .layer(ServerTimingLayer::new(name))
+        .layer(cors)
         .with_state(state)
 }
 

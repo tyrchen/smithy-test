@@ -3,13 +3,14 @@
 #[non_exhaustive]
 #[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::fmt::Debug)]
 pub struct SigninOutput {
-    /// Contains a bearer token for authentication.
-    pub payload: crate::types::SigninToken,
+    #[allow(missing_docs)] // documentation missing in model
+    pub token: ::std::string::String,
 }
 impl SigninOutput {
-    /// Contains a bearer token for authentication.
-    pub fn payload(&self) -> &crate::types::SigninToken {
-        &self.payload
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn token(&self) -> &str {
+        use std::ops::Deref;
+        self.token.deref()
     }
 }
 impl SigninOutput {
@@ -25,27 +26,27 @@ impl SigninOutput {
     ::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug,
 )]
 pub struct SigninOutputBuilder {
-    pub(crate) payload: ::std::option::Option<crate::types::SigninToken>,
+    pub(crate) token: ::std::option::Option<::std::string::String>,
 }
 impl SigninOutputBuilder {
-    /// Contains a bearer token for authentication.
+    #[allow(missing_docs)] // documentation missing in model
     /// This field is required.
-    pub fn payload(mut self, input: crate::types::SigninToken) -> Self {
-        self.payload = ::std::option::Option::Some(input);
+    pub fn token(mut self, input: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.token = ::std::option::Option::Some(input.into());
         self
     }
-    /// Contains a bearer token for authentication.
-    pub fn set_payload(mut self, input: ::std::option::Option<crate::types::SigninToken>) -> Self {
-        self.payload = input;
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn set_token(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
+        self.token = input;
         self
     }
-    /// Contains a bearer token for authentication.
-    pub fn get_payload(&self) -> &::std::option::Option<crate::types::SigninToken> {
-        &self.payload
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn get_token(&self) -> &::std::option::Option<::std::string::String> {
+        &self.token
     }
     /// Consumes the builder and constructs a [`SigninOutput`](crate::operation::signin::SigninOutput).
     /// This method will fail if any of the following fields are not set:
-    /// - [`payload`](crate::operation::signin::builders::SigninOutputBuilder::payload)
+    /// - [`token`](crate::operation::signin::builders::SigninOutputBuilder::token)
     pub fn build(
         self,
     ) -> ::std::result::Result<
@@ -53,10 +54,10 @@ impl SigninOutputBuilder {
         ::aws_smithy_types::error::operation::BuildError,
     > {
         ::std::result::Result::Ok(crate::operation::signin::SigninOutput {
-            payload: self.payload.ok_or_else(|| {
+            token: self.token.ok_or_else(|| {
                 ::aws_smithy_types::error::operation::BuildError::missing_field(
-                    "payload",
-                    "payload was not specified but it is required when building SigninOutput",
+                    "token",
+                    "token was not specified but it is required when building SigninOutput",
                 )
             })?,
         })

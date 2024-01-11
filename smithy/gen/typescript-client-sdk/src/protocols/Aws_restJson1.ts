@@ -27,12 +27,12 @@ import {
   UpdateTodoCommandInput,
   UpdateTodoCommandOutput,
 } from "../commands/UpdateTodoCommand";
+import { EchoServiceException as __BaseException } from "../models/EchoServiceException";
 import { EchoServiceServiceException as __BaseException } from "../models/EchoServiceServiceException";
 import {
   ConflictError,
   ForbiddenError,
   NotFoundError,
-  SigninForm,
   ThrottlingError,
   UnauthorizedError,
   ValidationException,
@@ -201,13 +201,10 @@ export const se_SigninCommand = async(
   };
   let resolvedPath = `${basePath?.endsWith('/') ? basePath.slice(0, -1) : (basePath || '')}` + "/signin";
   let body: any;
-  if (input.payload !== undefined) {
-    body = _json(input.payload);
-  }
-  if (body === undefined) {
-    body = {};
-  }
-  body = JSON.stringify(body);
+  body = JSON.stringify(take(input, {
+    'password': [],
+    'username': [],
+  }));
   return new __HttpRequest({
     protocol,
     hostname,
@@ -499,8 +496,11 @@ const de_CreateTodoCommandError = async(
             const contents: any = map({
               $metadata: deserializeMetadata(output),
             });
-            const data: Record<string, any> | undefined = __expectObject(await parseBody(output.body, context));
-            contents.payload = _json(data);
+            const data: Record<string, any> = __expectNonNull((__expectObject(await parseBody(output.body, context))), "body");
+            const doc = take(data, {
+              'token': __expectString,
+            });
+            Object.assign(contents, doc);
             return contents;
           }
 
@@ -713,10 +713,6 @@ const de_CreateTodoCommandError = async(
                 });
                 return __decorateServiceException(exception, parsedOutput.body);
               };
-
-              // se_SigninForm omitted.
-
-              // de_SigninToken omitted.
 
               // de_TodoItem omitted.
 

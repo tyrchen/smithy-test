@@ -45,8 +45,6 @@ pub(crate) mod shape_list_todos_output;
 
 pub(crate) mod shape_not_found_error;
 
-pub(crate) mod shape_signin_input;
-
 pub(crate) mod shape_signin_output;
 
 pub(crate) mod shape_throttling_error;
@@ -58,10 +56,6 @@ pub(crate) mod shape_update_todo_input;
 pub(crate) mod shape_update_todo_output;
 
 pub(crate) mod shape_validation_exception;
-
-pub(crate) mod shape_signin_form;
-
-pub(crate) mod shape_signin_token;
 
 pub(crate) mod shape_todo_item;
 

@@ -3,14 +3,13 @@
 import ClientRuntime
 
 public struct SigninOutput: Swift.Equatable {
-    /// Contains a bearer token for authentication.
     /// This member is required.
-    public var payload: EchoServiceClientTypes.SigninToken?
+    public var token: Swift.String?
 
     public init(
-        payload: EchoServiceClientTypes.SigninToken? = nil
+        token: Swift.String? = nil
     )
     {
-        self.payload = payload
+        self.token = token
     }
 }

@@ -77,7 +77,8 @@ where
 impl<S> BearerTokenProvider<S> {
     fn process<Body>(&self, mut req: Request<Body>) -> Result<Request<Body>, BearTokenError> {
         // TODO: how to read the smithy auth trait to see if the auth is required?
-        if req.uri().path().starts_with("/signin") {
+        let path = req.uri().path();
+        if path.starts_with("/signin") || path.starts_with("/echo") {
             return Ok(req);
         }
 

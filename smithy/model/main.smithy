@@ -4,8 +4,11 @@ namespace com.example
 
 use aws.protocols#restJson1
 use smithy.framework#ValidationException
+use aws.api#service
+
 
 /// Echoes input
+@service(sdkId: "echo")
 @restJson1
 @httpBearerAuth
 service EchoService {
@@ -36,13 +39,13 @@ operation EchoMessage {
 operation Signin {
     input := {
         @required
-        @httpPayload
-        payload: SigninForm
+        username: String
+        @required
+        password: String
     }
     output := {
         @required
-        @httpPayload
-        payload: SigninToken
+        token: String
     }
     errors: [ValidationException, UnauthorizedError, ForbiddenError, ThrottlingError]
 }

@@ -114,18 +114,32 @@ impl SigninFluentBuilder {
         self.config_override = config_override;
         self
     }
-    /// Contains username and password. Currently any username and password is accepted.
-    pub fn payload(mut self, input: crate::types::SigninForm) -> Self {
-        self.inner = self.inner.payload(input);
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn username(mut self, input: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.inner = self.inner.username(input.into());
         self
     }
-    /// Contains username and password. Currently any username and password is accepted.
-    pub fn set_payload(mut self, input: ::std::option::Option<crate::types::SigninForm>) -> Self {
-        self.inner = self.inner.set_payload(input);
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn set_username(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
+        self.inner = self.inner.set_username(input);
         self
     }
-    /// Contains username and password. Currently any username and password is accepted.
-    pub fn get_payload(&self) -> &::std::option::Option<crate::types::SigninForm> {
-        self.inner.get_payload()
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn get_username(&self) -> &::std::option::Option<::std::string::String> {
+        self.inner.get_username()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn password(mut self, input: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.inner = self.inner.password(input.into());
+        self
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn set_password(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
+        self.inner = self.inner.set_password(input);
+        self
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn get_password(&self) -> &::std::option::Option<::std::string::String> {
+        self.inner.get_password()
     }
 }

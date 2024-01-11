@@ -106,13 +106,8 @@ pub(crate) fn throttling_error_correct_errors(
 pub(crate) fn signin_output_output_correct_errors(
     mut builder: crate::operation::signin::builders::SigninOutputBuilder,
 ) -> crate::operation::signin::builders::SigninOutputBuilder {
-    if builder.payload.is_none() {
-        builder.payload = {
-            let builder = crate::types::builders::SigninTokenBuilder::default();
-            crate::serde_util::signin_token_correct_errors(builder)
-                .build()
-                .ok()
-        }
+    if builder.token.is_none() {
+        builder.token = Some(Default::default())
     }
     builder
 }
@@ -137,15 +132,6 @@ pub(crate) fn todo_item_correct_errors(
     }
     if builder.completed.is_none() {
         builder.completed = Some(Default::default())
-    }
-    builder
-}
-
-pub(crate) fn signin_token_correct_errors(
-    mut builder: crate::types::builders::SigninTokenBuilder,
-) -> crate::types::builders::SigninTokenBuilder {
-    if builder.token.is_none() {
-        builder.token = Some(Default::default())
     }
     builder
 }

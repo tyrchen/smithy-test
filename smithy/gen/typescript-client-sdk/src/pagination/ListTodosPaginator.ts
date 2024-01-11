@@ -1,24 +1,24 @@
 // smithy-typescript generated code
-import { EchoServiceClient } from "../EchoServiceClient";
+import { EchoClient } from "../EchoClient";
 import {
   ListTodosCommand,
   ListTodosCommandInput,
   ListTodosCommandOutput,
 } from "../commands/ListTodosCommand";
-import { EchoServicePaginationConfiguration } from "./Interfaces";
+import { EchoPaginationConfiguration } from "./Interfaces";
 import { Paginator } from "@smithy/types";
 
 /**
  * @internal
  */
-const makePagedClientRequest = async (client: EchoServiceClient, input: ListTodosCommandInput, ...args: any): Promise<ListTodosCommandOutput> => {
+const makePagedClientRequest = async (client: EchoClient, input: ListTodosCommandInput, ...args: any): Promise<ListTodosCommandOutput> => {
   // @ts-ignore
   return await client.send(new ListTodosCommand(input), ...args);
 }
 /**
  * @public
  */
-export async function* paginateListTodos(config: EchoServicePaginationConfiguration, input: ListTodosCommandInput, ...additionalArguments: any): Paginator<ListTodosCommandOutput>{
+export async function* paginateListTodos(config: EchoPaginationConfiguration, input: ListTodosCommandInput, ...additionalArguments: any): Paginator<ListTodosCommandOutput>{
   // ToDo: replace with actual type instead of typeof input.nextToken
   let token: typeof input.nextToken | undefined = config.startingToken || undefined;
   let hasNext = true;
@@ -26,11 +26,11 @@ export async function* paginateListTodos(config: EchoServicePaginationConfigurat
   while (hasNext) {
     input.nextToken = token;
     input["size"] = config.pageSize;
-    if (config.client instanceof EchoServiceClient) {
+    if (config.client instanceof EchoClient) {
       page = await makePagedClientRequest(config.client, input, ...additionalArguments);
     }
     else {
-      throw new Error("Invalid client, expected EchoService | EchoServiceClient");
+      throw new Error("Invalid client, expected Echo | EchoClient");
     }
     yield page;
     const prevToken = token;

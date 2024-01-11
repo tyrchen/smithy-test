@@ -27,7 +27,6 @@ from .models import (
     GetTodoOutput,
     ListTodosOutput,
     SigninOutput,
-    SigninToken,
     TodoItem,
     UpdateTodoOutput,
     ValidationExceptionField,
@@ -234,8 +233,15 @@ async def _deserialize_signin(
 
     kwargs: dict[str, Any] = {}
 
+    output: dict[str, Document] = {}
     if body := await http_response.consume_body():
-        kwargs["payload"] = _deserialize_signin_token(json.loads(body), config)
+        output = json.loads(body)
+
+    if "token" not in output:
+        raise ServiceError(
+            'Expected to find "token" in the operation output, but it was not present.'
+        )
+    kwargs["token"] = expect_type(str, output["token"])
 
     return SigninOutput(**kwargs)
 
@@ -431,33 +437,18 @@ async def _deserialize_error_validation_exception(
 
     output: dict[str, Document] = parsed_body if parsed_body is not None else {}
 
-    if (_field_list := output.get("fieldList")) is not None:
-        kwargs["field_list"] = _deserialize_validation_exception_field_list(
-            _field_list, config
-        )
-
     if "message" not in output:
         raise ServiceError(
             'Expected to find "message" in the operation output, but it was not present.'
         )
     kwargs["message"] = expect_type(str, output["message"])
 
-    return ValidationException(**kwargs)
-
-
-def _deserialize_signin_token(output: Document, config: Config) -> SigninToken:
-    if not isinstance(output, dict):
-        raise ServiceError(f"Expected dict, found {type(output)}")
-
-    kwargs: dict[str, Any] = {}
-
-    if "token" not in output:
-        raise ServiceError(
-            'Expected to find "token" in the operation output, but it was not present.'
+    if (_field_list := output.get("fieldList")) is not None:
+        kwargs["field_list"] = _deserialize_validation_exception_field_list(
+            _field_list, config
         )
-    kwargs["token"] = expect_type(str, output["token"])
 
-    return SigninToken(**kwargs)
+    return ValidationException(**kwargs)
 
 
 def _deserialize_todo_item(output: Document, config: Config) -> TodoItem:

@@ -154,9 +154,8 @@ export class ForbiddenError extends __BaseException {
 
 /**
  * @public
- * Contains username and password. Currently any username and password is accepted.
  */
-export interface SigninForm {
+export interface SigninInput {
   username: string | undefined;
   password: string | undefined;
 }
@@ -164,31 +163,8 @@ export interface SigninForm {
 /**
  * @public
  */
-export interface SigninInput {
-  /**
-   * @public
-   * Contains username and password. Currently any username and password is accepted.
-   */
-  payload: SigninForm | undefined;
-}
-
-/**
- * @public
- * Contains a bearer token for authentication.
- */
-export interface SigninToken {
-  token: string | undefined;
-}
-
-/**
- * @public
- */
 export interface SigninOutput {
-  /**
-   * @public
-   * Contains a bearer token for authentication.
-   */
-  payload: SigninToken | undefined;
+  token: string | undefined;
 }
 
 /**

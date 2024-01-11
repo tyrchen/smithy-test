@@ -55,7 +55,7 @@ impl Signin {
     > {
         let input = ::aws_smithy_runtime_api::client::interceptors::context::Input::erase(input);
         ::aws_smithy_runtime::client::orchestrator::invoke_with_stop_point(
-            "EchoService",
+            "echo",
             "Signin",
             input,
             runtime_plugins,
@@ -107,8 +107,7 @@ impl ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugin for Signin 
         cfg.store_put(::aws_smithy_runtime_api::client::auth::AuthSchemeOptionResolverParams::new(::aws_smithy_runtime_api::client::auth::static_resolver::StaticAuthSchemeOptionResolverParams::new()));
 
         cfg.store_put(::aws_smithy_http::operation::Metadata::new(
-            "Signin",
-            "EchoService",
+            "Signin", "echo",
         ));
 
         ::std::option::Option::Some(cfg.freeze())
@@ -208,7 +207,7 @@ impl ::aws_smithy_runtime_api::client::ser_de::SerializeRequest for SigninReques
             builder
         };
         let body = ::aws_smithy_types::body::SdkBody::from(
-            crate::protocol_serde::shape_signin_input::ser_payload_http_payload(&input.payload)?,
+            crate::protocol_serde::shape_signin::ser_signin_input(&input)?,
         );
         if let Some(content_length) = body.content_length() {
             let content_length = content_length.to_string();

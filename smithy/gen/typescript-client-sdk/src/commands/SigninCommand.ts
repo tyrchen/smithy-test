@@ -1,9 +1,9 @@
 // smithy-typescript generated code
 import {
-  EchoServiceClientResolvedConfig,
+  EchoClientResolvedConfig,
   ServiceInputTypes,
   ServiceOutputTypes,
-} from "../EchoServiceClient";
+} from "../EchoClient";
 import {
   SigninInput,
   SigninOutput,
@@ -52,21 +52,17 @@ export interface SigninCommandOutput extends SigninOutput, __MetadataBearer {}
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
- * import { EchoServiceClient, SigninCommand } from "echo"; // ES Modules import
- * // const { EchoServiceClient, SigninCommand } = require("echo"); // CommonJS import
- * const client = new EchoServiceClient(config);
+ * import { EchoClient, SigninCommand } from "echo"; // ES Modules import
+ * // const { EchoClient, SigninCommand } = require("echo"); // CommonJS import
+ * const client = new EchoClient(config);
  * const input = { // SigninInput
- *   payload: { // SigninForm
- *     username: "STRING_VALUE", // required
- *     password: "STRING_VALUE", // required
- *   },
+ *   username: "STRING_VALUE", // required
+ *   password: "STRING_VALUE", // required
  * };
  * const command = new SigninCommand(input);
  * const response = await client.send(command);
  * // { // SigninOutput
- * //   payload: { // SigninToken
- * //     token: "STRING_VALUE", // required
- * //   },
+ * //   token: "STRING_VALUE", // required
  * // };
  *
  * ```
@@ -75,7 +71,7 @@ export interface SigninCommandOutput extends SigninOutput, __MetadataBearer {}
  * @returns {@link SigninCommandOutput}
  * @see {@link SigninCommandInput} for command's `input` shape.
  * @see {@link SigninCommandOutput} for command's `response` shape.
- * @see {@link EchoServiceClientResolvedConfig | config} for EchoServiceClient's `config` shape.
+ * @see {@link EchoClientResolvedConfig | config} for EchoClient's `config` shape.
  *
  * @throws {@link ValidationException} (client fault)
  *  A standard error for input validation failures.
@@ -91,11 +87,11 @@ export interface SigninCommandOutput extends SigninOutput, __MetadataBearer {}
  * @throws {@link ThrottlingError} (client fault)
  *  Throttling error.
  *
- * @throws {@link EchoServiceServiceException}
- * <p>Base exception class for all service exceptions from EchoService service.</p>
+ * @throws {@link EchoServiceException}
+ * <p>Base exception class for all service exceptions from Echo service.</p>
  *
  */
-export class SigninCommand extends $Command<SigninCommandInput, SigninCommandOutput, EchoServiceClientResolvedConfig> {
+export class SigninCommand extends $Command<SigninCommandInput, SigninCommandOutput, EchoClientResolvedConfig> {
 
   /**
    * @public
@@ -109,7 +105,7 @@ export class SigninCommand extends $Command<SigninCommandInput, SigninCommandOut
    */
   resolveMiddleware(
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: EchoServiceClientResolvedConfig,
+    configuration: EchoClientResolvedConfig,
     options?: __HttpHandlerOptions
   ): Handler<SigninCommandInput, SigninCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
@@ -117,7 +113,7 @@ export class SigninCommand extends $Command<SigninCommandInput, SigninCommandOut
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
-    const clientName = "EchoServiceClient";
+    const clientName = "EchoClient";
     const commandName = "SigninCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,

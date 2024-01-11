@@ -19,11 +19,13 @@ where
         let ::aws_smithy_runtime_api::http::RequestParts {
             uri, headers, body, ..
         } = ::aws_smithy_runtime_api::http::Request::try_from(request)?.into_parts();
-        if let Some(value) = {
-            let bytes = ::hyper::body::to_bytes(body).await?;
-            crate::protocol_serde::shape_signin_input::de_payload_payload(&bytes)?
-        } {
-            input = input.set_payload(value);
+        let bytes = ::hyper::body::to_bytes(body).await?;
+        if !bytes.is_empty() {
+            ::aws_smithy_http_server::protocol::content_type_header_classifier_smithy(
+                &headers,
+                Some("application/json"),
+            )?;
+            input = crate::protocol_serde::shape_signin::de_signin(bytes.as_ref(), input)?;
         }
         input.build()?
     })
@@ -47,7 +49,7 @@ pub fn ser_signin_http_response(
         let http_status: u16 = 200;
         builder = builder.status(http_status);
         let payload =
-            crate::protocol_serde::shape_signin_output::ser_payload_http_payload(&output.payload)?;
+            crate::protocol_serde::shape_signin_output::ser_signin_output_output_output(&output)?;
         let content_length = payload.len();
         builder = ::aws_smithy_http::header::set_response_header_if_absent(
             builder,
@@ -175,4 +177,66 @@ pub fn ser_signin_http_error(
             }
         }
     })
+}
+
+pub(crate) fn de_signin(
+    value: &[u8],
+    mut builder: crate::input::signin_input::Builder,
+) -> Result<
+    crate::input::signin_input::Builder,
+    ::aws_smithy_json::deserialize::error::DeserializeError,
+> {
+    let mut tokens_owned =
+        ::aws_smithy_json::deserialize::json_token_iter(crate::protocol_serde::or_empty_doc(value))
+            .peekable();
+    let tokens = &mut tokens_owned;
+    ::aws_smithy_json::deserialize::token::expect_start_object(tokens.next())?;
+    loop {
+        match tokens.next().transpose()? {
+            Some(::aws_smithy_json::deserialize::Token::EndObject { .. }) => break,
+            Some(::aws_smithy_json::deserialize::Token::ObjectKey { key, .. }) => {
+                match key.to_unescaped()?.as_ref() {
+                    "password" => {
+                        if let Some(v) =
+                            ::aws_smithy_json::deserialize::token::expect_string_or_null(
+                                tokens.next(),
+                            )?
+                            .map(|s| s.to_unescaped().map(|u| u.into_owned()))
+                            .transpose()?
+                        {
+                            builder = builder.set_password(v);
+                        }
+                    }
+                    "username" => {
+                        if let Some(v) =
+                            ::aws_smithy_json::deserialize::token::expect_string_or_null(
+                                tokens.next(),
+                            )?
+                            .map(|s| s.to_unescaped().map(|u| u.into_owned()))
+                            .transpose()?
+                        {
+                            builder = builder.set_username(v);
+                        }
+                    }
+                    _ => ::aws_smithy_json::deserialize::token::skip_value(tokens)?,
+                }
+            }
+            other => {
+                return Err(
+                    ::aws_smithy_json::deserialize::error::DeserializeError::custom(format!(
+                        "expected object key or end object, found: {:?}",
+                        other
+                    )),
+                )
+            }
+        }
+    }
+    if tokens.next().is_some() {
+        return Err(
+            ::aws_smithy_json::deserialize::error::DeserializeError::custom(
+                "found more JSON tokens after completing parsing",
+            ),
+        );
+    }
+    Ok(builder)
 }

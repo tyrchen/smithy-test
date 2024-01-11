@@ -7,13 +7,13 @@ import {
   getDefaultExtensionConfiguration,
   resolveDefaultRuntimeConfig,
 } from "@smithy/smithy-client";
-import { EchoServiceExtensionConfiguration } from "./extensionConfiguration";
+import { EchoExtensionConfiguration } from "./extensionConfiguration";
 
 /**
  * @public
  */
 export interface RuntimeExtension {
-    configure(extensionConfiguration: EchoServiceExtensionConfiguration): void;
+    configure(extensionConfiguration: EchoExtensionConfiguration): void;
 }
 
 /**
@@ -23,7 +23,7 @@ export interface RuntimeExtensionsConfig {
     extensions: RuntimeExtension[]
 }
 
-const asPartial = <T extends Partial<EchoServiceExtensionConfiguration>>(t: T) => t;
+const asPartial = <T extends Partial<EchoExtensionConfiguration>>(t: T) => t;
 
 /**
  * @internal
@@ -32,7 +32,7 @@ export const resolveRuntimeExtensions = (
     runtimeConfig: any,
     extensions: RuntimeExtension[]
 ) => {
-  const extensionConfiguration: EchoServiceExtensionConfiguration = {
+  const extensionConfiguration: EchoExtensionConfiguration = {
     ...asPartial(getDefaultExtensionConfiguration(runtimeConfig)),
     ...asPartial(getHttpHandlerExtensionConfiguration(runtimeConfig)),
   };

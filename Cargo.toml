@@ -9,7 +9,6 @@ members = [
 resolver = "2"
 
 [workspace.dependencies]
-anyhow = "1"
 axum = { version = "0.6", features = ["headers", "query", "tracing"] }
 echo-client-sdk = { path = "smithy/gen/rust-client-sdk" }
 echo-server-sdk = { path = "smithy/gen/rust-server-sdk" }
@@ -24,3 +23,4 @@ tokio = { version = "1", features = [
 ] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
+anyhow = "1"

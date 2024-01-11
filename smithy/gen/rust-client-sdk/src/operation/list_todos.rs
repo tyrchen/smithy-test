@@ -55,7 +55,7 @@ impl ListTodos {
     > {
         let input = ::aws_smithy_runtime_api::client::interceptors::context::Input::erase(input);
         ::aws_smithy_runtime::client::orchestrator::invoke_with_stop_point(
-            "EchoService",
+            "echo",
             "ListTodos",
             input,
             runtime_plugins,
@@ -108,7 +108,7 @@ impl ::aws_smithy_runtime_api::client::runtime_plugin::RuntimePlugin for ListTod
 
         cfg.store_put(::aws_smithy_http::operation::Metadata::new(
             "ListTodos",
-            "EchoService",
+            "echo",
         ));
 
         ::std::option::Option::Some(cfg.freeze())

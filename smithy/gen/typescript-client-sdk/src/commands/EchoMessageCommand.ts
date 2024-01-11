@@ -1,9 +1,9 @@
 // smithy-typescript generated code
 import {
-  EchoServiceClientResolvedConfig,
+  EchoClientResolvedConfig,
   ServiceInputTypes,
   ServiceOutputTypes,
-} from "../EchoServiceClient";
+} from "../EchoClient";
 import {
   EchoMessageInput,
   EchoMessageOutput,
@@ -52,9 +52,9 @@ export interface EchoMessageCommandOutput extends EchoMessageOutput, __MetadataB
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
- * import { EchoServiceClient, EchoMessageCommand } from "echo"; // ES Modules import
- * // const { EchoServiceClient, EchoMessageCommand } = require("echo"); // CommonJS import
- * const client = new EchoServiceClient(config);
+ * import { EchoClient, EchoMessageCommand } from "echo"; // ES Modules import
+ * // const { EchoClient, EchoMessageCommand } = require("echo"); // CommonJS import
+ * const client = new EchoClient(config);
  * const input = { // EchoMessageInput
  *   message: "STRING_VALUE", // required
  * };
@@ -70,18 +70,18 @@ export interface EchoMessageCommandOutput extends EchoMessageOutput, __MetadataB
  * @returns {@link EchoMessageCommandOutput}
  * @see {@link EchoMessageCommandInput} for command's `input` shape.
  * @see {@link EchoMessageCommandOutput} for command's `response` shape.
- * @see {@link EchoServiceClientResolvedConfig | config} for EchoServiceClient's `config` shape.
+ * @see {@link EchoClientResolvedConfig | config} for EchoClient's `config` shape.
  *
  * @throws {@link ValidationException} (client fault)
  *  A standard error for input validation failures.
  * This should be thrown by services when a member of the input structure
  * falls outside of the modeled or documented constraints.
  *
- * @throws {@link EchoServiceServiceException}
- * <p>Base exception class for all service exceptions from EchoService service.</p>
+ * @throws {@link EchoServiceException}
+ * <p>Base exception class for all service exceptions from Echo service.</p>
  *
  */
-export class EchoMessageCommand extends $Command<EchoMessageCommandInput, EchoMessageCommandOutput, EchoServiceClientResolvedConfig> {
+export class EchoMessageCommand extends $Command<EchoMessageCommandInput, EchoMessageCommandOutput, EchoClientResolvedConfig> {
 
   /**
    * @public
@@ -95,7 +95,7 @@ export class EchoMessageCommand extends $Command<EchoMessageCommandInput, EchoMe
    */
   resolveMiddleware(
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: EchoServiceClientResolvedConfig,
+    configuration: EchoClientResolvedConfig,
     options?: __HttpHandlerOptions
   ): Handler<EchoMessageCommandInput, EchoMessageCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
@@ -103,7 +103,7 @@ export class EchoMessageCommand extends $Command<EchoMessageCommandInput, EchoMe
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
-    const clientName = "EchoServiceClient";
+    const clientName = "EchoClient";
     const commandName = "EchoMessageCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,

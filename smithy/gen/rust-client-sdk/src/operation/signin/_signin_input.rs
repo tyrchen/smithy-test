@@ -3,13 +3,19 @@
 #[non_exhaustive]
 #[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::fmt::Debug)]
 pub struct SigninInput {
-    /// Contains username and password. Currently any username and password is accepted.
-    pub payload: ::std::option::Option<crate::types::SigninForm>,
+    #[allow(missing_docs)] // documentation missing in model
+    pub username: ::std::option::Option<::std::string::String>,
+    #[allow(missing_docs)] // documentation missing in model
+    pub password: ::std::option::Option<::std::string::String>,
 }
 impl SigninInput {
-    /// Contains username and password. Currently any username and password is accepted.
-    pub fn payload(&self) -> ::std::option::Option<&crate::types::SigninForm> {
-        self.payload.as_ref()
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn username(&self) -> ::std::option::Option<&str> {
+        self.username.as_deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn password(&self) -> ::std::option::Option<&str> {
+        self.password.as_deref()
     }
 }
 impl SigninInput {
@@ -25,23 +31,39 @@ impl SigninInput {
     ::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug,
 )]
 pub struct SigninInputBuilder {
-    pub(crate) payload: ::std::option::Option<crate::types::SigninForm>,
+    pub(crate) username: ::std::option::Option<::std::string::String>,
+    pub(crate) password: ::std::option::Option<::std::string::String>,
 }
 impl SigninInputBuilder {
-    /// Contains username and password. Currently any username and password is accepted.
+    #[allow(missing_docs)] // documentation missing in model
     /// This field is required.
-    pub fn payload(mut self, input: crate::types::SigninForm) -> Self {
-        self.payload = ::std::option::Option::Some(input);
+    pub fn username(mut self, input: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.username = ::std::option::Option::Some(input.into());
         self
     }
-    /// Contains username and password. Currently any username and password is accepted.
-    pub fn set_payload(mut self, input: ::std::option::Option<crate::types::SigninForm>) -> Self {
-        self.payload = input;
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn set_username(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
+        self.username = input;
         self
     }
-    /// Contains username and password. Currently any username and password is accepted.
-    pub fn get_payload(&self) -> &::std::option::Option<crate::types::SigninForm> {
-        &self.payload
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn get_username(&self) -> &::std::option::Option<::std::string::String> {
+        &self.username
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    /// This field is required.
+    pub fn password(mut self, input: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.password = ::std::option::Option::Some(input.into());
+        self
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn set_password(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
+        self.password = input;
+        self
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn get_password(&self) -> &::std::option::Option<::std::string::String> {
+        &self.password
     }
     /// Consumes the builder and constructs a [`SigninInput`](crate::operation::signin::SigninInput).
     pub fn build(
@@ -51,7 +73,8 @@ impl SigninInputBuilder {
         ::aws_smithy_types::error::operation::BuildError,
     > {
         ::std::result::Result::Ok(crate::operation::signin::SigninInput {
-            payload: self.payload,
+            username: self.username,
+            password: self.password,
         })
     }
 }

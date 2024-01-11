@@ -1,9 +1,9 @@
 // smithy-typescript generated code
 import {
-  EchoServiceClientResolvedConfig,
+  EchoClientResolvedConfig,
   ServiceInputTypes,
   ServiceOutputTypes,
-} from "../EchoServiceClient";
+} from "../EchoClient";
 import {
   CreateTodoInput,
   CreateTodoOutput,
@@ -52,9 +52,9 @@ export interface CreateTodoCommandOutput extends CreateTodoOutput, __MetadataBea
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
- * import { EchoServiceClient, CreateTodoCommand } from "echo"; // ES Modules import
- * // const { EchoServiceClient, CreateTodoCommand } = require("echo"); // CommonJS import
- * const client = new EchoServiceClient(config);
+ * import { EchoClient, CreateTodoCommand } from "echo"; // ES Modules import
+ * // const { EchoClient, CreateTodoCommand } = require("echo"); // CommonJS import
+ * const client = new EchoClient(config);
  * const input = { // CreateTodoInput
  *   title: "STRING_VALUE", // required
  * };
@@ -70,7 +70,7 @@ export interface CreateTodoCommandOutput extends CreateTodoOutput, __MetadataBea
  * @returns {@link CreateTodoCommandOutput}
  * @see {@link CreateTodoCommandInput} for command's `input` shape.
  * @see {@link CreateTodoCommandOutput} for command's `response` shape.
- * @see {@link EchoServiceClientResolvedConfig | config} for EchoServiceClient's `config` shape.
+ * @see {@link EchoClientResolvedConfig | config} for EchoClient's `config` shape.
  *
  * @throws {@link ConflictError} (client fault)
  *  Conflict error.
@@ -80,11 +80,11 @@ export interface CreateTodoCommandOutput extends CreateTodoOutput, __MetadataBea
  * This should be thrown by services when a member of the input structure
  * falls outside of the modeled or documented constraints.
  *
- * @throws {@link EchoServiceServiceException}
- * <p>Base exception class for all service exceptions from EchoService service.</p>
+ * @throws {@link EchoServiceException}
+ * <p>Base exception class for all service exceptions from Echo service.</p>
  *
  */
-export class CreateTodoCommand extends $Command<CreateTodoCommandInput, CreateTodoCommandOutput, EchoServiceClientResolvedConfig> {
+export class CreateTodoCommand extends $Command<CreateTodoCommandInput, CreateTodoCommandOutput, EchoClientResolvedConfig> {
 
   /**
    * @public
@@ -98,7 +98,7 @@ export class CreateTodoCommand extends $Command<CreateTodoCommandInput, CreateTo
    */
   resolveMiddleware(
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: EchoServiceClientResolvedConfig,
+    configuration: EchoClientResolvedConfig,
     options?: __HttpHandlerOptions
   ): Handler<CreateTodoCommandInput, CreateTodoCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
@@ -106,7 +106,7 @@ export class CreateTodoCommand extends $Command<CreateTodoCommandInput, CreateTo
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
-    const clientName = "EchoServiceClient";
+    const clientName = "EchoClient";
     const commandName = "CreateTodoCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,

@@ -1,10 +1,10 @@
 // smithy-typescript generated code
-import { EchoServiceClient } from "../EchoServiceClient";
+import { EchoClient } from "../EchoClient";
 import { PaginationConfiguration } from "@smithy/types";
 
 /**
  * @public
  */
-export interface EchoServicePaginationConfiguration extends PaginationConfiguration {
-  client: EchoServiceClient;
+export interface EchoPaginationConfiguration extends PaginationConfiguration {
+  client: EchoClient;
 }

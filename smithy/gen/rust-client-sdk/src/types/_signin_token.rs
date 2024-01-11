@@ -3,15 +3,14 @@
 /// Contains a bearer token for authentication.
 #[non_exhaustive]
 #[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::fmt::Debug)]
-pub struct SigninToken {
+pub struct SigninToken  {
     #[allow(missing_docs)] // documentation missing in model
     pub token: ::std::string::String,
 }
-impl SigninToken {
+impl  SigninToken  {
     #[allow(missing_docs)] // documentation missing in model
-    pub fn token(&self) -> &str {
-        use std::ops::Deref;
-        self.token.deref()
+    pub fn token(&self) -> & str {
+        use std::ops::Deref; self.token.deref()
     }
 }
 impl SigninToken {
@@ -23,9 +22,7 @@ impl SigninToken {
 
 /// A builder for [`SigninToken`](crate::types::SigninToken).
 #[non_exhaustive]
-#[derive(
-    ::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug,
-)]
+#[derive(::std::clone::Clone, ::std::cmp::PartialEq, ::std::default::Default, ::std::fmt::Debug)]
 pub struct SigninTokenBuilder {
     pub(crate) token: ::std::option::Option<::std::string::String>,
 }
@@ -38,8 +35,7 @@ impl SigninTokenBuilder {
     }
     #[allow(missing_docs)] // documentation missing in model
     pub fn set_token(mut self, input: ::std::option::Option<::std::string::String>) -> Self {
-        self.token = input;
-        self
+        self.token = input; self
     }
     #[allow(missing_docs)] // documentation missing in model
     pub fn get_token(&self) -> &::std::option::Option<::std::string::String> {
@@ -48,19 +44,16 @@ impl SigninTokenBuilder {
     /// Consumes the builder and constructs a [`SigninToken`](crate::types::SigninToken).
     /// This method will fail if any of the following fields are not set:
     /// - [`token`](crate::types::builders::SigninTokenBuilder::token)
-    pub fn build(
-        self,
-    ) -> ::std::result::Result<
-        crate::types::SigninToken,
-        ::aws_smithy_types::error::operation::BuildError,
-    > {
-        ::std::result::Result::Ok(crate::types::SigninToken {
-            token: self.token.ok_or_else(|| {
-                ::aws_smithy_types::error::operation::BuildError::missing_field(
-                    "token",
-                    "token was not specified but it is required when building SigninToken",
-                )
-            })?,
-        })
+    pub fn build(self) -> ::std::result::Result<crate::types::SigninToken, ::aws_smithy_types::error::operation::BuildError> {
+        ::std::result::Result::Ok(
+            crate::types::SigninToken {
+                token: self.token
+                    .ok_or_else(||
+                        ::aws_smithy_types::error::operation::BuildError::missing_field("token", "token was not specified but it is required when building SigninToken")
+                    )?
+                ,
+            }
+        )
     }
 }
+

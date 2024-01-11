@@ -117,13 +117,14 @@ impl ListTodosOutput {
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
 )]
 pub struct SigninOutput {
-    /// Contains a bearer token for authentication.
-    pub payload: crate::model::SigninToken,
+    #[allow(missing_docs)] // documentation missing in model
+    pub token: ::std::string::String,
 }
 impl SigninOutput {
-    /// Contains a bearer token for authentication.
-    pub fn payload(&self) -> &crate::model::SigninToken {
-        &self.payload
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn token(&self) -> &str {
+        use std::ops::Deref;
+        self.token.deref()
     }
 }
 impl SigninOutput {
@@ -453,15 +454,15 @@ pub mod signin_output {
     #[non_exhaustive]
     #[allow(clippy::enum_variant_names)]
     pub enum ConstraintViolation {
-        /// `payload` was not provided but it is required when building `SigninOutput`.
-        MissingPayload,
+        /// `token` was not provided but it is required when building `SigninOutput`.
+        MissingToken,
     }
     impl ::std::fmt::Display for ConstraintViolation {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
             match self {
-                ConstraintViolation::MissingPayload => write!(
+                ConstraintViolation::MissingToken => write!(
                     f,
-                    "`payload` was not provided but it is required when building `SigninOutput`"
+                    "`token` was not provided but it is required when building `SigninOutput`"
                 ),
             }
         }
@@ -477,12 +478,12 @@ pub mod signin_output {
     /// A builder for [`SigninOutput`](crate::output::SigninOutput).
     #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
     pub struct Builder {
-        pub(crate) payload: ::std::option::Option<crate::model::SigninToken>,
+        pub(crate) token: ::std::option::Option<::std::string::String>,
     }
     impl Builder {
-        /// Contains a bearer token for authentication.
-        pub fn payload(mut self, input: crate::model::SigninToken) -> Self {
-            self.payload = Some(input);
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn token(mut self, input: ::std::string::String) -> Self {
+            self.token = Some(input);
             self
         }
         /// Consumes the builder and constructs a [`SigninOutput`](crate::output::SigninOutput).
@@ -496,7 +497,7 @@ pub mod signin_output {
             self,
         ) -> Result<crate::output::SigninOutput, ConstraintViolation> {
             Ok(crate::output::SigninOutput {
-                payload: self.payload.ok_or(ConstraintViolation::MissingPayload)?,
+                token: self.token.ok_or(ConstraintViolation::MissingToken)?,
             })
         }
     }

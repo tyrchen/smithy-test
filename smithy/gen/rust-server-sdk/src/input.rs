@@ -141,13 +141,21 @@ impl crate::constrained::Constrained for crate::input::ListTodosInput {
     ::std::clone::Clone, ::std::cmp::Eq, ::std::cmp::PartialEq, ::std::fmt::Debug, ::std::hash::Hash,
 )]
 pub struct SigninInput {
-    /// Contains username and password. Currently any username and password is accepted.
-    pub payload: crate::model::SigninForm,
+    #[allow(missing_docs)] // documentation missing in model
+    pub username: ::std::string::String,
+    #[allow(missing_docs)] // documentation missing in model
+    pub password: ::std::string::String,
 }
 impl SigninInput {
-    /// Contains username and password. Currently any username and password is accepted.
-    pub fn payload(&self) -> &crate::model::SigninForm {
-        &self.payload
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn username(&self) -> &str {
+        use std::ops::Deref;
+        self.username.deref()
+    }
+    #[allow(missing_docs)] // documentation missing in model
+    pub fn password(&self) -> &str {
+        use std::ops::Deref;
+        self.password.deref()
     }
 }
 impl SigninInput {
@@ -701,17 +709,22 @@ pub mod signin_input {
     #[non_exhaustive]
     #[allow(clippy::enum_variant_names)]
     pub enum ConstraintViolation {
-        /// `payload` was not provided but it is required when building `SigninInput`.
-        MissingPayload,
-        /// Constraint violation occurred building member `payload` when building `SigninInput`.
-        #[doc(hidden)]
-        Payload(crate::model::signin_form::ConstraintViolation),
+        /// `username` was not provided but it is required when building `SigninInput`.
+        MissingUsername,
+        /// `password` was not provided but it is required when building `SigninInput`.
+        MissingPassword,
     }
     impl ::std::fmt::Display for ConstraintViolation {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
             match self {
-                ConstraintViolation::MissingPayload => write!(f, "`payload` was not provided but it is required when building `SigninInput`"),
-                ConstraintViolation::Payload(_) => write!(f, "constraint violation occurred building member `payload` when building `SigninInput`"),
+                ConstraintViolation::MissingUsername => write!(
+                    f,
+                    "`username` was not provided but it is required when building `SigninInput`"
+                ),
+                ConstraintViolation::MissingPassword => write!(
+                    f,
+                    "`password` was not provided but it is required when building `SigninInput`"
+                ),
             }
         }
     }
@@ -722,11 +735,14 @@ pub mod signin_input {
             path: ::std::string::String,
         ) -> crate::model::ValidationExceptionField {
             match self {
-        ConstraintViolation::MissingPayload => crate::model::ValidationExceptionField {
-                                        message: format!("Value at '{}/payload' failed to satisfy constraint: Member must not be null", path),
-                                        path: path + "/payload",
+        ConstraintViolation::MissingUsername => crate::model::ValidationExceptionField {
+                                        message: format!("Value at '{}/username' failed to satisfy constraint: Member must not be null", path),
+                                        path: path + "/username",
                                     },
-        ConstraintViolation::Payload(inner) => inner.as_validation_exception_field(path + "/payload"),
+        ConstraintViolation::MissingPassword => crate::model::ValidationExceptionField {
+                                        message: format!("Value at '{}/password' failed to satisfy constraint: Member must not be null", path),
+                                        path: path + "/password",
+                                    },
     }
         }
     }
@@ -766,23 +782,34 @@ pub mod signin_input {
     /// A builder for [`SigninInput`](crate::input::SigninInput).
     #[derive(::std::clone::Clone, ::std::default::Default, ::std::fmt::Debug)]
     pub struct Builder {
-        pub(crate) payload:
-            ::std::option::Option<crate::constrained::MaybeConstrained<crate::model::SigninForm>>,
+        pub(crate) username: ::std::option::Option<::std::string::String>,
+        pub(crate) password: ::std::option::Option<::std::string::String>,
     }
     impl Builder {
-        /// Contains username and password. Currently any username and password is accepted.
-        pub fn payload(mut self, input: crate::model::SigninForm) -> Self {
-            self.payload = Some(crate::constrained::MaybeConstrained::Constrained(input));
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn username(mut self, input: ::std::string::String) -> Self {
+            self.username = Some(input);
             self
         }
-        /// Contains username and password. Currently any username and password is accepted.
-        pub(crate) fn set_payload(
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_username(
             mut self,
-            input: impl ::std::convert::Into<
-                crate::constrained::MaybeConstrained<crate::model::SigninForm>,
-            >,
+            input: impl ::std::convert::Into<::std::string::String>,
         ) -> Self {
-            self.payload = Some(input.into());
+            self.username = Some(input.into());
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub fn password(mut self, input: ::std::string::String) -> Self {
+            self.password = Some(input);
+            self
+        }
+        #[allow(missing_docs)] // documentation missing in model
+        pub(crate) fn set_password(
+            mut self,
+            input: impl ::std::convert::Into<::std::string::String>,
+        ) -> Self {
+            self.password = Some(input.into());
             self
         }
         /// Consumes the builder and constructs a [`SigninInput`](crate::input::SigninInput).
@@ -797,15 +824,8 @@ pub mod signin_input {
             self,
         ) -> Result<crate::input::SigninInput, ConstraintViolation> {
             Ok(crate::input::SigninInput {
-                payload: self
-                    .payload
-                    .map(|v| match v {
-                        crate::constrained::MaybeConstrained::Constrained(x) => Ok(x),
-                        crate::constrained::MaybeConstrained::Unconstrained(x) => x.try_into(),
-                    })
-                    .map(|res| res.map_err(ConstraintViolation::Payload))
-                    .transpose()?
-                    .ok_or(ConstraintViolation::MissingPayload)?,
+                username: self.username.ok_or(ConstraintViolation::MissingUsername)?,
+                password: self.password.ok_or(ConstraintViolation::MissingPassword)?,
             })
         }
     }

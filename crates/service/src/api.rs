@@ -1,10 +1,6 @@
 use crate::{forbidden, AppState};
 use aws_smithy_http_server::Extension;
-use echo_server_sdk::{
-    error, input,
-    model::{SigninToken, TodoItem},
-    output,
-};
+use echo_server_sdk::{error, input, model::TodoItem, output};
 use std::sync::Arc;
 use tracing::info;
 
@@ -24,14 +20,12 @@ pub async fn signin(
 ) -> Result<output::SigninOutput, error::SigninError> {
     info!("signin: {:?}", input);
     let signer = &state.signer;
-    let username = input.payload.username;
-    if input.payload.password.len() < 8 {
+    let username = input.username;
+    if input.password.len() < 8 {
         forbidden!("invalid password");
     }
     let token = signer.sign(username)?;
-    Ok(output::SigninOutput {
-        payload: SigninToken { token },
-    })
+    Ok(output::SigninOutput { token })
 }
 
 pub async fn get_todo(

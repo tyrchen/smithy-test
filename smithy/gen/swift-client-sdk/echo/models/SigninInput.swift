@@ -3,14 +3,17 @@
 import ClientRuntime
 
 public struct SigninInput: Swift.Equatable {
-    /// Contains username and password. Currently any username and password is accepted.
     /// This member is required.
-    public var payload: EchoServiceClientTypes.SigninForm?
+    public var password: Swift.String?
+    /// This member is required.
+    public var username: Swift.String?
 
     public init(
-        payload: EchoServiceClientTypes.SigninForm? = nil
+        password: Swift.String? = nil,
+        username: Swift.String? = nil
     )
     {
-        self.payload = payload
+        self.password = password
+        self.username = username
     }
 }

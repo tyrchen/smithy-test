@@ -563,10 +563,7 @@ where
             ) {
                 return Err(::aws_smithy_http_server::protocol::rest_json_1::rejection::RequestRejection::NotAcceptable);
             }
-            ::aws_smithy_http_server::protocol::content_type_header_classifier_http(
-                request.headers(),
-                Some("application/json"),
-            )?;
+
             crate::protocol_serde::shape_signin::de_signin_http_request(request)
                 .await
                 .map_err(Into::into)

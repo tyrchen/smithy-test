@@ -1,9 +1,9 @@
 // smithy-typescript generated code
 import {
-  EchoServiceClientResolvedConfig,
+  EchoClientResolvedConfig,
   ServiceInputTypes,
   ServiceOutputTypes,
-} from "../EchoServiceClient";
+} from "../EchoClient";
 import {
   DeleteTodoInput,
   DeleteTodoOutput,
@@ -52,9 +52,9 @@ export interface DeleteTodoCommandOutput extends DeleteTodoOutput, __MetadataBea
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
- * import { EchoServiceClient, DeleteTodoCommand } from "echo"; // ES Modules import
- * // const { EchoServiceClient, DeleteTodoCommand } = require("echo"); // CommonJS import
- * const client = new EchoServiceClient(config);
+ * import { EchoClient, DeleteTodoCommand } from "echo"; // ES Modules import
+ * // const { EchoClient, DeleteTodoCommand } = require("echo"); // CommonJS import
+ * const client = new EchoClient(config);
  * const input = { // DeleteTodoInput
  *   id: "STRING_VALUE", // required
  * };
@@ -70,7 +70,7 @@ export interface DeleteTodoCommandOutput extends DeleteTodoOutput, __MetadataBea
  * @returns {@link DeleteTodoCommandOutput}
  * @see {@link DeleteTodoCommandInput} for command's `input` shape.
  * @see {@link DeleteTodoCommandOutput} for command's `response` shape.
- * @see {@link EchoServiceClientResolvedConfig | config} for EchoServiceClient's `config` shape.
+ * @see {@link EchoClientResolvedConfig | config} for EchoClient's `config` shape.
  *
  * @throws {@link NotFoundError} (client fault)
  *  Not found error.
@@ -80,11 +80,11 @@ export interface DeleteTodoCommandOutput extends DeleteTodoOutput, __MetadataBea
  * This should be thrown by services when a member of the input structure
  * falls outside of the modeled or documented constraints.
  *
- * @throws {@link EchoServiceServiceException}
- * <p>Base exception class for all service exceptions from EchoService service.</p>
+ * @throws {@link EchoServiceException}
+ * <p>Base exception class for all service exceptions from Echo service.</p>
  *
  */
-export class DeleteTodoCommand extends $Command<DeleteTodoCommandInput, DeleteTodoCommandOutput, EchoServiceClientResolvedConfig> {
+export class DeleteTodoCommand extends $Command<DeleteTodoCommandInput, DeleteTodoCommandOutput, EchoClientResolvedConfig> {
 
   /**
    * @public
@@ -98,7 +98,7 @@ export class DeleteTodoCommand extends $Command<DeleteTodoCommandInput, DeleteTo
    */
   resolveMiddleware(
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: EchoServiceClientResolvedConfig,
+    configuration: EchoClientResolvedConfig,
     options?: __HttpHandlerOptions
   ): Handler<DeleteTodoCommandInput, DeleteTodoCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
@@ -106,7 +106,7 @@ export class DeleteTodoCommand extends $Command<DeleteTodoCommandInput, DeleteTo
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
-    const clientName = "EchoServiceClient";
+    const clientName = "EchoClient";
     const commandName = "DeleteTodoCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,

@@ -1,9 +1,9 @@
 // smithy-typescript generated code
 import {
-  EchoServiceClientResolvedConfig,
+  EchoClientResolvedConfig,
   ServiceInputTypes,
   ServiceOutputTypes,
-} from "../EchoServiceClient";
+} from "../EchoClient";
 import {
   UpdateTodoInput,
   UpdateTodoOutput,
@@ -52,9 +52,9 @@ export interface UpdateTodoCommandOutput extends UpdateTodoOutput, __MetadataBea
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
- * import { EchoServiceClient, UpdateTodoCommand } from "echo"; // ES Modules import
- * // const { EchoServiceClient, UpdateTodoCommand } = require("echo"); // CommonJS import
- * const client = new EchoServiceClient(config);
+ * import { EchoClient, UpdateTodoCommand } from "echo"; // ES Modules import
+ * // const { EchoClient, UpdateTodoCommand } = require("echo"); // CommonJS import
+ * const client = new EchoClient(config);
  * const input = { // UpdateTodoInput
  *   id: "STRING_VALUE", // required
  *   title: "STRING_VALUE", // required
@@ -71,7 +71,7 @@ export interface UpdateTodoCommandOutput extends UpdateTodoOutput, __MetadataBea
  * @returns {@link UpdateTodoCommandOutput}
  * @see {@link UpdateTodoCommandInput} for command's `input` shape.
  * @see {@link UpdateTodoCommandOutput} for command's `response` shape.
- * @see {@link EchoServiceClientResolvedConfig | config} for EchoServiceClient's `config` shape.
+ * @see {@link EchoClientResolvedConfig | config} for EchoClient's `config` shape.
  *
  * @throws {@link NotFoundError} (client fault)
  *  Not found error.
@@ -81,11 +81,11 @@ export interface UpdateTodoCommandOutput extends UpdateTodoOutput, __MetadataBea
  * This should be thrown by services when a member of the input structure
  * falls outside of the modeled or documented constraints.
  *
- * @throws {@link EchoServiceServiceException}
- * <p>Base exception class for all service exceptions from EchoService service.</p>
+ * @throws {@link EchoServiceException}
+ * <p>Base exception class for all service exceptions from Echo service.</p>
  *
  */
-export class UpdateTodoCommand extends $Command<UpdateTodoCommandInput, UpdateTodoCommandOutput, EchoServiceClientResolvedConfig> {
+export class UpdateTodoCommand extends $Command<UpdateTodoCommandInput, UpdateTodoCommandOutput, EchoClientResolvedConfig> {
 
   /**
    * @public
@@ -99,7 +99,7 @@ export class UpdateTodoCommand extends $Command<UpdateTodoCommandInput, UpdateTo
    */
   resolveMiddleware(
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: EchoServiceClientResolvedConfig,
+    configuration: EchoClientResolvedConfig,
     options?: __HttpHandlerOptions
   ): Handler<UpdateTodoCommandInput, UpdateTodoCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
@@ -107,7 +107,7 @@ export class UpdateTodoCommand extends $Command<UpdateTodoCommandInput, UpdateTo
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
-    const clientName = "EchoServiceClient";
+    const clientName = "EchoClient";
     const commandName = "UpdateTodoCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,

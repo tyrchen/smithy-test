@@ -1169,7 +1169,7 @@ pub(crate) fn base_client_runtime_plugins(
                         // defaults
                         .with_client_plugins(::aws_smithy_runtime::client::defaults::default_plugins(
                             ::aws_smithy_runtime::client::defaults::DefaultPluginParams::new()
-                                .with_retry_partition_name("EchoService")
+                                .with_retry_partition_name("echo")
                                 .with_behavior_version(behavior_version.expect("Invalid client configuration: A behavior major version must be set when sending a request or constructing a client. You must set it during client construction or by enabling the `behavior-version-latest` cargo feature."))
                         ))
                         // user config

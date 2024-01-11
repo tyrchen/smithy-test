@@ -52,7 +52,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/SigninForm"
+                                "$ref": "#/components/schemas/SigninRequestContent"
                             }
                         }
                     },
@@ -64,7 +64,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SigninToken"
+                                    "$ref": "#/components/schemas/SigninResponseContent"
                                 }
                             }
                         }
@@ -450,9 +450,8 @@
                     "message"
                 ]
             },
-            "SigninForm": {
+            "SigninRequestContent": {
                 "type": "object",
-                "description": "Contains username and password. Currently any username and password is accepted.",
                 "properties": {
                     "username": {
                         "type": "string"
@@ -466,9 +465,8 @@
                     "username"
                 ]
             },
-            "SigninToken": {
+            "SigninResponseContent": {
                 "type": "object",
-                "description": "Contains a bearer token for authentication.",
                 "properties": {
                     "token": {
                         "type": "string"
